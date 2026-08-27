@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCC Coaching Compliance — Gulf Retail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2430; --ink-2:#232E3D; --parchment:#FAF7F1; --parchment-2:#F2EEE4;
+    --brass:#B8874F; --brass-light:#D9AE73;
+    --green:#3E7A5B; --green-bg:#E7F1EA;
+    --amber:#B5791E; --amber-bg:#FBF0DD;
+    --red:#B23A3A; --red-bg:#FBE8E6;
+    --line:#E4DDCE; --muted:#7C7568;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px -12px rgba(27,36,48,0.18);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background: radial-gradient(1200px 600px at 90% -10%, rgba(184,135,79,0.10), transparent 60%), var(--parchment);
+    color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1240px;margin:0 auto;padding:32px 28px 80px;}
+
+  .masthead{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    border-bottom:3px solid var(--ink); padding-bottom:18px;margin-bottom:20px;flex-wrap:wrap;gap:16px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--brass);
+    text-transform:uppercase;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;
+  }
+  .eyebrow::before{content:"";width:7px;height:7px;background:var(--brass);border-radius:1px;transform:rotate(45deg);display:inline-block;}
+  h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:34px;letter-spacing:.01em;margin:0;text-transform:uppercase;}
+  .masthead-right{text-align:right;font-size:12.5px;color:var(--muted);line-height:1.7;}
+  .masthead-right b{color:var(--ink);font-weight:600;}
+  .tag-live{
+    display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--green);
+    background:var(--green-bg);padding:3px 9px;border-radius:20px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:6px;
+  }
+  .tag-live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green);}
+
+  /* NAV TABS */
+  .nav{display:flex;gap:6px;margin-bottom:28px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .nav-btn{
+    font-family:'Oswald',sans-serif;font-size:13.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;
+    padding:11px 18px;background:none;border:none;color:var(--muted);cursor:pointer;position:relative;
+    border-bottom:3px solid transparent;margin-bottom:-1px;transition:.15s;
+  }
+  .nav-btn:hover{color:var(--ink);}
+  .nav-btn.active{color:var(--ink);border-bottom-color:var(--brass);}
+  .nav-btn .count{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--parchment-2);
+    border:1px solid var(--line);border-radius:10px;padding:1px 7px;margin-left:6px;color:var(--muted);
+  }
+  .nav-btn.active .count{color:var(--brass);border-color:var(--brass);}
+
+  .page{display:none;}
+  .page.active{display:block;animation:fadein .2s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  /* KPI STRIP */
+  .kpi-row{
+    display:grid;grid-template-columns:repeat(7,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    margin-bottom:32px;box-shadow:var(--shadow);
+  }
+  .kpi{background:var(--ink);color:var(--parchment);padding:18px 16px;position:relative;}
+  .kpi:nth-child(odd){background:var(--ink-2);}
+  .kpi .label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#B8B0A0;font-weight:600;margin-bottom:9px;}
+  .kpi .num{font-family:'Oswald',sans-serif;font-size:28px;font-weight:600;line-height:1;}
+  .kpi .sub{font-size:10.5px;color:#9C9385;margin-top:6px;}
+  .kpi.accent{background:var(--brass);color:var(--ink);}
+  .kpi.accent .label{color:rgba(27,36,48,.6);}
+  .kpi.accent .sub{color:rgba(27,36,48,.55);}
+  .kpi.alert{background:var(--red);color:#fff;}
+  .kpi.alert .label{color:rgba(255,255,255,.7);}
+  .kpi.alert .sub{color:rgba(255,255,255,.75);}
+
+  .section{margin-bottom:36px;}
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;
+    border-bottom:1px solid var(--line);padding-bottom:10px;flex-wrap:wrap;gap:8px;
+  }
+  .section-head h2{
+    font-family:'Oswald',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.03em;
+    margin:0;font-weight:600;display:flex;align-items:center;gap:10px;
+  }
+  .section-head h2 .idx{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--brass);
+    background:var(--parchment-2);border:1px solid var(--line);padding:2px 7px;border-radius:4px;
+  }
+  .section-note{font-size:12px;color:var(--muted);max-width:420px;text-align:right;}
+
+  /* COUNTRY CARDS */
+  .country-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  .country-card{
+    background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 16px 14px;
+    position:relative;box-shadow:var(--shadow);cursor:pointer;transition:.15s;
+  }
+  .country-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px -6px rgba(27,36,48,.25);}
+  .country-card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 3px 3px 0;background:var(--brass);}
+  .country-card.zero::before{background:var(--red);}
+  .country-card.done::before{background:var(--green);}
+  .c-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;text-transform:uppercase;margin-bottom:2px;display:flex;align-items:center;gap:6px;}
+  .c-badge{font-size:10px;color:var(--green);}
+  .c-rate{font-family:'Oswald',sans-serif;font-size:28px;font-weight:600;color:var(--ink);margin:6px 0 2px;}
+  .c-rate.zero{color:var(--red);}
+  .c-rate.done{color:var(--green);}
+  .c-rate-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+  .bar-track{height:7px;background:var(--parchment-2);border-radius:4px;overflow:hidden;margin-bottom:10px;border:1px solid var(--line);}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--brass),var(--brass-light));border-radius:4px;}
+  .bar-fill.zero{background:var(--red);width:2px !important;}
+  .bar-fill.done{background:linear-gradient(90deg,var(--green),#5FA37E);}
+  .c-stats{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .c-stats b{color:var(--ink);font-weight:600;}
+  .c-hint{font-size:10px;color:var(--brass);margin-top:8px;text-align:center;}
+
+  .controls{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
+  .chip{
+    border:1px solid var(--line);background:#fff;padding:6px 13px;border-radius:20px;font-size:12px;font-weight:600;
+    cursor:pointer;color:var(--muted);transition:.15s;font-family:'Inter',sans-serif;
+  }
+  .chip:hover{border-color:var(--brass);color:var(--ink);}
+  .chip.active{background:var(--ink);color:var(--parchment);border-color:var(--ink);}
+  .search-box{
+    margin-left:auto;border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:12px;
+    font-family:'Inter',sans-serif;width:200px;background:#fff;
+  }
+  .search-box:focus{outline:none;border-color:var(--brass);}
+
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow);}
+  thead th{
+    text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;
+    padding:11px 14px;background:var(--parchment-2);border-bottom:2px solid var(--ink);white-space:nowrap;
+  }
+  tbody td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--line);color:var(--ink);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#FBF9F4;}
+  .num-cell{font-family:'JetBrains Mono',monospace;font-weight:600;}
+  .score-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+  .score-good{background:var(--green-bg);color:var(--green);}
+  .score-mid{background:var(--amber-bg);color:var(--amber);}
+  .score-bad{background:var(--red-bg);color:var(--red);}
+  .status-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;}
+
+  .confirm-banner{
+    background:var(--green-bg);border:1px solid var(--green);border-radius:8px;padding:10px 14px;
+    font-size:12px;color:var(--green);margin-bottom:14px;display:flex;gap:8px;align-items:flex-start;line-height:1.5;
+  }
+  .confirm-banner b{font-weight:700;}
+
+  /* WEAK AREAS */
+  .weak-wrap{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 26px;box-shadow:var(--shadow);}
+  .weak-row{display:grid;grid-template-columns:170px 1fr 46px;align-items:center;gap:14px;margin-bottom:13px;}
+  .weak-row:last-child{margin-bottom:0;}
+  .weak-label{font-size:13px;font-weight:600;color:var(--ink);}
+  .weak-track{height:16px;background:var(--parchment-2);border-radius:3px;overflow:hidden;border:1px solid var(--line);}
+  .weak-fill{height:100%;border-radius:2px 0 0 2px;}
+  .weak-count{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;text-align:right;color:var(--ink);}
+  .weak-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
+  .weak-summary-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;box-shadow:var(--shadow);}
+  .weak-summary-card .n{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--brass);}
+  .weak-summary-card .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+
+  /* REASSESSMENT CARDS */
+  .reassess-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .r-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px 16px;box-shadow:var(--shadow);border-left:4px solid var(--red);cursor:pointer;transition:.15s;}
+  .r-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px -6px rgba(27,36,48,.25);}
+  .r-card.mid{border-left-color:var(--amber);}
+  .r-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+  .r-name{font-weight:700;font-size:14px;color:var(--ink);}
+  .r-role{font-size:11px;color:var(--muted);}
+  .r-score{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--red);}
+  .r-score.mid{color:var(--amber);}
+  .r-loc{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+  .r-loc b{color:var(--ink);}
+  .r-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:8px;margin-top:2px;}
+  .r-foot span{font-size:10px;color:var(--muted);}
+  .r-track-row{
+    display:flex;justify-content:space-between;gap:8px;margin-top:8px;padding-top:8px;
+    border-top:1px dashed var(--line);font-size:10.5px;
+  }
+  .r-track-item{flex:1;}
+  .r-track-item .tk-label{color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-size:9px;margin-bottom:2px;}
+  .r-track-item .tk-val{font-weight:600;color:var(--ink);}
+  .r-track-item .tk-val.tbd{color:var(--brass);font-weight:600;font-style:italic;}
+  .r-track-item .tk-val.improved{color:var(--green);}
+  .r-track-item .tk-val.still-low{color:var(--red);}
+  .r-track-item input{
+    width:100%;border:1px solid var(--line);border-radius:5px;padding:4px 6px;font-size:11px;
+    font-family:'Inter',sans-serif;background:var(--parchment-2);color:var(--ink);
+  }
+  .r-track-item input:focus{outline:none;border-color:var(--brass);background:#fff;}
+  .r-track-item input[type="number"]{width:60px;}
+  .save-toast{
+    position:fixed;bottom:20px;right:20px;background:var(--ink);color:var(--parchment);
+    padding:9px 16px;border-radius:8px;font-size:12px;font-weight:600;box-shadow:var(--shadow);
+    z-index:200;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;
+  }
+  .save-toast.show{opacity:1;transform:translateY(0);}
+  .r-hint{font-size:10px;color:var(--brass);margin-top:8px;text-align:center;}
+
+  /* MODAL */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(27,36,48,.55);z-index:100;
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--parchment);border-radius:12px;max-width:640px;width:100%;max-height:88vh;overflow-y:auto;
+    box-shadow:0 20px 60px -10px rgba(0,0,0,.4);position:relative;
+  }
+  .modal-head{
+    background:var(--ink);color:var(--parchment);padding:22px 26px;border-radius:12px 12px 0 0;
+    position:sticky;top:0;z-index:2;
+  }
+  .modal-close{
+    position:absolute;top:16px;right:18px;background:none;border:none;color:var(--parchment);
+    font-size:22px;cursor:pointer;line-height:1;opacity:.7;
+  }
+  .modal-close:hover{opacity:1;}
+  .modal-name{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;text-transform:uppercase;}
+  .modal-sub{font-size:12px;color:#B8B0A0;margin-top:4px;}
+  .modal-score-row{display:flex;align-items:baseline;gap:12px;margin-top:10px;}
+  .modal-score{font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;}
+  .modal-body{padding:22px 26px 26px;}
+  .modal-section-title{
+    font-family:'Oswald',sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--muted);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);
+  }
+  .qbar-row{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:10px;margin-bottom:8px;}
+  .qbar-label{font-size:12.5px;font-weight:600;}
+  .qbar-track{height:12px;background:var(--parchment-2);border-radius:3px;overflow:hidden;border:1px solid var(--line);display:flex;gap:1px;}
+  .qbar-seg{flex:1;background:var(--parchment-2);}
+  .qbar-seg.filled{background:var(--brass);}
+  .qbar-seg.filled.weak{background:var(--red);}
+  .qbar-val{font-family:'JetBrains Mono',monospace;font-size:11.5px;text-align:right;color:var(--muted);}
+  .weak-tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 22px;}
+  .weak-tag{
+    background:var(--red-bg);color:var(--red);font-size:11px;font-weight:700;padding:4px 10px;
+    border-radius:20px;text-transform:uppercase;letter-spacing:.02em;
+  }
+  .grow-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
+  .grow-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:13px 14px;}
+  .grow-card .g-label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--brass);font-weight:700;margin-bottom:6px;
+  }
+  .grow-card .g-text{font-size:12.5px;line-height:1.55;color:var(--ink);}
+  .grow-card.empty .g-text{color:var(--muted);font-style:italic;}
+  @media(max-width:640px){ .grow-grid{grid-template-columns:1fr;} }
+
+  footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  footer .note{max-width:760px;line-height:1.6;}
+
+  .back-link{font-size:12px;color:var(--brass);cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;}
+  .back-link:hover{text-decoration:underline;}
+
+  @media(max-width:1050px){
+    .kpi-row{grid-template-columns:repeat(4,1fr);}
+    .country-grid{grid-template-columns:repeat(2,1fr);}
+    .reassess-grid{grid-template-columns:repeat(2,1fr);}
+    .weak-summary{grid-template-columns:1fr;}
+  }
+  @media(max-width:640px){
+    h1{font-size:24px;}
+    .kpi-row{grid-template-columns:repeat(2,1fr);}
+    .country-grid{grid-template-columns:1fr;}
+    .reassess-grid{grid-template-columns:1fr;}
+    .weak-row{grid-template-columns:110px 1fr 36px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <div class="eyebrow">Charles &amp; Keith · Gulf Retail</div>
+      <h1>MCC Coaching Compliance</h1>
+    </div>
+    <div class="masthead-right">
+      <div class="tag-live">Assessment Month: Aug 2026</div><br>
+      Countries live: <b>UAE · Kuwait · Qatar · Oman · Bahrain</b><br>
+      Confirmed with store ops through Aug 27, 2026
+    </div>
+  </div>
+
+  <div class="nav" id="navBar">
+    <button class="nav-btn active" data-page="overview">Overview</button>
+    <button class="nav-btn" data-page="country">Country Detail</button>
+    <button class="nav-btn" data-page="reassess">Reassessment <span class="count" id="navReassessCount"></span></button>
+    <button class="nav-btn" data-page="weak">Weak Areas</button>
+  </div>
+
+  <!-- ============ PAGE 1: OVERVIEW ============ -->
+  <div class="page active" id="page-overview">
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2><span class="idx">01</span> Eligible vs. Received vs. Pending — by Country</h2>
+        <div class="section-note">Click a country card to see its full store-by-store breakdown.</div>
+      </div>
+      <div class="country-grid" id="countryGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2><span class="idx">02</span> All Stores — Eligible vs. Received vs. Pending</h2>
+        <div class="section-note">42 stores across 5 countries · full names &amp; areas resolved.</div>
+      </div>
+      <div class="controls" id="storeFilters"></div>
+      <table id="storeTable">
+        <thead>
+          <tr>
+            <th>Country</th><th>Area</th><th>Store</th>
+            <th style="text-align:right">Eligible</th><th style="text-align:right">Received</th>
+            <th style="text-align:right">Pending</th><th style="text-align:right">Coverage</th>
+            <th style="text-align:right">Avg Score</th><th style="text-align:right">Competent</th>
+            <th style="text-align:right">Coaching</th><th style="text-align:right">Dev. Req.</th>
+          </tr>
+        </thead>
+        <tbody id="storeBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 2: COUNTRY DETAIL ============ -->
+  <div class="page" id="page-country">
+    <div class="section-head">
+      <h2><span class="idx">01</span> Country Detail</h2>
+      <div class="section-note">Full staff-completion picture, store by store, for one country at a time.</div>
+    </div>
+    <div class="controls" id="countryTabs"></div>
+    <div id="countryConfirmBanner"></div>
+    <div class="country-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;" id="countryDetailKpis"></div>
+    <table id="countryDetailTable">
+      <thead>
+        <tr>
+          <th>Area</th><th>Store</th>
+          <th style="text-align:right">Eligible</th><th style="text-align:right">Received</th>
+          <th style="text-align:right">Pending</th><th style="text-align:right">Coverage</th>
+          <th style="text-align:right">Avg Score</th><th style="text-align:right">Competent</th>
+          <th style="text-align:right">Coaching</th><th style="text-align:right">Dev. Req.</th>
+        </tr>
+      </thead>
+      <tbody id="countryDetailBody"></tbody>
+    </table>
+  </div>
+
+  <!-- ============ PAGE 3: REASSESSMENT ============ -->
+  <div class="page" id="page-reassess">
+    <div class="section-head">
+      <h2><span class="idx">01</span> Reassessment Required — Score Below 80%</h2>
+      <div class="section-note" id="reassessNote"></div>
+    </div>
+    <div class="controls" id="reassessFilters"></div>
+    <div class="reassess-grid" id="reassessGrid"></div>
+  </div>
+  <div class="save-toast" id="saveToast">✓ Saved</div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div class="modal-name" id="modalName"></div>
+        <div class="modal-sub" id="modalSub"></div>
+        <div class="modal-score-row">
+          <div class="modal-score" id="modalScore"></div>
+          <div class="status-pill" id="modalStatus"></div>
+        </div>
+        <div style="display:flex;gap:24px;margin-top:12px;font-size:11.5px;color:#B8B0A0;">
+          <div>Reassessment Date: <b style="color:var(--parchment)" id="modalReassessDate"></b></div>
+          <div>New Score: <b style="color:var(--parchment)" id="modalNewScore"></b></div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section-title">Competency Breakdown (out of 3 per area)</div>
+        <div id="modalQbars"></div>
+        <div id="modalWeakTags" class="weak-tags"></div>
+        <div class="modal-section-title">GROW Coaching Plan</div>
+        <div class="grow-grid" id="modalGrow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 4: WEAK AREAS ============ -->
+  <div class="page" id="page-weak">
+    <div class="section-head">
+      <h2><span class="idx">01</span> Weak Competency Areas</h2>
+      <div class="section-note">Frequency a competency was flagged below full marks, across all submissions.</div>
+    </div>
+    <div class="weak-summary" id="weakSummary"></div>
+    <div class="weak-wrap" id="weakWrap"></div>
+  </div>
+
+  <footer>
+    <div class="note" id="footerNote"></div>
+    <div>Charles &amp; Keith · Gulf Retail L&amp;D</div>
+  </footer>
+
+</div>
+
+<script>
+const DATA = {"totals": {"eligible": 140, "received": 57, "pending": 83, "rate": 40.7, "avgScore": 83.2, "competent": 35, "needsCoaching": 20, "devRequired": 2, "lowScoreCount": 12, "storesWithZeroCoverage": 20, "totalStores": 42}, "countries": [{"country": "UAE", "eligible": 82, "received": 8, "pending": 74, "rate": 9.8}, {"country": "Kuwait", "eligible": 24, "received": 24, "pending": 0, "rate": 100.0, "confirmed": true, "note": "Confirmed by store ops: real eligible pool is 24 (Staff Master's 27 included staff <3 months tenure or on leave). All 24 confirmed done \u2014 23 by name, 1 by manager confirmation."}, {"country": "Qatar", "eligible": 21, "received": 21, "pending": 0, "rate": 100.0, "confirmed": true, "note": "Confirmed by store ops: 3 staff on leave excluded (1 at Doha City Centre, 2 at Doha Festival City). Real eligible pool is 21 \u2014 all 21 done."}, {"country": "Oman", "eligible": 4, "received": 4, "pending": 0, "rate": 100.0, "confirmed": true, "note": "Confirmed by store manager (WhatsApp): real eligible pool is 4 (Mall of Oman only; Muscat City Centre has no current eligible staff). All 4 done."}, {"country": "Bahrain", "eligible": 9, "received": 0, "pending": 9, "rate": 0.0}], "stores": [{"Country": "Bahrain", "Store": "Avenues Mall", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Manama"}, {"Country": "Bahrain", "Store": "Bahrain City Centre", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Manama"}, {"Country": "Bahrain", "Store": "Marassi Galleria Mall", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Manama"}, {"Country": "Kuwait", "Store": "CK2 Avenue Mall", "Eligible": 3, "Received": 4, "ScorePendingCount": 0, "AvgScore": 0.85, "Competent": 3, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 0, "OverAssessed": true, "Rate": 133.3, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "Alkout Mall", "Eligible": 3, "Received": 4, "ScorePendingCount": 0, "AvgScore": 0.805, "Competent": 1, "NeedsCoaching": 3, "DevRequired": 0, "Pending": 0, "OverAssessed": true, "Rate": 133.3, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "360 Mall", "Eligible": 3, "Received": 3, "ScorePendingCount": 0, "AvgScore": 0.903, "Competent": 3, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "Marina Mall", "Eligible": 3, "Received": 3, "ScorePendingCount": 0, "AvgScore": 0.8230000000000001, "Competent": 1, "NeedsCoaching": 2, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "Gate Mall", "Eligible": 3, "Received": 3, "ScorePendingCount": 0, "AvgScore": 0.877, "Competent": 3, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "Assima Mall", "Eligible": 3, "Received": 2, "ScorePendingCount": 0, "AvgScore": 0.795, "Competent": 0, "NeedsCoaching": 2, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 66.7, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "Avenue Mall", "Eligible": 3, "Received": 2, "ScorePendingCount": 0, "AvgScore": 0.81, "Competent": 0, "NeedsCoaching": 2, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 66.7, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "Al Khiran Mall", "Eligible": 3, "Received": 2, "ScorePendingCount": 0, "AvgScore": 0.85, "Competent": 2, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 66.7, "Area": "Kuwait City"}, {"Country": "Kuwait", "Store": "Unconfirmed (store pending)", "Eligible": 0, "Received": 1, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 0.0, "Area": "Kuwait City"}, {"Country": "Oman", "Store": "Mall of Oman", "Eligible": 4, "Received": 4, "ScorePendingCount": 0, "AvgScore": 0.86, "Competent": 4, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Muscat"}, {"Country": "Qatar", "Store": "Vendome Mall", "Eligible": 4, "Received": 4, "ScorePendingCount": 0, "AvgScore": 0.872, "Competent": 3, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Doha"}, {"Country": "Qatar", "Store": "Doha Festival City", "Eligible": 4, "Received": 4, "ScorePendingCount": 0, "AvgScore": 0.74, "Competent": 2, "NeedsCoaching": 1, "DevRequired": 1, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Doha"}, {"Country": "Qatar", "Store": "Villagio Mall", "Eligible": 4, "Received": 4, "ScorePendingCount": 0, "AvgScore": 0.845, "Competent": 4, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Doha"}, {"Country": "Qatar", "Store": "Doha City Centre", "Eligible": 3, "Received": 3, "ScorePendingCount": 0, "AvgScore": 0.8270000000000001, "Competent": 2, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Doha"}, {"Country": "Qatar", "Store": "Landmark Mall", "Eligible": 3, "Received": 3, "ScorePendingCount": 0, "AvgScore": 0.84, "Competent": 2, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Doha"}, {"Country": "Qatar", "Store": "Mall of Qatar", "Eligible": 3, "Received": 3, "ScorePendingCount": 0, "AvgScore": 0.8, "Competent": 0, "NeedsCoaching": 3, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0, "Area": "Doha"}, {"Country": "UAE", "Store": "Mall of the Emirates", "Eligible": 3, "Received": 2, "ScorePendingCount": 0, "AvgScore": 0.935, "Competent": 2, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 66.7, "Area": "Dubai"}, {"Country": "UAE", "Store": "Abu Dhabi Mall", "Eligible": 2, "Received": 1, "ScorePendingCount": 0, "AvgScore": 0.926, "Competent": 1, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 50.0, "Area": "Abu Dhabi"}, {"Country": "UAE", "Store": "Al Zahia City Centre", "Eligible": 4, "Received": 1, "ScorePendingCount": 0, "AvgScore": 0.74, "Competent": 0, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 25.0, "Area": "Sharjah"}, {"Country": "UAE", "Store": "Deira City Centre", "Eligible": 4, "Received": 1, "ScorePendingCount": 0, "AvgScore": 0.44, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 1, "Pending": 3, "OverAssessed": false, "Rate": 25.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Dubai Festival City", "Eligible": 5, "Received": 1, "ScorePendingCount": 0, "AvgScore": 0.778, "Competent": 0, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 4, "OverAssessed": false, "Rate": 20.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Fujairah City Centre", "Eligible": 4, "Received": 1, "ScorePendingCount": 0, "AvgScore": 1.0, "Competent": 1, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 25.0, "Area": "Fujairah"}, {"Country": "UAE", "Store": "Reem Mall", "Eligible": 3, "Received": 1, "ScorePendingCount": 0, "AvgScore": 0.8150000000000001, "Competent": 1, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 2, "OverAssessed": false, "Rate": 33.3, "Area": "Abu Dhabi"}, {"Country": "UAE", "Store": "Ajman City Centre", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Ajman"}, {"Country": "UAE", "Store": "Al Wahda Mall", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Abu Dhabi"}, {"Country": "UAE", "Store": "Arabian Center", "Eligible": 2, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 2, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Bawabat Al Sharq Mall", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Abu Dhabi"}, {"Country": "UAE", "Store": "BurJuman Centre", "Eligible": 1, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Bawadi Mall", "Eligible": 4, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 4, "OverAssessed": false, "Rate": 0.0, "Area": "Al Ain"}, {"Country": "UAE", "Store": "Dubai Mall", "Eligible": 8, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 8, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Dubai Outlet Mall", "Eligible": 2, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 2, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Dalma Mall", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Abu Dhabi"}, {"Country": "UAE", "Store": "Deerfields Mall", "Eligible": 4, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 4, "OverAssessed": false, "Rate": 0.0, "Area": "Abu Dhabi"}, {"Country": "UAE", "Store": "Dubai Hills Mall", "Eligible": 5, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 5, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Marina Mall", "Eligible": 2, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 2, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Mirdif City Centre", "Eligible": 4, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 4, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Mushrif Mall", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Abu Dhabi"}, {"Country": "UAE", "Store": "Palm Jumeirah", "Eligible": 2, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 2, "OverAssessed": false, "Rate": 0.0, "Area": "Dubai"}, {"Country": "UAE", "Store": "Sahara Centre", "Eligible": 3, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 3, "OverAssessed": false, "Rate": 0.0, "Area": "Sharjah"}, {"Country": "UAE", "Store": "Yas Mall", "Eligible": 5, "Received": 0, "ScorePendingCount": 0, "AvgScore": 0.0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 5, "OverAssessed": false, "Rate": 0.0, "Area": "Abu Dhabi"}], "weakAreas": [{"area": "360 Activation", "count": 46}, {"area": "Trending Products", "count": 42}, {"area": "HIP", "count": 31}, {"area": "Product Interest", "count": 25}, {"area": "Customer Engagement", "count": 23}, {"area": "Closing Sale", "count": 22}, {"area": "Last Impression", "count": 9}, {"area": "Welcome & Approach", "count": 8}, {"area": "Customer Needs", "count": 4}], "reassessment": [{"id": "MCC-20260820-154505", "country": "UAE", "area": "Dubai", "store": "Deira City Centre", "advisor": "Akash", "role": "Sr sales advisor", "assessedBy": "Pankaj Upadhyay", "score": 44.0, "status": "DEVELOPMENT REQUIRED", "reassessDate": null, "newScore": null}, {"id": "MCC-20260820-182745", "country": "Qatar", "area": "Doha", "store": "Doha Festival City", "advisor": "IMANE", "role": "SALES ASSOCIATE", "assessedBy": "SUJEET", "score": 48.0, "status": "DEVELOPMENT REQUIRED", "reassessDate": null, "newScore": null}, {"id": "MCC-20260820-185545", "country": "Qatar", "area": "Doha", "store": "Doha Festival City", "advisor": "CHOGA", "role": "SALES ASSOCIATE", "assessedBy": "SUJEET", "score": 70.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260819-180716", "country": "Qatar", "area": "Doha", "store": "Landmark Mall", "advisor": "Ibtissem (192463)", "role": "Sales advisor", "assessedBy": "Khalil Mbirki", "score": 74.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260824-205822", "country": "UAE", "area": "Sharjah", "store": "Al Zahia City Centre", "advisor": "YAHIA ALOMAR", "role": "A", "assessedBy": "MAGDY", "score": 74.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260824-150252", "country": "Qatar", "area": "Doha", "store": "Doha City Centre", "advisor": "Amina Meddas", "role": "Sales Associate", "assessedBy": "Mohammed Arshad", "score": 74.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260818-184925", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Yeshey Choden", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260818-170241", "country": "Qatar", "area": "Doha", "store": "Vendome Mall", "advisor": "Hadil Moubani 192460", "role": "Sales Advisor", "assessedBy": "Oussama Zouaid 160511", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260820-184638", "country": "Qatar", "area": "Doha", "store": "Mall of Qatar", "advisor": "AKRAM BAKKA", "role": "SALES ADVISOR", "assessedBy": "KUMAR", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260816-194427", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Venus Qumbaio Alamariz", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260822-140824", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "JONAH MARIE ALCOTIBO", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "MCC-20260826-153428-5474", "country": "UAE", "area": "Dubai", "store": "Dubai Festival City", "advisor": "Mohamed naser", "role": "Sales associate", "assessedBy": "Hamza", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}], "reassessDetail": {"MCC-20260820-154505": {"breakdown": [{"area": "Welcome & Approach", "score": 1, "max": 3}, {"area": "Customer Engagement", "score": 1, "max": 3}, {"area": "Closing Sale", "score": 1, "max": 3}, {"area": "Last Impression", "score": 1, "max": 3}, {"area": "360 Activation", "score": 1, "max": 3}, {"area": "Trending Products", "score": 1, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Customer Needs", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}], "weakest": ["Welcome & Approach", "Customer Engagement", "Closing Sale", "Last Impression", "360 Activation", "Trending Products"], "goal": "FPK, GUEST and HIP training need to be conducted till next week to achieved the product and service knowledge", "reality": "Needs improvement in his service, product knowledge", "options": "Learning material has provided to study, training will be conducted next week", "willDo": "Study the training material till next week and improve the service and knowledge"}, "MCC-20260820-182745": {"breakdown": [{"area": "360 Activation", "score": 0, "max": 3}, {"area": "Welcome & Approach", "score": 1, "max": 3}, {"area": "Customer Engagement", "score": 1, "max": 3}, {"area": "Product Interest", "score": 1, "max": 3}, {"area": "Closing Sale", "score": 1, "max": 3}, {"area": "Trending Products", "score": 1, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": ["360 Activation", "Welcome & Approach", "Customer Engagement", "Product Interest", "Closing Sale", "Trending Products"], "goal": "FIRST SHE NEED TO UNDERSTAND GUEST MODEL", "reality": "SHE DON'T KNOW GUEST MODEL AND LOWEST CONTRIBUTION IN TEAM", "options": "I WILL ASSIGN HER BUDDY TRAINER", "willDo": "IMPLEMENT NEXT 30 DAYS AND WILL REVIEW MCC AGAIN"}, "MCC-20260820-185545": {"breakdown": [{"area": "Product Interest", "score": 1, "max": 3}, {"area": "360 Activation", "score": 1, "max": 3}, {"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": ["Product Interest", "360 Activation"], "goal": "SHE NEED TO WORK ON PRODUCT KNOWLEDGE AND TRENDS,OBJECTION HANDLING", "reality": "CURRENTLY STRUGGLING WITH TRENDS", "options": "ASSIGN HER BUDDY TRAINER", "willDo": "IMPLEMENT THIS PLAN FOR NEXT 30 DAYS"}, "MCC-20260819-180716": {"breakdown": [{"area": "360 Activation", "score": 1, "max": 3}, {"area": "Trending Products", "score": 1, "max": 3}, {"area": "HIP", "score": 1, "max": 3}, {"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Product Interest", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Closing Sale", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": ["360 Activation", "Trending Products", "HIP"], "goal": "Improve overall assessment score", "reality": "Strong selling core steps and objection handling, but fall behind on 360 Activation stories, store trends, and HIP product insights", "options": "Review daily campaign storyboards, practice HIP customer profiling, and conduct floor walks on trending products before shifts.", "willDo": "Study 360 Activation guides and practice HIP pitches daily with a peer, targeting full competency within 2 weeks."}, "MCC-20260824-205822": {"breakdown": [{"area": "360 Activation", "score": 1, "max": 3}, {"area": "Trending Products", "score": 1, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Last Impression", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Customer Engagement", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Closing Sale", "score": 3, "max": 3}], "weakest": ["360 Activation", "Trending Products"], "goal": "more training in for trend and look", "reality": "able to answer few question but not in details specially with trends and look", "options": "weekly training and questions in the floor", "willDo": "weekly training and questions in the floor"}, "MCC-20260824-150252": {"breakdown": [{"area": "Welcome & Approach", "score": 1, "max": 3}, {"area": "360 Activation", "score": 1, "max": 3}, {"area": "Trending Products", "score": 1, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Customer Engagement", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Closing Sale", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}, {"area": "HIP", "score": 3, "max": 3}], "weakest": ["Welcome & Approach", "360 Activation", "Trending Products"], "goal": "Improve product knowledge \napprove the assign store target\npositive voice of tone and body language", "reality": "staff had gap on product knowledge", "options": "Conduct daily product knowledge \npractice product F&B\nSet daily sales and upt", "willDo": "The staff will complete daily product knowledge training, apply the learning during customer interactions, and practice positive body language and confident communication. The staff will set and work toward daily sales/UPT targets, with the manager reviewing progress and providing feedback daily for the next 2 weeks, with the expectation of measurable improvement by the end of the period."}, "MCC-20260818-184925": {"breakdown": [{"area": "Welcome & Approach", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Customer Engagement", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": [], "goal": "Yeshey needs to boost her overall assessment score from 78% to at least 90% over the next 30 days. To get there, she needs to hit full marks on all the RTW trend and HIP and actively practice cross-selling on the sales floor.", "reality": "Yeshey currently sits at a 78% score (21/27), putting her in \"Needs Coaching\" status. While basic selling steps are solid, key gaps showed up in customer approach warmth, product presentation, and active cross-selling during closing sales.", "options": "To hit the goal, we picked three simple steps: weekly role-plays to improve cross-selling and handling customer objections, do weekly stock walkthroughs to understand storytelling, trending styles, and key product details.", "willDo": "Yeshey will start doing daily product pitches with the Store Manager, pitch a matching item during every shoe try-on or bag"}, "MCC-20260818-170241": {"breakdown": [{"area": "Welcome & Approach", "score": 2, "max": 3}, {"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Closing Sale", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": [], "goal": "Inviting body languages and the warm energy", "reality": "Hadil lacks building rapports with customers", "options": "Role Play with the team\nObserving senior staff\nMix and match the items while practicing", "willDo": "On a daily basis"}, "MCC-20260820-184638": {"breakdown": [{"area": "Welcome & Approach", "score": 2, "max": 3}, {"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Last Impression", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Closing Sale", "score": 3, "max": 3}, {"area": "HIP", "score": 3, "max": 3}], "weakest": [], "goal": "MTD target needs to achieve which is 106000.", "reality": "Until 20th AUG achieved 50% only which 53000/-", "options": "more focus on floor and need to engage with customer and implement cross selling and upselling.", "willDo": "AUG and SEP month will achieve the target."}, "MCC-20260816-194427": {"breakdown": [{"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": [], "goal": "Venus is good in customer service and she can improve through consistent use of product knowledge while in the floor", "reality": "", "options": "", "willDo": ""}, "MCC-20260822-140824": {"breakdown": [{"area": "HIP", "score": 1, "max": 3}, {"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Product Interest", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": ["HIP"], "goal": "To achieve styling tip, product insights and objection handling.", "reality": "Aware of the trends but needs to review styling tips and product knowledge.", "options": "Role playing is the key to understand customer's perspective. It helps to build communication skills in a different situation. Role play can be done twice a week.", "willDo": "Keep track of goals based on the timeline"}, "MCC-20260826-153428-5474": {"breakdown": [], "weakest": [], "goal": "Trends and looks / \nClosing sales", "reality": "He needs improvement on closing sales steps and trends and look", "options": "Daily training on fashion and trends and looks", "willDo": "Pick one item daily and study about it"}}};
+
+function scoreClass(pct){ if(pct>=85) return 'score-good'; if(pct>=70) return 'score-mid'; return 'score-bad'; }
+function coverageClass(rate, received){
+  if(received===0) return 'score-bad';
+  if(rate>=90) return 'score-good';
+  if(rate>=50) return 'score-mid';
+  return 'score-bad';
+}
+function statusClass(status){
+  const s = status.toUpperCase();
+  if(s==='COMPETENT') return {bg:'var(--green-bg)',c:'var(--green)'};
+  if(s==='NEEDS COACHING') return {bg:'var(--amber-bg)',c:'var(--amber)'};
+  return {bg:'var(--red-bg)',c:'var(--red)'};
+}
+
+/* ---------------- NAVIGATION ---------------- */
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelector(`.nav-btn[data-page="${name}"]`).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+document.getElementById('navBar').addEventListener('click', e=>{
+  if(e.target.classList.contains('nav-btn')) showPage(e.target.dataset.page);
+});
+document.getElementById('navReassessCount').textContent = DATA.totals.lowScoreCount;
+
+/* ---------------- KPI STRIP ---------------- */
+const t = DATA.totals;
+const kpis = [
+  {label:'Eligible Staff', num:t.eligible, sub:'Confirmed active pool'},
+  {label:'Completed', num:t.received, sub:t.rate+'% of eligible', accent:true},
+  {label:'Pending', num:t.pending, sub:Math.round(t.pending/t.eligible*100)+'% of eligible pool'},
+  {label:'Completion Rate', num:t.rate+'%', sub:t.received+' of '+t.eligible+' advisors'},
+  {label:'Avg MCC Score', num:t.avgScore+'%', sub:t.competent+' competent · '+t.needsCoaching+' coaching'},
+  {label:'Below 80% Score', num:t.lowScoreCount, sub:'Flagged for reassessment', alert:true},
+  {label:'Stores at 0%', num:t.storesWithZeroCoverage, sub:'of '+t.totalStores+' stores, none assessed'},
+];
+document.getElementById('kpiRow').innerHTML = kpis.map(k=>`
+  <div class="kpi ${k.accent?'accent':''} ${k.alert?'alert':''}">
+    <div class="label">${k.label}</div><div class="num">${k.num}</div><div class="sub">${k.sub}</div>
+  </div>`).join('');
+
+/* ---------------- OVERVIEW: COUNTRY GRID ---------------- */
+document.getElementById('countryGrid').innerHTML = DATA.countries.map(c=>{
+  const done = c.rate===100;
+  const zero = c.rate===0;
+  return `<div class="country-card ${zero?'zero':''} ${done?'done':''}" data-goto-country="${c.country}">
+    <div class="c-name">${c.country} ${c.confirmed?'<span class="c-badge">✓ confirmed</span>':''}</div>
+    <div class="c-rate ${zero?'zero':''} ${done?'done':''}">${c.rate}%</div>
+    <div class="c-rate-label">completion</div>
+    <div class="bar-track"><div class="bar-fill ${zero?'zero':''} ${done?'done':''}" style="width:${Math.max(c.rate,zero?0:2)}%"></div></div>
+    <div class="c-stats">
+      <span>Eligible <b>${c.eligible}</b></span><span>Done <b>${c.received}</b></span><span>Pend <b>${c.pending}</b></span>
+    </div>
+    <div class="c-hint">View detail →</div>
+  </div>`;
+}).join('');
+document.getElementById('countryGrid').addEventListener('click', e=>{
+  const card = e.target.closest('[data-goto-country]');
+  if(!card) return;
+  showPage('country');
+  selectCountry(card.dataset.gotoCountry);
+});
+
+/* ---------------- OVERVIEW: STORE TABLE ---------------- */
+const countries = ['All', ...DATA.countries.map(c=>c.country)];
+document.getElementById('storeFilters').innerHTML =
+  countries.map((c,i)=>`<button class="chip ${i===0?'active':''}" data-country="${c}">${c}</button>`).join('')
+  + `<input class="search-box" id="storeSearch" placeholder="Search store or area…">`;
+
+function storeRowHtml(s, showCountry){
+  const pct = Math.round(s.AvgScore*100);
+  const scoreCell = s.Received===0
+    ? `<span style="color:var(--muted);font-size:12px">—</span>`
+    : `<span class="score-pill ${scoreClass(pct)}">${pct}%</span>`;
+  return `<tr>
+    ${showCountry? `<td>${s.Country}</td>`:''}
+    <td>${s.Area}</td>
+    <td><b>${s.Store}</b>${s.OverAssessed?' <span title="More advisors assessed than listed as eligible." style="color:var(--brass);cursor:help;">⚠</span>':''}</td>
+    <td class="num-cell" style="text-align:right">${s.Eligible}</td>
+    <td class="num-cell" style="text-align:right">${s.Received}</td>
+    <td class="num-cell" style="text-align:right">${s.Pending}</td>
+    <td style="text-align:right"><span class="score-pill ${coverageClass(s.Rate,s.Received)}">${Math.min(s.Rate,100).toFixed(0)}%${s.OverAssessed?'+':''}</span></td>
+    <td style="text-align:right">${scoreCell}</td>
+    <td class="num-cell" style="text-align:right">${s.Competent}</td>
+    <td class="num-cell" style="text-align:right">${s.NeedsCoaching}</td>
+    <td class="num-cell" style="text-align:right">${s.DevRequired}</td>
+  </tr>`;
+}
+
+function renderStores(filterCountry, query){
+  let rows = DATA.stores.filter(s=>{
+    const matchCountry = filterCountry==='All' || s.Country===filterCountry;
+    const matchQuery = !query || (s.Store+' '+s.Area).toLowerCase().includes(query.toLowerCase());
+    return matchCountry && matchQuery;
+  });
+  document.getElementById('storeBody').innerHTML = rows.map(s=>storeRowHtml(s,true)).join('')
+    || `<tr><td colspan="11" style="text-align:center;color:var(--muted);padding:24px;">No stores match this filter.</td></tr>`;
+}
+renderStores('All','');
+document.getElementById('storeFilters').addEventListener('click', e=>{
+  if(!e.target.classList.contains('chip')) return;
+  document.querySelectorAll('#storeFilters .chip').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderStores(e.target.dataset.country, document.getElementById('storeSearch').value);
+});
+document.getElementById('storeFilters').addEventListener('input', e=>{
+  if(e.target.id!=='storeSearch') return;
+  const active = document.querySelector('#storeFilters .chip.active').dataset.country;
+  renderStores(active, e.target.value);
+});
+
+/* ---------------- PAGE 2: COUNTRY DETAIL ---------------- */
+document.getElementById('countryTabs').innerHTML = DATA.countries.map((c,i)=>
+  `<button class="chip ${i===0?'active':''}" data-country="${c.country}">${c.country}</button>`).join('');
+
+function selectCountry(name){
+  document.querySelectorAll('#countryTabs .chip').forEach(b=>b.classList.toggle('active', b.dataset.country===name));
+  const c = DATA.countries.find(x=>x.country===name);
+  document.getElementById('countryConfirmBanner').innerHTML = c.confirmed
+    ? `<div class="confirm-banner">✓ <div><b>Confirmed:</b> ${c.note}</div></div>` : '';
+  document.getElementById('countryDetailKpis').innerHTML = `
+    <div class="country-card ${c.rate===0?'zero':''} ${c.rate===100?'done':''}" style="cursor:default;">
+      <div class="c-name">Eligible</div><div class="c-rate">${c.eligible}</div><div class="c-rate-label">total staff</div>
+    </div>
+    <div class="country-card ${c.rate===0?'zero':''} ${c.rate===100?'done':''}" style="cursor:default;">
+      <div class="c-name">Completed</div><div class="c-rate ${c.rate===100?'done':''}">${c.received}</div><div class="c-rate-label">assessed</div>
+    </div>
+    <div class="country-card ${c.rate===0?'zero':''} ${c.rate===100?'done':''}" style="cursor:default;">
+      <div class="c-name">Pending</div><div class="c-rate ${c.pending>0?'zero':''}">${c.pending}</div><div class="c-rate-label">remaining</div>
+    </div>
+    <div class="country-card ${c.rate===0?'zero':''} ${c.rate===100?'done':''}" style="cursor:default;">
+      <div class="c-name">Completion</div><div class="c-rate ${c.rate===100?'done':(c.rate===0?'zero':'')}">${c.rate}%</div>
+      <div class="bar-track"><div class="bar-fill ${c.rate===0?'zero':''} ${c.rate===100?'done':''}" style="width:${Math.max(c.rate,c.rate===0?0:2)}%"></div></div>
+    </div>`;
+  const rows = DATA.stores.filter(s=>s.Country===name);
+  document.getElementById('countryDetailBody').innerHTML = rows.map(s=>storeRowHtml(s,false)).join('')
+    || `<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:24px;">No store data for this country.</td></tr>`;
+}
+document.getElementById('countryTabs').addEventListener('click', e=>{
+  if(e.target.classList.contains('chip')) selectCountry(e.target.dataset.country);
+});
+selectCountry(DATA.countries[0].country);
+
+/* ---------------- PAGE 3: REASSESSMENT ---------------- */
+document.getElementById('reassessNote').textContent = t.lowScoreCount+' advisors flagged · sorted lowest score first.';
+const reassessCountries = ['All', ...new Set(DATA.reassessment.map(r=>r.country))];
+document.getElementById('reassessFilters').innerHTML = reassessCountries.map((c,i)=>
+  `<button class="chip ${i===0?'active':''}" data-country="${c}">${c}</button>`).join('');
+
+function renderReassess(filterCountry){
+  const rows = DATA.reassessment.filter(r=> filterCountry==='All' || r.country===filterCountry);
+  document.getElementById('reassessGrid').innerHTML = rows.map(r=>{
+    const mid = r.score>=60;
+    const sc = statusClass(r.status);
+    const dateInputVal = r.reassessDate || '';
+    const scoreInputVal = r.newScore!=null ? r.newScore : '';
+    let scoreValClass = 'tbd';
+    if(r.newScore!=null){ scoreValClass = r.newScore > r.score ? 'improved' : 'still-low'; }
+    return `<div class="r-card ${mid?'mid':''}" data-id="${r.id}">
+      <div class="r-top" data-open="1">
+        <div><div class="r-name">${r.advisor}</div><div class="r-role">${r.role}</div></div>
+        <div class="r-score ${mid?'mid':''}">${r.score}%</div>
+      </div>
+      <div class="r-loc" data-open="1"><b>${r.store}</b>, ${r.area} — ${r.country}</div>
+      <div class="r-foot" data-open="1">
+        <span class="status-pill" style="background:${sc.bg};color:${sc.c}">${r.status}</span>
+        <span>Assessed by ${r.assessedBy}</span>
+      </div>
+      <div class="r-track-row">
+        <div class="r-track-item">
+          <div class="tk-label">Reassessment Date</div>
+          <input type="date" class="tk-date-input" data-id="${r.id}" value="${dateInputVal}">
+        </div>
+        <div class="r-track-item" style="text-align:right">
+          <div class="tk-label">New Score</div>
+          <input type="number" min="0" max="100" placeholder="—" class="tk-score-input ${scoreValClass}" data-id="${r.id}" value="${scoreInputVal}">%
+        </div>
+      </div>
+      <div class="r-hint" data-open="1">View breakdown & GROW plan →</div>
+    </div>`;
+  }).join('') || `<div style="color:var(--muted);padding:24px;">No advisors flagged for this country.</div>`;
+}
+renderReassess('All');
+document.getElementById('reassessFilters').addEventListener('click', e=>{
+  if(!e.target.classList.contains('chip')) return;
+  document.querySelectorAll('#reassessFilters .chip').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderReassess(e.target.dataset.country);
+});
+
+/* ---------------- EDITABLE FIELDS: persist via artifact storage ---------------- */
+let storageAvailable = true;
+function showToast(msg){
+  const toast = document.getElementById('saveToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 1600);
+}
+async function loadSavedEdits(){
+  if(!window.storage){ storageAvailable = false; return; }
+  try{
+    for(const r of DATA.reassessment){
+      try{
+        const res = await window.storage.get('reassess:'+r.id, false);
+        if(res && res.value){
+          const parsed = JSON.parse(res.value);
+          r.reassessDate = parsed.date || r.reassessDate;
+          r.newScore = (parsed.score!=null && parsed.score!=='') ? Number(parsed.score) : r.newScore;
+        }
+      }catch(e){ /* no saved value for this id yet, ignore */ }
+    }
+  }catch(e){ storageAvailable = false; }
+  renderReassess(document.querySelector('#reassessFilters .chip.active')?.dataset.country || 'All');
+}
+async function saveEdit(id, date, score){
+  const r = DATA.reassessment.find(x=>x.id===id);
+  if(r){ r.reassessDate = date || null; r.newScore = (score!=='' && score!=null) ? Number(score) : null; }
+  if(!window.storage){
+    showToast('Saved for this session (reopen in Claude to persist)');
+    return;
+  }
+  try{
+    await window.storage.set('reassess:'+id, JSON.stringify({date, score}), false);
+    showToast('✓ Saved');
+  }catch(e){
+    showToast('Could not save — try again');
+  }
+}
+loadSavedEdits();
+
+document.getElementById('reassessGrid').addEventListener('click', e=>{
+  if(e.target.tagName==='INPUT') return;
+  const openTarget = e.target.closest('[data-open="1"]');
+  if(!openTarget) return;
+  const card = e.target.closest('.r-card');
+  if(card) openModal(card.dataset.id);
+});
+document.getElementById('reassessGrid').addEventListener('change', e=>{
+  if(!e.target.classList.contains('tk-date-input') && !e.target.classList.contains('tk-score-input')) return;
+  const id = e.target.dataset.id;
+  const card = e.target.closest('.r-card');
+  const dateInput = card.querySelector('.tk-date-input');
+  const scoreInput = card.querySelector('.tk-score-input');
+  saveEdit(id, dateInput.value, scoreInput.value);
+  // update score input color live
+  const r = DATA.reassessment.find(x=>x.id===id);
+  if(scoreInput.value!==''){
+    scoreInput.classList.remove('improved','still-low','tbd');
+    scoreInput.classList.add(Number(scoreInput.value) > r.score ? 'improved' : 'still-low');
+  }
+});
+
+/* ---------------- MODAL: staff detail (weak areas + GROW) ---------------- */
+const overlay = document.getElementById('modalOverlay');
+function openModal(id){
+  const r = DATA.reassessment.find(x=>x.id===id);
+  const d = DATA.reassessDetail[id];
+  if(!r) return;
+  const sc = statusClass(r.status);
+  document.getElementById('modalName').textContent = r.advisor;
+  document.getElementById('modalSub').textContent = `${r.role} · ${r.store}, ${r.area} — ${r.country} · Assessed by ${r.assessedBy}`;
+  document.getElementById('modalScore').textContent = r.score+'%';
+  document.getElementById('modalScore').style.color = r.score<60 ? '#E8A0A0' : '#F0CB8E';
+  document.getElementById('modalStatus').textContent = r.status;
+  document.getElementById('modalStatus').style.background = sc.bg;
+  document.getElementById('modalStatus').style.color = sc.c;
+  document.getElementById('modalReassessDate').textContent = r.reassessDate ? r.reassessDate : 'Not scheduled';
+  document.getElementById('modalNewScore').textContent = r.newScore!=null ? r.newScore+'%' : 'Pending';
+
+  if(d && d.breakdown && d.breakdown.length){
+    document.getElementById('modalQbars').innerHTML = d.breakdown.map(b=>{
+      const weak = b.score<=1;
+      let segs='';
+      for(let i=0;i<b.max;i++){ segs += `<div class="qbar-seg ${i<b.score?'filled':''} ${i<b.score&&weak?'weak':''}"></div>`; }
+      return `<div class="qbar-row">
+        <div class="qbar-label">${b.area}</div>
+        <div class="qbar-track">${segs}</div>
+        <div class="qbar-val">${b.score}/${b.max}</div>
+      </div>`;
+    }).join('');
+    const weakest = d.weakest && d.weakest.length ? d.weakest : d.breakdown.slice(0,2).map(b=>b.area);
+    document.getElementById('modalWeakTags').innerHTML = weakest.map(w=>`<span class="weak-tag">⚠ ${w}</span>`).join('');
+  } else {
+    document.getElementById('modalQbars').innerHTML = `<div style="color:var(--muted);font-size:12.5px;padding:10px 0;">No question-level breakdown available for this assessment.</div>`;
+    document.getElementById('modalWeakTags').innerHTML = '';
+  }
+
+  const growFields = [
+    {label:'G — Goal', text: d && d.goal},
+    {label:'R — Reality', text: d && d.reality},
+    {label:'O — Options', text: d && d.options},
+    {label:'W — Will Do', text: d && d.willDo},
+  ];
+  document.getElementById('modalGrow').innerHTML = growFields.map(g=>`
+    <div class="grow-card ${!g.text?'empty':''}">
+      <div class="g-label">${g.label}</div>
+      <div class="g-text">${g.text ? g.text : 'Not recorded for this assessment.'}</div>
+    </div>`).join('');
+
+  overlay.classList.add('open');
+}
+document.getElementById('modalClose').addEventListener('click', ()=> overlay.classList.remove('open'));
+overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.classList.remove('open'); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') overlay.classList.remove('open'); });
+
+/* ---------------- PAGE 4: WEAK AREAS ---------------- */
+document.getElementById('weakSummary').innerHTML = `
+  <div class="weak-summary-card"><div class="n">${DATA.weakAreas[0].area}</div><div class="l">Top gap area (${DATA.weakAreas[0].count} flags)</div></div>
+  <div class="weak-summary-card"><div class="n">${DATA.weakAreas.reduce((a,b)=>a+b.count,0)}</div><div class="l">Total weak-area flags logged</div></div>
+  <div class="weak-summary-card"><div class="n">${DATA.weakAreas.length}</div><div class="l">Competency areas tracked</div></div>
+`;
+const maxWeak = Math.max(...DATA.weakAreas.map(w=>w.count));
+const brassGradient = ['#8C5A2B','#A16A34','#B8874F','#C79862','#D9AE73','#E2BD8C','#EACBA0','#F0D8B7','#F5E4CC'];
+document.getElementById('weakWrap').innerHTML = DATA.weakAreas.map((w,i)=>`
+  <div class="weak-row">
+    <div class="weak-label">${w.area}</div>
+    <div class="weak-track"><div class="weak-fill" style="width:${w.count/maxWeak*100}%; background:${brassGradient[i]||'#B8874F'}"></div></div>
+    <div class="weak-count">${w.count}</div>
+  </div>`).join('');
+
+/* ---------------- FOOTER ---------------- */
+document.getElementById('footerNote').innerHTML =
+  `<b>Data notes:</b> Eligible-staff counts reflect confirmed store-ops corrections to the Staff Master (Kuwait 24,
+  Qatar 21, Oman 4 — after excluding staff under 3 months' tenure or on leave). Completed counts merge the digital
+  MCC Submissions tab, a manually pulled roster, and the Villagio Mall list, deduplicated by advisor. 4 test/junk
+  entries were excluded. Two stores (Alkout Mall, CK2 Avenue Mall, marked ⚠) show more advisors assessed than listed
+  as eligible for the same tenure/leave reason. Bahrain (all 3 stores) and most of UAE (18 of 23 stores) have zero
+  records in any source provided so far.`;
+</script>
+</body>
+</html>
