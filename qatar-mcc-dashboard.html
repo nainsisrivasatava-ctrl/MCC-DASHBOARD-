@@ -368,7 +368,7 @@ footer b{color:var(--char)}
 <div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" id="modal"></div></div>
 <div class="toast" id="toast">Saved</div>
 
-<script src="mcc-config.js"></script>
+<script src="mcc-config.js?v=20260930-1531"></script>
 <script>
 /* =====================================================================
    SETTINGS
@@ -882,7 +882,7 @@ async function loadLive(manual){
   $("#btnRefresh").disabled=true; if(manual) setLive("","Refreshing…");
   try{
     const url=DATA_URL+(DATA_URL.includes("?")?"&":"?")+"market="+encodeURIComponent(LOCK_MARKET||"All")+"&t="+Date.now();
-    const res=await fetch(url); if(!res.ok) throw new Error("HTTP "+res.status);
+    const res=await fetch(url,{cache:"no-store"}); if(!res.ok) throw new Error("HTTP "+res.status);
     const j=await res.json(); if(!j.months||!j.months.length) throw new Error("No months in feed");
     const wasLatest = state.month===MONTHS.length-1, prevCount=MONTHS.length;
     MONTHS=j.months;
