@@ -2,504 +2,903 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCC Coaching Compliance — Kuwait</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MCC Coaching Dashboard | Charles &amp; Keith</title>
+<meta name="author" content="Nainsi Srivasatava">
 <style>
-  :root{
-    --ink:#1B2430; --ink-2:#232E3D; --parchment:#FAF7F1; --parchment-2:#F2EEE4;
-    --brass:#B8874F; --brass-light:#D9AE73;
-    --green:#3E7A5B; --green-bg:#E7F1EA;
-    --amber:#B5791E; --amber-bg:#FBF0DD;
-    --red:#B23A3A; --red-bg:#FBE8E6;
-    --line:#E4DDCE; --muted:#7C7568;
-    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px -12px rgba(27,36,48,0.18);
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background: radial-gradient(1200px 600px at 90% -10%, rgba(184,135,79,0.10), transparent 60%), var(--parchment);
-    color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:1000px;margin:0 auto;padding:32px 28px 80px;}
+:root{
+  --char:#2B2B2B; --char-2:#3A3835; --gold:#A8863F; --gold-soft:#E9DFC9; --paper:#F5F2EC; --card:#FFFFFF;
+  --line:#E3DDD2; --muted:#6F6A62;
+  --g:#3F7D5C; --g-bg:#E4F0E8; --a:#C98A1B; --a-bg:#FBF0DA; --r:#B5473A; --r-bg:#F7E3E0; --p:#B9B4AB; --p-bg:#EFECE6;
+  --blue:#3E6A8A;
+  --serif: Cambria, "Cambria Math", Georgia, "Times New Roman", serif;
+  --sans: Calibri, Carlito, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--char);font-family:var(--sans);font-size:16px;line-height:1.45}
+button,select,input{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 
-  .masthead{
-    display:flex;justify-content:space-between;align-items:flex-end;
-    border-bottom:3px solid var(--ink); padding-bottom:18px;margin-bottom:24px;flex-wrap:wrap;gap:16px;
-  }
-  .eyebrow{
-    font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.14em;color:var(--brass);
-    text-transform:uppercase;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;
-  }
-  .eyebrow::before{content:"";width:7px;height:7px;background:var(--brass);border-radius:1px;transform:rotate(45deg);display:inline-block;}
-  h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:34px;letter-spacing:.01em;margin:0;text-transform:uppercase;}
-  .masthead-right{text-align:right;font-size:12.5px;color:var(--muted);line-height:1.7;}
-  .masthead-right b{color:var(--ink);font-weight:600;}
-  .scope-tag{
-    display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--brass);
-    background:#FBF3E8;padding:3px 9px;border-radius:20px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:6px;
-    border:1px solid var(--brass-light);
-  }
+/* header */
+.top{background:var(--char);color:#F5F2EC}
+.top .wrap{padding-top:22px;padding-bottom:18px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
+.brand{font-family:var(--serif);font-size:15px;letter-spacing:.04em;color:var(--gold-soft)}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4vw,36px);margin:4px 0 2px;line-height:1.1}
+.sub{color:#CFC8BB;font-size:15px}
+.sub b{color:#fff;font-weight:600}
+.credit{display:inline-block;margin-top:10px;font-size:13px;color:#2B2B2B;background:var(--gold-soft);padding:3px 10px;border-radius:999px}
+.picks{display:flex;gap:10px;flex-wrap:wrap}
+.pick label{display:block;font-size:12.5px;color:#CFC8BB;margin-bottom:4px}
+.pick select{background:#3A3835;color:#fff;border:1px solid #57534D;border-radius:8px;padding:8px 10px;min-width:150px}
+.market-row{background:#232221}
+.market-row .wrap{display:flex;gap:6px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+.live{display:inline-flex;align-items:center;gap:6px;margin:10px 0 0 8px;font-size:13px;color:#CFC8BB}
+.live i{width:8px;height:8px;border-radius:50%;background:#8A857C}
+.live.on i{background:#6FCF97;box-shadow:0 0 0 3px rgba(111,207,151,.25)}
+.live.err i{background:#E08A7E}
+.refresh{margin:10px 0 0 6px;background:transparent;border:1px solid #57534D;color:#F5F2EC;border-radius:999px;padding:3px 12px;font-size:13px;cursor:pointer}
+.refresh[disabled]{opacity:.5;cursor:default}
+.mk{background:transparent;border:1px solid #4A4640;color:#DDD6C9;border-radius:999px;padding:6px 14px;cursor:pointer}
+.mk[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#fff}
 
-  .nav{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
-  .nav-btn{
-    font-family:'Oswald',sans-serif;font-size:13.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;
-    padding:11px 18px;background:none;border:none;color:var(--muted);cursor:pointer;position:relative;
-    border-bottom:3px solid transparent;margin-bottom:-1px;transition:.15s;
-  }
-  .nav-btn:hover{color:var(--ink);}
-  .nav-btn.active{color:var(--ink);border-bottom-color:var(--brass);}
-  .nav-btn .count{
-    font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--parchment-2);
-    border:1px solid var(--line);border-radius:10px;padding:1px 7px;margin-left:6px;color:var(--muted);
-  }
-  .nav-btn.active .count{color:var(--brass);border-color:var(--brass);}
+/* tabs + toggles */
+.bar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.tabs{display:flex;gap:4px;overflow-x:auto}
+.tab{border:0;background:transparent;padding:9px 14px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--muted);white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--char);color:#fff}
+.tab .n{display:inline-block;min-width:20px;padding:0 6px;margin-left:4px;border-radius:999px;background:var(--r);color:#fff;font-size:12px}
+.toggles{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.sw{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14.5px;user-select:none}
+.sw input{position:absolute;opacity:0;width:1px;height:1px}
+.sw .t{width:36px;height:20px;border-radius:999px;background:#CFC8BB;position:relative;transition:background .15s}
+.sw .t::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw input:checked + .t{background:var(--gold)}
+.sw input:checked + .t::after{transform:translateX(16px)}
+.sw input:focus-visible + .t{outline:2px solid var(--gold);outline-offset:2px}
 
-  .page{display:none;}
-  .page.active{display:block;animation:fadein .2s ease;}
-  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+main{padding:22px 0 40px}
+.panel{display:none}.panel.on{display:block}
+h2{font-family:var(--serif);font-size:22px;margin:30px 0 4px}
+h2:first-child{margin-top:4px}
+.lede{color:var(--muted);margin:0 0 14px;max-width:70ch}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
 
-  .kpi-row{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-    background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;
-    margin-bottom:28px;box-shadow:var(--shadow);
-  }
-  .kpi{background:var(--ink);color:var(--parchment);padding:20px 18px;position:relative;}
-  .kpi:nth-child(odd){background:var(--ink-2);}
-  .kpi .label{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:#B8B0A0;font-weight:600;margin-bottom:10px;}
-  .kpi .num{font-family:'Oswald',sans-serif;font-size:32px;font-weight:600;line-height:1;}
-  .kpi .sub{font-size:11px;color:#9C9385;margin-top:6px;}
-  .kpi.accent{background:var(--brass);color:var(--ink);}
-  .kpi.accent .label{color:rgba(27,36,48,.6);}
-  .kpi.accent .sub{color:rgba(27,36,48,.55);}
-  .kpi.done{background:var(--green);color:#fff;}
-  .kpi.done .label{color:rgba(255,255,255,.75);}
-  .kpi.done .sub{color:rgba(255,255,255,.8);}
-  .kpi.alert{background:var(--red);color:#fff;}
-  .kpi.alert .label{color:rgba(255,255,255,.7);}
-  .kpi.alert .sub{color:rgba(255,255,255,.75);}
+/* guide */
+.guide{display:none;margin-bottom:18px;background:#FFFCF5;border:1px solid var(--gold-soft);border-left:4px solid var(--gold);border-radius:10px;padding:14px 18px}
+.guide.on{display:block}
+.guide h3{font-family:var(--serif);margin:0 0 8px;font-size:18px}
+.guide ul{margin:0;padding-left:18px}
+.guide li{margin:4px 0}
 
-  .section{margin-bottom:32px;}
-  .section-head{
-    display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;
-    border-bottom:1px solid var(--line);padding-bottom:10px;flex-wrap:wrap;gap:8px;
-  }
-  .section-head h2{
-    font-family:'Oswald',sans-serif;font-size:18px;text-transform:uppercase;letter-spacing:.03em;
-    margin:0;font-weight:600;
-  }
-  .section-note{font-size:12px;color:var(--muted);max-width:400px;text-align:right;}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px;align-items:center}
+.hero-statement{font-family:var(--serif);font-size:clamp(22px,3vw,30px);line-height:1.25;margin:0}
+.hero-statement .big{color:var(--gold);font-weight:700}
+.hero-note{color:var(--muted);margin-top:10px}
+.dots{display:flex;flex-wrap:wrap;gap:4px}
+.dot{width:12px;height:12px;border-radius:50%;flex:none}
+.dots.lg .dot{width:15px;height:15px}
+.d-c{background:var(--g)} .d-n{background:var(--a)} .d-d{background:var(--r)} .d-p{background:transparent;border:2px solid var(--p)} .d-x{background:var(--g);box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--blue)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
 
-  .confirm-banner{
-    background:var(--green-bg);border:1px solid var(--green);border-radius:8px;padding:12px 16px;
-    font-size:12.5px;color:var(--green);margin-bottom:20px;display:flex;gap:8px;align-items:flex-start;line-height:1.55;
-  }
-  .confirm-banner b{font-weight:700;}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:20px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;border-top:4px solid var(--char)}
+.kpi .lb{font-size:14px;color:var(--muted)}
+.kpi .v{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.1;margin:4px 0}
+.kpi.k-g{border-top-color:var(--g)} .kpi.k-a{border-top-color:var(--a)} .kpi.k-r{border-top-color:var(--r)} .kpi.k-p{border-top-color:var(--p)} .kpi.k-gold{border-top-color:var(--gold)}
+.delta{display:inline-block;font-size:13px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--p-bg);color:var(--muted)}
+.delta.up{background:var(--g-bg);color:var(--g)} .delta.down{background:var(--r-bg);color:var(--r)}
+.mom-off .delta,.mom-off .mom-col{display:none!important}
 
-  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow);}
-  thead th{
-    text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;
-    padding:11px 14px;background:var(--parchment-2);border-bottom:2px solid var(--ink);white-space:nowrap;
-  }
-  tbody td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--line);color:var(--ink);}
-  tbody tr:last-child td{border-bottom:none;}
-  tbody tr:hover{background:#FBF9F4;}
-  .num-cell{font-family:'JetBrains Mono',monospace;font-weight:600;}
-  .score-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;}
-  .score-good{background:var(--green-bg);color:var(--green);}
-  .score-mid{background:var(--amber-bg);color:var(--amber);}
-  .score-bad{background:var(--red-bg);color:var(--red);}
-  .status-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;}
+/* markets */
+.markets{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;text-align:left;width:100%;display:flex;flex-direction:column;justify-content:flex-start}
+.mcard:hover{border-color:var(--gold)}
+.mcard h3{font-family:var(--serif);margin:0;font-size:19px}
+.mcard .lead{font-size:13.5px;color:var(--muted)}
+.mcard .row{display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 6px}
+.mcard .pct{font-family:var(--serif);font-size:26px;font-weight:700}
+.meter{height:8px;background:var(--p-bg);border-radius:999px;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:999px}
+.mcard .dots{margin-top:10px}
 
-  .weak-wrap{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 26px;box-shadow:var(--shadow);}
-  .weak-row{display:grid;grid-template-columns:170px 1fr 46px;align-items:center;gap:14px;margin-bottom:13px;}
-  .weak-row:last-child{margin-bottom:0;}
-  .weak-label{font-size:13px;font-weight:600;color:var(--ink);}
-  .weak-track{height:16px;background:var(--parchment-2);border-radius:3px;overflow:hidden;border:1px solid var(--line);}
-  .weak-fill{height:100%;border-radius:2px 0 0 2px;}
-  .weak-count{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;text-align:right;color:var(--ink);}
-  .empty-note{color:var(--muted);padding:30px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);}
+/* trend */
+.trend svg{width:100%;height:auto;display:block}
+.two{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px}
+.att li{padding:8px 0;border-bottom:1px solid var(--line);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.att ul{margin:0;padding:0}
+.att li:last-child{border-bottom:0}
+.tag{font-size:13px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.t-g{background:var(--g-bg);color:var(--g)} .t-a{background:var(--a-bg);color:#8E5F0F} .t-r{background:var(--r-bg);color:var(--r)} .t-p{background:var(--p-bg);color:var(--muted)}
 
-  .reassess-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-  .r-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px 16px;box-shadow:var(--shadow);border-left:4px solid var(--red);cursor:pointer;transition:.15s;}
-  .r-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px -6px rgba(27,36,48,.25);}
-  .r-card.mid{border-left-color:var(--amber);}
-  .r-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
-  .r-name{font-weight:700;font-size:14px;color:var(--ink);}
-  .r-role{font-size:11px;color:var(--muted);}
-  .r-score{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--red);}
-  .r-score.mid{color:var(--amber);}
-  .r-loc{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
-  .r-loc b{color:var(--ink);}
-  .r-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:8px;margin-top:2px;}
-  .r-foot span{font-size:10px;color:var(--muted);}
-  .r-track-row{display:flex;justify-content:space-between;gap:8px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:10.5px;}
-  .r-track-item{flex:1;}
-  .r-track-item .tk-label{color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-size:9px;margin-bottom:2px;}
-  .r-track-item input{width:100%;border:1px solid var(--line);border-radius:5px;padding:4px 6px;font-size:11px;font-family:'Inter',sans-serif;background:var(--parchment-2);color:var(--ink);}
-  .r-track-item input:focus{outline:none;border-color:var(--brass);background:#fff;}
-  .r-track-item input[type="number"]{width:60px;}
-  .r-track-item input.improved{color:var(--green);font-weight:700;}
-  .r-track-item input.still-low{color:var(--red);font-weight:700;}
-  .r-hint{font-size:10px;color:var(--brass);margin-top:8px;text-align:center;}
-  .save-toast{
-    position:fixed;bottom:20px;right:20px;background:var(--ink);color:var(--parchment);
-    padding:9px 16px;border-radius:8px;font-size:12px;font-weight:600;box-shadow:var(--shadow);
-    z-index:200;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;
-  }
-  .save-toast.show{opacity:1;transform:translateY(0);}
+/* store list */
+.ctrls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.ctrls input[type=search],.ctrls select{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 10px}
+.ctrls input[type=search]{flex:1;min-width:180px}
+.slist{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.shead,.srow{display:grid;grid-template-columns:minmax(170px,1.6fr) minmax(120px,1.4fr) 90px 90px 90px 90px 28px;gap:12px;align-items:center;padding:12px 16px}
+.shead{background:#FAF8F3;font-size:13.5px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+.srow{border-bottom:1px solid var(--line);cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left}
+.srow:hover{background:#FCFBF8}
+.sname{font-weight:700}
+.sarea{font-size:13.5px;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums;font-weight:600}
+.pill{display:inline-block;min-width:54px;text-align:center;font-weight:700;padding:3px 8px;border-radius:8px}
+.chev{transition:transform .15s;color:var(--muted)}
+.srow[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.sdetail{display:none;padding:4px 16px 16px;background:#FCFBF8;border-bottom:1px solid var(--line)}
+.sdetail.on{display:block}
+.mix{display:flex;gap:16px;flex-wrap:wrap;font-size:14.5px;margin:6px 0 10px}
+.mini{display:grid;gap:6px}
+.mini .p{display:flex;justify-content:space-between;gap:8px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left;width:100%}
+.detail-col{display:none}
+.detailed .detail-col{display:block}
+.detailed .shead,.detailed .srow{grid-template-columns:minmax(170px,1.6fr) minmax(120px,1.4fr) 90px 90px 90px 90px 70px 70px 70px 28px}
+.muted{color:var(--muted)}
+.empty{padding:26px;text-align:center;color:var(--muted)}
 
-  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(27,36,48,.55);z-index:100;align-items:center;justify-content:center;padding:20px;}
-  .modal-overlay.open{display:flex;}
-  .modal-box{background:var(--parchment);border-radius:12px;max-width:600px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px -10px rgba(0,0,0,.4);position:relative;}
-  .modal-head{background:var(--ink);color:var(--parchment);padding:22px 26px;border-radius:12px 12px 0 0;position:sticky;top:0;z-index:2;}
-  .modal-close{position:absolute;top:16px;right:18px;background:none;border:none;color:var(--parchment);font-size:22px;cursor:pointer;line-height:1;opacity:.7;}
-  .modal-close:hover{opacity:1;}
-  .modal-name{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;text-transform:uppercase;}
-  .modal-sub{font-size:12px;color:#B8B0A0;margin-top:4px;}
-  .modal-score-row{display:flex;align-items:baseline;gap:12px;margin-top:10px;}
-  .modal-score{font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;}
-  .modal-body{padding:22px 26px 26px;}
-  .modal-section-title{font-family:'Oswald',sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);}
-  .qbar-row{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:10px;margin-bottom:8px;}
-  .qbar-label{font-size:12.5px;font-weight:600;}
-  .qbar-track{height:12px;background:var(--parchment-2);border-radius:3px;overflow:hidden;border:1px solid var(--line);display:flex;gap:1px;}
-  .qbar-seg{flex:1;background:var(--parchment-2);}
-  .qbar-seg.filled{background:var(--brass);}
-  .qbar-seg.filled.weak{background:var(--red);}
-  .qbar-val{font-family:'JetBrains Mono',monospace;font-size:11.5px;text-align:right;color:var(--muted);}
-  .weak-tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 22px;}
-  .weak-tag{background:var(--red-bg);color:var(--red);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.02em;}
-  .grow-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
-  .grow-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:13px 14px;}
-  .grow-card .g-label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--brass);font-weight:700;margin-bottom:6px;}
-  .grow-card .g-text{font-size:12.5px;line-height:1.55;color:var(--ink);}
-  .grow-card.empty .g-text{color:var(--muted);font-style:italic;}
+/* coaching */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 13px;cursor:pointer;font-weight:600;font-size:14.5px}
+.chip[aria-pressed="true"]{background:var(--char);color:#fff;border-color:var(--char)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.ccard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;border-left:5px solid var(--a)}
+.ccard.dev{border-left-color:var(--r)}
+.ccard .who{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.ccard .nm{font-weight:700;font-size:17px;text-transform:capitalize}
+.ccard .meta{font-size:13.5px;color:var(--muted)}
+.score{font-family:var(--serif);font-size:26px;font-weight:700;line-height:1}
+.skillstrip{display:grid;grid-template-columns:repeat(9,1fr);gap:3px}
+.skillstrip i{height:8px;border-radius:2px;background:var(--g)}
+.skillstrip i.s2{background:var(--a)} .skillstrip i.s1,.skillstrip i.s0{background:var(--r)}
+.focus{font-size:14px}
+.btn{border:1px solid var(--char);background:var(--char);color:#fff;border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:600}
+.btn.ghost{background:#fff;color:var(--char)}
+.follow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:14px;border-top:1px dashed var(--line);padding-top:8px}
+.follow input{border:1px solid var(--line);border-radius:6px;padding:4px 6px;background:#fff}
+.follow input[type=number]{width:64px}
+.prog{font-weight:700}
 
-  footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.6;}
+/* skills */
+.skrow{display:grid;grid-template-columns:170px minmax(0,1fr) 60px 70px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.skrow:last-child{border-bottom:0}
+.skbar{height:14px;background:var(--p-bg);border-radius:4px;position:relative;overflow:hidden}
+.skbar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--gold)}
+.skbar b{position:absolute;left:0;top:0;bottom:0;border-right:2px solid var(--char);opacity:.55}
+.sktip{font-size:14px;color:var(--muted)}
 
-  @media(max-width:800px){
-    .kpi-row{grid-template-columns:repeat(2,1fr);}
-    .reassess-grid{grid-template-columns:1fr;}
-    .grow-grid{grid-template-columns:1fr;}
-  }
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(30,28,26,.55);display:none;align-items:flex-start;justify-content:center;z-index:50;overflow-y:auto;padding:30px 14px}
+.ov.on{display:flex}
+.modal{background:#fff;border-radius:14px;max-width:640px;width:100%;padding:22px;position:relative}
+.modal h3{font-family:var(--serif);font-size:24px;margin:0;text-transform:capitalize}
+.x{position:absolute;right:14px;top:12px;border:0;background:var(--p-bg);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px}
+.brk{display:grid;grid-template-columns:150px 1fr 40px;gap:10px;align-items:center;margin:6px 0;font-size:14.5px}
+.segs{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.segs i{height:12px;border-radius:3px;background:var(--p-bg)}
+.segs i.f{background:var(--g)} .segs.w i.f{background:var(--r)} .segs.m i.f{background:var(--a)}
+.grow{display:grid;gap:10px;margin-top:14px}
+.grow div{background:#FAF8F3;border-radius:8px;padding:10px 12px}
+.grow b{display:block;font-family:var(--serif);margin-bottom:2px}
+.grow p{margin:0;white-space:pre-line;font-size:14.5px}
+
+footer{border-top:1px solid var(--line);padding:20px 0 30px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer b{color:var(--char)}
+.team{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:14.5px}
+.team th{background:#FAF8F3;text-align:left;font-weight:600;color:var(--muted);padding:8px 10px;font-size:13px}
+.team td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+.team tr.clk{cursor:pointer}.team tr.clk:hover td{background:#FCFBF8}
+.team .nm2{font-weight:700;text-transform:capitalize}
+.dhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.btn.gold{background:var(--gold);border-color:var(--gold)}
+.btn[disabled]{opacity:.5;cursor:default}
+.rec{width:100%;border-collapse:collapse;margin-top:6px;font-size:14.5px}
+.rec th{text-align:left;font-size:13px;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+.rec td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.rec .sc{font-weight:700;white-space:nowrap}
+.facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px 16px;margin:12px 0;font-size:14.5px}
+.facts span{display:block;font-size:12.5px;color:var(--muted)}
+@media (max-width:760px){.team .hide-m{display:none}}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--char);color:#fff;padding:8px 16px;border-radius:8px;display:none;z-index:60}
+
+@media (max-width:980px){
+  .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hero,.two{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .shead{display:none}
+  .srow,.detailed .srow{grid-template-columns:1fr auto auto;grid-template-areas:"n c s" "d d d" "m m m";row-gap:8px}
+  .srow>.c-name{grid-area:n}.srow>.c-dots{grid-area:d}.srow>.c-cov{grid-area:c}.srow>.c-score{grid-area:s}
+  .srow>.c-mom{grid-area:m;display:flex;gap:8px}
+  .srow>.c-pend,.srow>.detail-col,.srow>.chev{display:none!important}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .skrow{grid-template-columns:120px minmax(0,1fr) 44px}
+  .skrow .mom-col{display:none}
+  .brk{grid-template-columns:120px 1fr 34px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.bar,.market-row,.picks{display:none}.panel{display:block!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="masthead">
+<header class="top">
+  <div class="wrap">
     <div>
-      <div class="eyebrow">Charles &amp; Keith · Gulf Retail</div>
-      <h1>MCC Coaching Compliance</h1>
+      <div class="brand">Charles &amp; Keith &nbsp;|&nbsp; GCC Retail Learning &amp; Development</div>
+      <h1 id="title">MCC Coaching Dashboard</h1>
+      <div class="sub" id="subline"></div>
+      <span class="credit">Created by Nainsi Srivasatava</span>
+      <span class="live" id="live"><i></i><span id="liveTxt">Loading live data…</span></span>
+      <button class="refresh" id="btnRefresh" type="button">Refresh</button>
     </div>
-    <div class="masthead-right">
-      <div class="scope-tag">📍 Kuwait view only</div><br>
-      Assessment Month: Aug 2026<br>
-      Confirmed with store ops through Aug 27, 2026
-    </div>
-  </div>
-
-  <div class="nav" id="navBar">
-    <button class="nav-btn active" data-page="detail">Store Detail</button>
-    <button class="nav-btn" data-page="reassess">Reassessment <span class="count" id="navReassessCount"></span></button>
-    <button class="nav-btn" data-page="weak">Weak Areas</button>
-  </div>
-
-  <div class="page active" id="page-detail">
-    <div id="confirmBanner"></div>
-    <div class="kpi-row" id="kpiRow"></div>
-    <div class="section">
-      <div class="section-head">
-        <h2>Store-by-Store Breakdown</h2>
-        <div class="section-note" id="storeNote"></div>
-      </div>
-      <table id="storeTable">
-        <thead>
-          <tr>
-            <th>Area</th><th>Store</th>
-            <th style="text-align:right">Eligible</th><th style="text-align:right">Received</th>
-            <th style="text-align:right">Pending</th><th style="text-align:right">Coverage</th>
-            <th style="text-align:right">Avg Score</th><th style="text-align:right">Competent</th>
-            <th style="text-align:right">Coaching</th><th style="text-align:right">Dev. Req.</th>
-          </tr>
-        </thead>
-        <tbody id="storeBody"></tbody>
-      </table>
+    <div class="picks">
+      <div class="pick"><label for="selMonth">Month</label><select id="selMonth"></select></div>
+      <div class="pick"><label for="selCompare">Compare with</label><select id="selCompare"></select></div>
     </div>
   </div>
+</header>
+<div class="market-row" id="marketRow"><div class="wrap" id="marketChips"></div></div>
 
-  <div class="page" id="page-reassess">
-    <div class="section-head">
-      <h2>Reassessment Required — Score Below 80%</h2>
-      <div class="section-note" id="reassessNote"></div>
+<div class="bar">
+  <div class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="overview">Overview</button>
+      <button class="tab" role="tab" data-tab="stores">Stores</button>
+      <button class="tab" role="tab" data-tab="coaching">Coaching list <span class="n" id="nCoach">0</span></button>
+      <button class="tab" role="tab" data-tab="skills">Skill gaps</button>
     </div>
-    <div class="reassess-grid" id="reassessGrid"></div>
-  </div>
-  <div class="save-toast" id="saveToast">✓ Saved</div>
-
-  <div class="page" id="page-weak">
-    <div class="section-head">
-      <h2>Weak Competency Areas</h2>
-      <div class="section-note">Frequency each competency was flagged below full marks.</div>
-    </div>
-    <div id="weakWrap"></div>
-  </div>
-
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal-box">
-      <div class="modal-head">
-        <button class="modal-close" id="modalClose">✕</button>
-        <div class="modal-name" id="modalName"></div>
-        <div class="modal-sub" id="modalSub"></div>
-        <div class="modal-score-row">
-          <div class="modal-score" id="modalScore"></div>
-          <div class="status-pill" id="modalStatus"></div>
-        </div>
-        <div style="display:flex;gap:24px;margin-top:12px;font-size:11.5px;color:#B8B0A0;">
-          <div>Reassessment Date: <b style="color:var(--parchment)" id="modalReassessDate"></b></div>
-          <div>New Score: <b style="color:var(--parchment)" id="modalNewScore"></b></div>
-        </div>
-      </div>
-      <div class="modal-body">
-        <div class="modal-section-title">Competency Breakdown (out of 3 per area)</div>
-        <div id="modalQbars"></div>
-        <div id="modalWeakTags" class="weak-tags"></div>
-        <div class="modal-section-title">GROW Coaching Plan</div>
-        <div class="grow-grid" id="modalGrow"></div>
-      </div>
+    <div class="toggles">
+      <label class="sw"><input type="checkbox" id="tgMom" checked><span class="t"></span>Month-on-month</label>
+      <label class="sw"><input type="checkbox" id="tgDetail"><span class="t"></span>Full details</label>
+      <label class="sw"><input type="checkbox" id="tgGuide"><span class="t"></span>How to read</label>
     </div>
   </div>
-
-  <footer id="footerNote"></footer>
 </div>
 
+<main>
+<div class="wrap" id="root">
+
+  <div class="guide" id="guide">
+    <h3>How to read this dashboard</h3>
+    <ul>
+      <li><b>Each dot is one staff member</b> who should have an MCC this month. <span class="dot d-c" style="display:inline-block;vertical-align:middle"></span> Competent, <span class="dot d-n" style="display:inline-block;vertical-align:middle"></span> Needs coaching, <span class="dot d-d" style="display:inline-block;vertical-align:middle"></span> Development required (the status given on the MCC form), <span class="dot d-p" style="display:inline-block;vertical-align:middle"></span> not yet assessed.</li>
+      <li><b>Coverage</b> is how many eligible staff have been assessed. Target is 100% every month.</li>
+      <li><b>Average score</b> is the store's MCC average. Green 85%+, amber 70–84%, red below 70%.</li>
+      <li><b>Month-on-month</b> chips show the change versus the month you pick in "Compare with". Green means better, red means it dropped.</li>
+      <li>Staff under 3 months' tenure, staff on leave and the store leader are not eligible, so they don't appear.</li>
+      <li>Anyone below 80% is on the <b>Coaching list</b> and needs a GROW plan and a reassessment.</li>
+      <li>Tap a store, then a name, to see the assessor, every remark and the GROW plan. Use the gold buttons to download records as PDF.</li>
+    </ul>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="panel" id="p-overview">
+    <div class="hero box">
+      <div>
+        <p class="hero-statement" id="heroText"></p>
+        <div class="hero-note" id="heroNote"></div>
+      </div>
+      <div>
+        <div class="dots lg" id="heroDots"></div>
+        <div class="legend">
+          <span><i class="dot d-c"></i>Competent</span><span><i class="dot d-n"></i>Needs coaching</span>
+          <span><i class="dot d-d"></i>Development required</span><span><i class="dot d-p"></i>Not assessed yet</span>
+        </div>
+      </div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+
+    <div id="marketsWrap">
+      <h2>By market</h2>
+      <p class="lede">Tap a market to open its stores.</p>
+      <div class="markets" id="markets"></div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h2>Month-on-month trend</h2>
+        <p class="lede" id="trendLede"></p>
+        <div class="box trend" id="trend"></div>
+      </div>
+      <div>
+        <h2>Needs attention</h2>
+        <p class="lede">Stores to follow up first this month.</p>
+        <div class="box att" id="attention"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORES -->
+  <section class="panel" id="p-stores">
+    <h2>Store by store</h2>
+    <p class="lede">Tap a store to see its staff mix and who needs coaching.</p>
+    <div class="ctrls">
+      <input type="search" id="q" placeholder="Search store or city">
+      <select id="fArea" aria-label="City"></select>
+      <select id="fSort" aria-label="Sort">
+        <option value="action">Sort: action needed first</option>
+        <option value="score">Sort: lowest score first</option>
+        <option value="scoreHi">Sort: highest score first</option>
+        <option value="cov">Sort: lowest coverage first</option>
+        <option value="name">Sort: A to Z</option>
+      </select>
+      <label class="sw"><input type="checkbox" id="tgAction"><span class="t"></span>Action needed only</label>
+      <button class="btn gold" type="button" id="pdfAll">Download all staff records (PDF)</button>
+    </div>
+    <div class="slist" id="slist"></div>
+  </section>
+
+  <!-- COACHING -->
+  <section class="panel" id="p-coaching">
+    <h2>Coaching list: staff below 80%</h2>
+    <p class="lede">Every person here needs a GROW plan and a reassessment. Record the reassessment date and new score on the card (saved on this device).</p>
+    <div class="ctrls">
+      <div class="chips" id="cStatus"></div>
+      <select id="cStore" aria-label="Store"></select>
+      <input type="search" id="cq" placeholder="Search name">
+      <button class="btn gold" type="button" id="pdfCoach">Download coaching list (PDF)</button>
+    </div>
+    <div class="cgrid" id="cgrid"></div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="panel" id="p-skills">
+    <h2>Where the team loses marks</h2>
+    <p class="lede" id="skLede"></p>
+    <div class="box" id="skills"></div>
+    <h2>What to do about it</h2>
+    <div class="box" id="skTips"></div>
+  </section>
+</div>
+</main>
+
+<footer><div class="wrap">
+  <span>Charles &amp; Keith GCC &nbsp;|&nbsp; MCC Coaching Dashboard &nbsp;|&nbsp; Data as of <span id="asof"></span></span>
+  <span>Designed and created by <b>Nainsi Srivasatava</b>, Customer Experience Manager</span>
+</div></footer>
+
+<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" id="modal"></div></div>
+<div class="toast" id="toast">Saved</div>
+
+<script src="mcc-config.js"></script>
 <script>
-const COUNTRY = "Kuwait";
-const DATA = {"meta": {"country": "Kuwait", "eligible": 24, "received": 25, "pending": 0, "rate": 104.2, "confirmed": true, "note": "Confirmed by store ops: real eligible pool is 24 (Staff Master's 27 included staff <3 months tenure or on leave). All 24+ confirmed done."}, "stores": [{"Country": "Kuwait", "Store": "Gate Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 5, "AvgScore": 0.89, "Competent": 5, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 0, "OverAssessed": true, "Rate": 166.7}, {"Country": "Kuwait", "Store": "CK2 Avenue Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 4, "AvgScore": 0.85, "Competent": 3, "NeedsCoaching": 1, "DevRequired": 0, "Pending": 0, "OverAssessed": true, "Rate": 133.3}, {"Country": "Kuwait", "Store": "Alkout Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 4, "AvgScore": 0.805, "Competent": 1, "NeedsCoaching": 3, "DevRequired": 0, "Pending": 0, "OverAssessed": true, "Rate": 133.3}, {"Country": "Kuwait", "Store": "360 Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 3, "AvgScore": 0.903, "Competent": 3, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0}, {"Country": "Kuwait", "Store": "Marina Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 3, "AvgScore": 0.8230000000000001, "Competent": 1, "NeedsCoaching": 2, "DevRequired": 0, "Pending": 0, "OverAssessed": false, "Rate": 100.0}, {"Country": "Kuwait", "Store": "Assima Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 2, "AvgScore": 0.795, "Competent": 0, "NeedsCoaching": 2, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 66.7}, {"Country": "Kuwait", "Store": "Avenue Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 2, "AvgScore": 0.81, "Competent": 0, "NeedsCoaching": 2, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 66.7}, {"Country": "Kuwait", "Store": "Al Khiran Mall", "Eligible": 3, "Area": "Kuwait City", "Received": 2, "AvgScore": 0.85, "Competent": 2, "NeedsCoaching": 0, "DevRequired": 0, "Pending": 1, "OverAssessed": false, "Rate": 66.7}], "reassessment": [{"id": "Kuwait|ALKOUT MALL|VENUS QUMBAIO ALAMARIZ", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Venus Qumbaio Alamariz", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "Kuwait|ALKOUT MALL|YESHEY CHODEN", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Yeshey Choden", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}, {"id": "Kuwait|ASSIMA MALL|JONAH MARIE ALCOTIBO", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "JONAH MARIE ALCOTIBO", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 78.0, "status": "NEEDS COACHING", "reassessDate": null, "newScore": null}], "reassessDetail": {"Kuwait|ALKOUT MALL|VENUS QUMBAIO ALAMARIZ": {"breakdown": [{"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": [], "goal": "Venus is good in customer service and she can improve through consistent use of product knowledge while in the floor", "reality": "", "options": "", "willDo": ""}, "Kuwait|ALKOUT MALL|YESHEY CHODEN": {"breakdown": [{"area": "Welcome & Approach", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Customer Engagement", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": [], "goal": "Yeshey needs to boost her overall assessment score from 78% to at least 90% over the next 30 days. To get there, she needs to hit full marks on all the RTW trend and HIP and actively practice cross-selling on the sales floor.", "reality": "Yeshey currently sits at a 78% score (21/27), putting her in \"Needs Coaching\" status. While basic selling steps are solid, key gaps showed up in customer approach warmth, product presentation, and active cross-selling during closing sales.", "options": "To hit the goal, we picked three simple steps: weekly role-plays to improve cross-selling and handling customer objections, do weekly stock walkthroughs to understand storytelling, trending styles, and key product details.", "willDo": "Yeshey will start doing daily product pitches with the Store Manager, pitch a matching item during every shoe try-on or bag"}, "Kuwait|ASSIMA MALL|JONAH MARIE ALCOTIBO": {"breakdown": [{"area": "HIP", "score": 1, "max": 3}, {"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Product Interest", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": ["HIP"], "goal": "To achieve styling tip, product insights and objection handling.", "reality": "Aware of the trends but needs to review styling tips and product knowledge.", "options": "Role playing is the key to understand customer's perspective. It helps to build communication skills in a different situation. Role play can be done twice a week.", "willDo": "Keep track of goals based on the timeline"}}, "weakAreas": [{"area": "360 Activation", "count": 22}, {"area": "Trending Products", "count": 22}, {"area": "Closing Sale", "count": 15}, {"area": "HIP", "count": 14}, {"area": "Product Interest", "count": 12}, {"area": "Customer Engagement", "count": 10}, {"area": "Last Impression", "count": 4}, {"area": "Customer Needs", "count": 3}, {"area": "Welcome & Approach", "count": 3}]};
+/* =====================================================================
+   SETTINGS
+   LOCK_MARKET: null shows all GCC with a market switcher.
+                "UAE" / "Kuwait" / "Qatar" / "Oman" / "Bahrain" locks the page to one market.
+   ===================================================================== */
+const LOCK_MARKET = "Kuwait";
+const AREA_LEADS = {UAE:"Harshit", Kuwait:"Nawas", Qatar:"Zaineb", Oman:"Amarpreet", Bahrain:"Saurabh"};
 
-function scoreClass(pct){ if(pct>=85) return 'score-good'; if(pct>=70) return 'score-mid'; return 'score-bad'; }
-function coverageClass(rate, received){
-  if(received===0) return 'score-bad';
-  if(rate>=90) return 'score-good';
-  if(rate>=50) return 'score-mid';
-  return 'score-bad';
+/* =====================================================================
+   MONTHLY DATA
+   To add a new month: copy the Aug 2026 block, change key/label/asOf,
+   and replace stores / staff / grow / weakAreas with the new month's numbers.
+   Keep store names identical so month-on-month matching works.
+   ===================================================================== */
+/* =====================================================================
+   LIVE DATA: paste the Apps Script web app URL (ends in /exec) below.
+   Leave empty to show only the built-in snapshot.
+   ===================================================================== */
+const DATA_URL = (window.MCC_DATA_URL || "").trim();   // set in mcc-config.js
+const REFRESH_MINUTES = 5;
+
+let MONTHS = [{"key": "2026-08", "label": "Aug 2026", "asOf": "27 Aug 2026, 17:53", "data": {"countries": [{"country": "Kuwait", "note": ""}], "stores": [{"Country": "Kuwait", "Area": "Kuwait City", "Store": "360 Mall", "Eligible": 3, "Received": 3, "Competent": 3, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.914}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Al Khiran Mall", "Eligible": 3, "Received": 2, "Competent": 2, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.852}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Alkout Mall", "Eligible": 3, "Received": 4, "Competent": 1, "NeedsCoaching": 3, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.806}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Assima Mall", "Eligible": 3, "Received": 2, "Competent": 0, "NeedsCoaching": 2, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.796}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Avenue Mall", "Eligible": 3, "Received": 2, "Competent": 0, "NeedsCoaching": 2, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.815}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "CK2 Avenue Mall", "Eligible": 3, "Received": 4, "Competent": 3, "NeedsCoaching": 1, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.852}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Gate Mall", "Eligible": 3, "Received": 4, "Competent": 4, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.88}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Marina Mall", "Eligible": 3, "Received": 3, "Competent": 1, "NeedsCoaching": 2, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.827}], "weakAreas": [{"area": "360 Activation", "count": 19}, {"area": "Trending Products", "count": 19}, {"area": "Closing Sale", "count": 15}, {"area": "HIP", "count": 12}, {"area": "Product Interest", "count": 10}, {"area": "Customer Engagement", "count": 9}, {"area": "Last Impression", "count": 4}, {"area": "Welcome & Approach", "count": 3}, {"area": "Customer Needs", "count": 3}], "staff": [{"id": "KUWAIT|ALKOUT MALL|VENUS QUMBAIO ALAMARIZ", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Venus Qumbaio Alamariz", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78, "status": "NEEDS COACHING"}, {"id": "KUWAIT|ALKOUT MALL|YESHEY CHODEN", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Yeshey Choden", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78, "status": "NEEDS COACHING"}, {"id": "KUWAIT|ASSIMA MALL|JONAH MARIE ALCOTIBO", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "JONAH MARIE ALCOTIBO", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 78, "status": "NEEDS COACHING"}], "grow": {"KUWAIT|ALKOUT MALL|VENUS QUMBAIO ALAMARIZ": {"breakdown": [{"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": [], "goal": "Venus is good in customer service and she can improve through consistent use of product knowledge while in the floor", "reality": "", "options": "", "willDo": ""}, "KUWAIT|ALKOUT MALL|YESHEY CHODEN": {"breakdown": [{"area": "Welcome & Approach", "score": 2, "max": 3}, {"area": "Product Interest", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "HIP", "score": 2, "max": 3}, {"area": "Customer Engagement", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": [], "goal": "Yeshey needs to boost her overall assessment score from 78% to at least 90% over the next 30 days. To get there, she needs to hit full marks on all the RTW trend and HIP and actively practice cross-selling on the sales floor.", "reality": "Yeshey currently sits at a 78% score (21/27), putting her in \"Needs Coaching\" status. While basic selling steps are solid, key gaps showed up in customer approach warmth, product presentation, and active cross-selling during closing sales.", "options": "To hit the goal, we picked three simple steps: weekly role-plays to improve cross-selling and handling customer objections, do weekly stock walkthroughs to understand storytelling, trending styles, and key product details.", "willDo": "Yeshey will start doing daily product pitches with the Store Manager, pitch a matching item during every shoe try-on or bag"}, "KUWAIT|ASSIMA MALL|JONAH MARIE ALCOTIBO": {"breakdown": [{"area": "HIP", "score": 1, "max": 3}, {"area": "Customer Engagement", "score": 2, "max": 3}, {"area": "Closing Sale", "score": 2, "max": 3}, {"area": "360 Activation", "score": 2, "max": 3}, {"area": "Trending Products", "score": 2, "max": 3}, {"area": "Welcome & Approach", "score": 3, "max": 3}, {"area": "Product Interest", "score": 3, "max": 3}, {"area": "Customer Needs", "score": 3, "max": 3}, {"area": "Last Impression", "score": 3, "max": 3}], "weakest": ["HIP"], "goal": "To achieve styling tip, product insights and objection handling.", "reality": "Aware of the trends but needs to review styling tips and product knowledge.", "options": "Role playing is the key to understand customer's perspective. It helps to build communication skills in a different situation. Role play can be done twice a week.", "willDo": "Keep track of goals based on the timeline"}}, "team": [{"id": "KUWAIT|360 MALL|ANGEL RABAYA", "sid": "MCC-20260819-112630", "country": "Kuwait", "area": "Kuwait City", "store": "360 Mall", "advisor": "Angel Rabaya", "role": "Sales Associate", "assessedBy": "Hussein Ajami", "score": 93, "status": "COMPETENT", "submitted": "19 Aug 2026", "obs": "6 Aug, 13 Aug, 18 Aug", "q": [["Welcome & Approach", 3, "need to smile for all customers"], ["Customer Engagement", 3, "she's active leading the conversation"], ["Product Interest", 3, "well done"], ["Customer Needs", 3, "she's doing them properly"], ["Closing Sale", 3, "need to be more proactively in cross selling"], ["Last Impression", 3, "doing all of them properly"], ["360 Activation", 2, "to conduct training for development"], ["Trending Products", 2, "need to engage with styling tips and to conduct training for development"], ["HIP", 3, "well done"]], "goal": "HIP Training and Styling tips", "reality": "shes will willing to learn", "options": "training materials", "willDo": "conduct training and guidance before the end of August", "attempts": 3}, {"id": "KUWAIT|360 MALL|CATHERINE RAMOS", "sid": "MCC-20260818-225949", "country": "Kuwait", "area": "Kuwait City", "store": "360 Mall", "advisor": "Catherine Ramos", "role": "Sales Associate", "assessedBy": "Hussein Ajami", "score": 93, "status": "COMPETENT", "submitted": "18 Aug 2026", "obs": "10 Jul, 21 Jul, 31 Jul", "q": [["Welcome & Approach", 3, "need to smile for all customers"], ["Customer Engagement", 3, "she's active leading the conversation while some customers are putting limits"], ["Product Interest", 3, "well done"], ["Customer Needs", 3, "she's doing them properly"], ["Closing Sale", 3, "need to be more proactively in cross selling"], ["Last Impression", 3, "doing all of them properly"], ["360 Activation", 2, "to conduct training for development"], ["Trending Products", 2, "need to engage with styling tips and to conduct training for development"], ["HIP", 3, "well done"]], "goal": "HIP Training and Styling tips", "reality": "shes will willing to learn", "options": "training materials", "willDo": "conduct training and guidance before the end of August", "attempts": 1}, {"id": "KUWAIT|360 MALL|PASSANG CHODEN", "sid": "MCC-20260819-113722", "country": "Kuwait", "area": "Kuwait City", "store": "360 Mall", "advisor": "Passang Choden", "role": "Sales Associate", "assessedBy": "Hussein Ajami", "score": 89, "status": "COMPETENT", "submitted": "19 Aug 2026", "obs": "6 Aug, 13 Aug, 18 Aug", "q": [["Welcome & Approach", 3, "need to smile for all customers"], ["Customer Engagement", 3, "she's active leading the conversation"], ["Product Interest", 3, "well done"], ["Customer Needs", 3, "she's doing them properly"], ["Closing Sale", 2, "need to be more proactively in cross selling and closing sale technique"], ["Last Impression", 3, "doing all of them properly"], ["360 Activation", 2, "to conduct product knowledge training"], ["Trending Products", 2, "need to engage with styling tips and to conduct training for development"], ["HIP", 3, "well done"]], "goal": "HIP Training and Styling tips and training for objection handling technique", "reality": "she's willing to learn", "options": "training materials", "willDo": "conduct training and guidance before the end of September", "attempts": 1}, {"id": "KUWAIT|AL KHIRAN MALL|REYNALDO JR ROVIRA - 172214", "sid": "MCC-20260821-172357", "country": "Kuwait", "area": "Kuwait City", "store": "Al Khiran Mall", "advisor": "Reynaldo JR Rovira - 172214", "role": "Customer Service Associate", "assessedBy": "Bipin Kandel", "score": 85, "status": "COMPETENT", "submitted": "21 Aug 2026", "obs": "8 Aug, 15 Aug, 21 Aug", "q": [["Welcome & Approach", 3, "Good Job!"], ["Customer Engagement", 2, "Need to follow Unique preserve benefit"], ["Product Interest", 3, "Grate job!"], ["Customer Needs", 3, "Nice"], ["Closing Sale", 2, "Need to focus cross sale and up sale."], ["Last Impression", 3, "Good Job!"], ["360 Activation", 2, "Follow up current season fall"], ["Trending Products", 2, "Need to follow trending products in store based on the season"], ["HIP", 3, "Good job!"]], "goal": "Focus on season fall, UPB and Cross and up Sale", "reality": "Need coaching and follow GUESTS models.", "options": "Hourly tracking, Read and training C&K materials", "willDo": "coming month will better after focus and read", "attempts": 1}, {"id": "KUWAIT|AL KHIRAN MALL|TSHERING ZANGMO", "sid": "MCC-20260820-193458", "country": "Kuwait", "area": "Kuwait City", "store": "Al Khiran Mall", "advisor": "Tshering Zangmo", "role": "Customer Service Associate", "assessedBy": "Bipin Kandel", "score": 85, "status": "COMPETENT", "submitted": "20 Aug 2026", "obs": "13 Aug, 20 Aug", "q": [["Welcome & Approach", 3, "Good Job!"], ["Customer Engagement", 2, "Need to focus on Proactive leading conversation with customer."], ["Product Interest", 3, "Good Job!"], ["Customer Needs", 3, "Nice"], ["Closing Sale", 2, "Good job! need to improve on multi-sales and upselling"], ["Last Impression", 3, "Keep it up!"], ["360 Activation", 2, "Need more work here, current season,"], ["Trending Products", 2, "Need to focus on trending products in store base on current season"], ["HIP", 3, "Good job! and still focus on objection handling"]], "goal": "Focus on Summer 26 repeats, Fall 26 HIP, and FAB, with the goal of improving product knowledge.", "reality": "Follow proactive leading with customer", "options": "Confidence", "willDo": "Until next month will do better", "attempts": 1}, {"id": "KUWAIT|ALKOUT MALL|RADA WANGMO", "sid": "MCC-20260818-142952", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Rada Wangmo", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 85, "status": "COMPETENT", "submitted": "18 Aug 2026", "obs": "1 Aug, 8 Aug, 15 Aug", "q": [["Welcome & Approach", 3, "Need consistency while in the floor with every customer"], ["Customer Engagement", 3, "good job"], ["Product Interest", 2, "Practice more on the storytelling techniques"], ["Customer Needs", 3, "Good Job"], ["Closing Sale", 2, "Focus on closing techniques with confidence"], ["Last Impression", 3, "Good Job"], ["360 Activation", 2, "Practice is needed"], ["Trending Products", 2, "Practice styling tips and engagement tips"], ["HIP", 3, "Can improve with consistency with every customer"]], "goal": "By the next assessment (within 30 days), achieve a 100% competency score (27/27) by connecting product details to our 360 Activation stories, routinely offering cross-sells and up-sells during customer chats, and sharing practical styling tips for all our trending floor stock.", "reality": "Rada is performing well overall with an 85% score, showing great warmth with customers, can improve with storytelling, proactively execute cross-selling and objection handling before closing.", "options": "We talked about tackling these gaps by jumping into quick 5-minute pre-shift huddles to run through 360 Activation stories and the 3 FABs. We'll also do some quick floor role-plays to practice pairing shoes with matching bags and working through customer objections, plus review weekly best-sellers before shifts so they can confidently drop two distinct styling tips for any trending item.", "willDo": "Rada will do three 5-minute role-plays on cross-selling by next week, while sharing a 360 Activation story with five customers daily over the next month. To support this, we’ll do quick weekly check-ins on styling trending items, aiming for full competency by the next 30-day assessment.", "attempts": 1}, {"id": "KUWAIT|ALKOUT MALL|VENUS Q. ALAMARIZ", "sid": "MCC-20260818-131310", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Venus Q. Alamariz", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 81, "status": "NEEDS COACHING", "submitted": "18 Aug 2026", "obs": "1 Aug, 8 Aug, 15 Aug", "q": [["Welcome & Approach", 2, "Customer profile and approach needs more consistency"], ["Customer Engagement", 3, "Can be improved through consistent practice"], ["Product Interest", 2, "Storytelling can be improved through practice"], ["Customer Needs", 3, "Venus has demonstrated active customer's needs in mind"], ["Closing Sale", 2, "Venus can improve on up selling by educating the customer with FAB and UPB"], ["Last Impression", 3, "Venus has followed the standard keep it up"], ["360 Activation", 2, "Venus need to practice more in the new fall RTW trends"], ["Trending Products", 3, "Good job, can be improved through consistent practice on the floor"], ["HIP", 2, "Needs consistency on customer profiles and approach"]], "goal": "Increase overall competency checklist score from 81% to 90% within 30 days by demonstrating cross-selling techniques, 360 Activation product storytelling, and HIP objection handling across all floor observations.", "reality": "Venus achieved an overall score of 81% (22/27), placing them in 'NEEDS COACHING'. While customer greeting, engagement, and trend identification were strong, gaps remain in cross-selling during the closing phase, fully articulating 360 Activation stories, and overcoming objections for HIP.", "options": "We talked about practicing cross-selling on floor by showing matching bags or wallets, reviewing RTW updates to get better at telling the product story, and shadowing a senior collogues to learn how they handle customer objections for hero products.", "willDo": "Bring a complementary accessory on 100% of shoe/bag try-ons on every shift starting immediately. Practice the seasonal story, objection handling for hero products.", "attempts": 1}, {"id": "KUWAIT|ALKOUT MALL|VENUS QUMBAIO ALAMARIZ", "sid": "MCC-20260816-194427", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Venus Qumbaio Alamariz", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78, "status": "NEEDS COACHING", "submitted": "16 Aug 2026", "obs": "1 Aug, 8 Aug, 15 Aug", "q": [["Welcome & Approach", 3, "Venus follow the service standard by approaching customers with smile and friendly tone of voice"], ["Customer Engagement", 2, "Venus can practice more on FAB and UPB by practicing on the floor with every customer"], ["Product Interest", 2, "Venus can work on storytelling techniques to make the customer connection genuine"], ["Customer Needs", 3, "Venus actively kept customer's needs in mind"], ["Closing Sale", 2, "Venus can improve more in upselling techniques through product knowledge"], ["Last Impression", 3, "venus left a good last impression with the customer many time customer have approached to compliment her service"], ["360 Activation", 2, "Venus can improve through consistent practice on the floor"], ["Trending Products", 2, "Venus can improve through consistent practice on the floor"], ["HIP", 2, "Venus can work on refreshing her knowledge in customer profile and service approach"]], "goal": "Venus is good in customer service and she can improve through consistent use of product knowledge while in the floor", "reality": "", "options": "", "willDo": "", "attempts": 1}, {"id": "KUWAIT|ALKOUT MALL|YESHEY CHODEN", "sid": "MCC-20260818-184925", "country": "Kuwait", "area": "Kuwait City", "store": "Alkout Mall", "advisor": "Yeshey Choden", "role": "Sales Advisor", "assessedBy": "Jenisha Maharjan", "score": 78, "status": "NEEDS COACHING", "submitted": "18 Aug 2026", "obs": "1 Aug, 8 Aug, 15 Aug", "q": [["Welcome & Approach", 2, "Need consistency on customer approach based on the customer profile"], ["Customer Engagement", 3, "Good job"], ["Product Interest", 2, "Focus on learning the storytelling techniques"], ["Customer Needs", 3, "Good Job"], ["Closing Sale", 2, "While objection handling always try to listen and repeat what you understand to the customer to get the correct information"], ["Last Impression", 3, "Good job"], ["360 Activation", 2, "Need more practice"], ["Trending Products", 2, "need more practice"], ["HIP", 2, "While objection handling always start on a positive note then explain the customer about the benefit"]], "goal": "Yeshey needs to boost her overall assessment score from 78% to at least 90% over the next 30 days. To get there, she needs to hit full marks on all the RTW trend and HIP and actively practice cross-selling on the sales floor.", "reality": "Yeshey currently sits at a 78% score (21/27), putting her in \"Needs Coaching\" status. While basic selling steps are solid, key gaps showed up in customer approach warmth, product presentation, and active cross-selling during closing sales.", "options": "To hit the goal, we picked three simple steps: weekly role-plays to improve cross-selling and handling customer objections, do weekly stock walkthroughs to understand storytelling, trending styles, and key product details.", "willDo": "Yeshey will start doing daily product pitches with the Store Manager, pitch a matching item during every shoe try-on or bag", "attempts": 1}, {"id": "KUWAIT|ASSIMA MALL|CRISTINA MAY IGNACIO", "sid": "MCC-20260822-133044", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "CRISTINA MAY IGNACIO", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 81, "status": "NEEDS COACHING", "submitted": "22 Aug 2026", "obs": "10 Aug, 17 Aug, 21 Aug", "q": [["Welcome & Approach", 3, "Warm greetings to all the customer with a genuine smile but she needs to maintain eye contact to improve communication."], ["Customer Engagement", 3, "Needs to listen actively to gain full attention of the customer."], ["Product Interest", 3, "Give options and styling techniques to match with the outfit."], ["Customer Needs", 3, "She is being polite dealing with the customers."], ["Closing Sale", 2, "Always shows the items that will go well together or matching items to increase her sales. Always mention the AIVI club and loyalty points"], ["Last Impression", 3, "Tells the customer about the return and exchange policy at all times."], ["360 Activation", 2, "Aware of the trends however needs to improve styling tips and product knowledge"], ["Trending Products", 2, "Product knowledge on different types of materials needs to focus."], ["HIP", 1, "She knows all the regular customers and what their style."]], "goal": "To achieve better knowledge about the trends, looks and insights of seasonal products and objection handling.", "reality": "Aware of the trends but needs to review styling tips and product knowledge. Objection handling was not appropriate.", "options": "Role playing is the key to understand customer's perspective. It helps to build communication skills in a different situation. Role play can be done twice a week.", "willDo": "Keep track of goals based on the timeline.", "attempts": 1}, {"id": "KUWAIT|ASSIMA MALL|JONAH MARIE ALCOTIBO", "sid": "MCC-20260822-140824", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "JONAH MARIE ALCOTIBO", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 78, "status": "NEEDS COACHING", "submitted": "22 Aug 2026", "obs": "13 Aug, 17 Aug, 20 Aug", "q": [["Welcome & Approach", 3, "Warm greetings to all the customers. Maintain eye contact and needs to focus on responding to customer's needs."], ["Customer Engagement", 2, "She needs to learn how to respond to the customer quickly and be more attentive in customer's needs."], ["Product Interest", 3, "She always does the cross-selling to gain more sales in every transaction."], ["Customer Needs", 3, "Being polite and respectful to all the customer."], ["Closing Sale", 2, "She can handle objection and always does cross selling; however, she needs to explain the benefits of AIVI club and how to use loyalty points."], ["Last Impression", 3, "She always mentions the exchange and refund policy at all times."], ["360 Activation", 2, "Aware of the trends however needs to improve styling tips and product knowledge"], ["Trending Products", 2, "Product knowledge on different types of materials needs to focus."], ["HIP", 1, "She knows all the regular customers, however she needs to review on product insight and to practice objection handling"]], "goal": "To achieve styling tip, product insights and objection handling.", "reality": "Aware of the trends but needs to review styling tips and product knowledge.", "options": "Role playing is the key to understand customer's perspective. It helps to build communication skills in a different situation. Role play can be done twice a week.", "willDo": "Keep track of goals based on the timeline", "attempts": 1}, {"id": "KUWAIT|AVENUE MALL|LEA OCAT", "sid": "MCC-20260822-140922", "country": "Kuwait", "area": "Kuwait City", "store": "Avenue Mall", "advisor": "LEA OCAT", "role": "SALES ASSOCIATE", "assessedBy": "NAWAS", "score": 81, "status": "NEEDS COACHING", "submitted": "22 Aug 2026", "obs": "10 Aug, 14 Aug, 17 Aug", "q": [["Welcome & Approach", 3, "Well done with positive body langauge"], ["Customer Engagement", 3, "yes"], ["Product Interest", 2, "ocation based styling tips couldn't present well"], ["Customer Needs", 3, "yes, well done"], ["Closing Sale", 2, "need efforts on objection handling"], ["Last Impression", 3, "well done"], ["360 Activation", 2, "need more clarity on connection of how does product link to trends and season ,"], ["Trending Products", 2, "some of the item couldn't express the engagement tips"], ["HIP", 2, "all objections are not rejections, handling should be confidently"]], "goal": "to educate more about the product link to the trends and season also confidently objection handling", "reality": "lack of knowledge of trends and look and nervous while customers objections", "options": "5 minutes a day to practice about objection handling/role paly and weekly session for trends and look.", "willDo": "we have set a plan to overcome the challenges /timeline is set .to get better result in next MCC.", "attempts": 1}, {"id": "KUWAIT|AVENUE MALL|OSAMA", "sid": "MCC-20260824-141342", "country": "Kuwait", "area": "Kuwait City", "store": "Avenue Mall", "advisor": "OSAMA", "role": "SALES ASSOCIATE", "assessedBy": "HAIDY", "score": 81, "status": "NEEDS COACHING", "submitted": "24 Aug 2026", "obs": "6 Aug, 14 Aug, 24 Aug", "q": [["Welcome & Approach", 3, "well done"], ["Customer Engagement", 2, "need to take lead in conversation"], ["Product Interest", 2, "Need improvement in FAB"], ["Customer Needs", 3, "well done"], ["Closing Sale", 3, "well done"], ["Last Impression", 3, "well done"], ["360 Activation", 2, "need depth knowledge of material color styling, customer profile"], ["Trending Products", 1, "couldn't identify Some of the current trending products also need to express well about styling tips"], ["HIP", 3, "well done"]], "goal": "to be improved in product knowledge, trending products/leading conversation", "reality": ", Styling tips were not accurate /not fully aware of trending products and the connection", "options": "daily 10 minutes session for product knowledge /styling tips /and weekly role play for trends and look and their connection", "willDo": "yes, we are agreed to work on set plan for better result.", "attempts": 2}, {"id": "KUWAIT|CK2 AVENUE MALL|AWWAD", "sid": "MCC-20260824-133912", "country": "Kuwait", "area": "Kuwait City", "store": "CK2 Avenue Mall", "advisor": "awwad", "role": "sales associate", "assessedBy": "Nawas", "score": 81, "status": "NEEDS COACHING", "submitted": "24 Aug 2026", "obs": "7 Aug, 14 Aug, 17 Aug", "q": [["Welcome & Approach", 3, "well done"], ["Customer Engagement", 2, "need improvement in leading conversation"], ["Product Interest", 2, "need to improve in styling tips"], ["Customer Needs", 3, "well done"], ["Closing Sale", 3, "well done"], ["Last Impression", 3, "yes ,well done"], ["360 Activation", 2, "need depth knowledge of material color, styling direction, customer profile"], ["Trending Products", 2, "identified the current trending products but some styles styling tips was not proper"], ["HIP", 2, "should have proper insights of every HIP in store."]], "goal": "to better understanding of HIP insights/improvement in objection handling/and styling tips", "reality": "good in guests/ objection handling is weak /didn't explain well about the insight of HIP, also styling tips was not accuarate.", "options": "daily 10 minutes session of styling tips and HIP, AND ROLEPLAY OF OBJECTION HANDLING", "willDo": "Agree don set plan, with consistent follow up for better result", "attempts": 1}, {"id": "KUWAIT|CK2 AVENUE MALL|FARHANA", "sid": "MCC-20260824-130052", "country": "Kuwait", "area": "Kuwait City", "store": "CK2 Avenue Mall", "advisor": "Farhana", "role": "sales associate", "assessedBy": "Nawas", "score": 85, "status": "COMPETENT", "submitted": "24 Aug 2026", "obs": "3 Aug, 10 Aug, 21 Aug", "q": [["Welcome & Approach", 3, "well done"], ["Customer Engagement", 3, "well done"], ["Product Interest", 3, "yes"], ["Customer Needs", 3, "well done"], ["Closing Sale", 2, "objection handling should be appropriate and confidently"], ["Last Impression", 3, "well done"], ["360 Activation", 2, "need clarity in 360 aviation and connection through product details/material color ,styling"], ["Trending Products", 2, "couldn't elaborate proper styling tips"], ["HIP", 2, "need efforts on objection handling"]], "goal": "to better understanding of trends, styling tips objection handling", "reality": "good in GUEST, Objection handling was not confident /styling tips also need improvement .", "options": "everyday 5 minutes session for trends and styling tips and weekly role play for objection handling", "willDo": "agreed to work with set plan, for better result. with sessions and role play", "attempts": 1}, {"id": "KUWAIT|CK2 AVENUE MALL|IFTEKHAR", "sid": "MCC-20260824-144012", "country": "Kuwait", "area": "Kuwait City", "store": "CK2 Avenue Mall", "advisor": "iftekhar", "role": "sales associate", "assessedBy": "Nawas", "score": 89, "status": "COMPETENT", "submitted": "24 Aug 2026", "obs": "3 Aug, 24 Aug", "q": [["Welcome & Approach", 3, "WELL, DONE"], ["Customer Engagement", 3, "WELL DONE"], ["Product Interest", 2, "Styling tips has to improve"], ["Customer Needs", 3, "yes"], ["Closing Sale", 2, "objection handling was not appropriate"], ["Last Impression", 3, "yes"], ["360 Activation", 3, "need depth knowledge of trends /material colors styling customer profile"], ["Trending Products", 2, "stylings tips have to improve"], ["HIP", 3, "well done"]], "goal": "to be better in styling tips/product details /FAB/ color /material/connection to the trends.", "reality": "good in GUESTS, FAB was not so clear /and also trends link and product details was not as per expectations", "options": "10 minutes daily session for product details /materials and trends weekly role paly for objection handling", "willDo": "as set plan we agreed to focus on highligted area to get better results in next mcc", "attempts": 1}, {"id": "KUWAIT|CK2 AVENUE MALL|KANCHAN", "sid": "MCC-20260824-140032", "country": "Kuwait", "area": "Kuwait City", "store": "CK2 Avenue Mall", "advisor": "KANCHAN", "role": "SALES ASSOCIATE", "assessedBy": "NAWAS", "score": 85, "status": "COMPETENT", "submitted": "24 Aug 2026", "obs": "7 Aug, 14 Aug, 24 Aug", "q": [["Welcome & Approach", 3, "well done"], ["Customer Engagement", 2, "need to take lead in conversation"], ["Product Interest", 3, "well done"], ["Customer Needs", 3, "well done"], ["Closing Sale", 3, "well done"], ["Last Impression", 3, "well done"], ["360 Activation", 2, "need depth knowledge of material color styling, customer profile"], ["Trending Products", 2, "need to express well about styling tips"], ["HIP", 2, "objection handling has to confidently,"]], "goal": "To be improved, in leading conversation, styling tips and objection handling, and over all product details", "reality": "satisfactory in GUESTS, Styling tips were not accurate /objection handling was not conifident", "options": "daily 10 minutes session for product knowledge /styling tips /and weekly role play for objection handling.", "willDo": "yes, agreed to work on set plan for better result.", "attempts": 1}, {"id": "KUWAIT|GATE MALL|AYAT MAHMOOD", "sid": "MCC-20260827-175351-3087", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "Ayat Mahmood", "role": "Sales aaacioate", "assessedBy": "Mohit kumar", "score": 89, "status": "COMPETENT", "submitted": "27 Aug 2026", "obs": "27 Aug", "q": [["Welcome & Approach", 3, "The advisor greeted the customer with a friendly smile and welcoming body language. The approach was positive and suitable to the customer type, creating a comfortable first impression."], ["Customer Engagement", 3, "She asking appropriate open-ended questions and understanding their preferences"], ["Product Interest", 3, "Yes did"], ["Customer Needs", 2, "Excellent doing job"], ["Closing Sale", 2, "Need to more work on criss selling"], ["Last Impression", 2, "Need to each customer share return policy to custlmer"], ["360 Activation", 3, "Yes she always learn new product meterial and color"], ["Trending Products", 3, "Yes she doing"], ["HIP", 3, "Yes she follow up"]], "goal": "Improve", "reality": "Observatioj", "options": "Action", "willDo": "Agreed", "attempts": 1}, {"id": "KUWAIT|GATE MALL|CATHY", "sid": "MCC-20260814-185829", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "CATHY", "role": "sales Associate", "assessedBy": "MOHIT KUMAR", "score": 85, "status": "COMPETENT", "submitted": "14 Aug 2026", "obs": "14 Aug", "q": [["Welcome & Approach", 3, "Excellent performance,"], ["Customer Engagement", 3, "she able to with customer friendly and conversation"], ["Product Interest", 2, "she always highlighting the LATEST STYLING TIOPS"], ["Customer Needs", 2, "she always when try customer show same time offer the bag or wallet"], ["Closing Sale", 2, "she is doing cross selling"], ["Last Impression", 2, "She always follow compant standard"], ["360 Activation", 3, "when we received new collection, she discusses with color and material with team and sharing with same tips with customer"], ["Trending Products", 3, "She always aware new trending products"], ["HIP", 3, "which best seller always coming repeat style she keeps customer contact and call to her"]], "goal": "overall is good just only Recommended on based customer needs", "reality": "", "options": "", "willDo": "", "attempts": 2}, {"id": "KUWAIT|GATE MALL|HAHINI", "sid": "MCC-20260816-175157", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "Hahini", "role": "sale associate", "assessedBy": "MOHIT KUMAR", "score": 85, "status": "COMPETENT", "submitted": "16 Aug 2026", "obs": "16 Aug", "q": [["Welcome & Approach", 3, "All is good"], ["Customer Engagement", 2, "Need to ask customer requirement"], ["Product Interest", 2, "Need to know matching bag with shoes"], ["Customer Needs", 3, "Good job"], ["Closing Sale", 2, "doing good"], ["Last Impression", 2, "need to inform customer return policy"], ["360 Activation", 3, "when she receives new collection first study for those items"], ["Trending Products", 3, "good JOb"], ["HIP", 3, "good job"]], "goal": "overall is ok some point need to improve", "reality": "", "options": "", "willDo": "", "attempts": 1}, {"id": "KUWAIT|GATE MALL|MARIA", "sid": "MCC-20260814-183910", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "Maria", "role": "sales Associate", "assessedBy": "MOHIT KUMAR", "score": 93, "status": "COMPETENT", "submitted": "14 Aug 2026", "obs": "14 Aug", "q": [["Welcome & Approach", 3, "Excellent performance, keep maintaining this positive customer engagement"], ["Customer Engagement", 3, "she able to with customer friendly and conversation"], ["Product Interest", 3, "she always highlighting the product key"], ["Customer Needs", 2, "she always when try customer show same time offer the bag or wallet"], ["Closing Sale", 3, "she is doing cross selling and always focus on up sold"], ["Last Impression", 2, "she always shared with customer company return policy"], ["360 Activation", 3, "when we received new collection she discusses with color and material"], ["Trending Products", 3, "She always aware new trending products"], ["HIP", 3, "she able to increase customer interst in the hip product"]], "goal": "overall is good just only focus on displaying during customer payment before customer completing the tranction", "reality": "", "options": "", "willDo": "", "attempts": 1}, {"id": "KUWAIT|MARINA MALL|GERANEL OGSOC", "sid": "MCC-20260819-144725", "country": "Kuwait", "area": "Kuwait City", "store": "Marina Mall", "advisor": "GERANEL OGSOC", "role": "SALES ASSOCIATE", "assessedBy": "VHELJOHN LANUZA", "score": 81, "status": "NEEDS COACHING", "submitted": "19 Aug 2026", "obs": "8 Aug, 13 Aug, 17 Aug", "q": [["Welcome & Approach", 3, "Good effort on welcoming customers, with lively tone and body language."], ["Customer Engagement", 2, "Needs to lead a conversation with customers, don't wait for them, you should be the one to start the communication. Asking questions helps to understand the needs of each customer."], ["Product Interest", 3, "Great effort on sharing tips and styles to the customers. Sharing the FABs of the items helps the customers understand what we have that fulfill what they are looking for."], ["Customer Needs", 3, "Keeping customers in mind makes them feel valued, great job on making sure the customer are well taken care of and that is the start of customer loyalty."], ["Closing Sale", 3, "good closing sales technique, trying to cross and upsell every time there is an opportunity is a way to achieve goos sales and good relationship with customers."], ["Last Impression", 3, "Always keeping in mind to inform customers about policies and services that we offer even after sales."], ["360 Activation", 2, "Being aware of the products we offer specially the trends is a good way to good sales. Good effort, but still there are areas to improve."], ["Trending Products", 2, "She has an idea on trends but needs the proper way to use it on styling tips and engaging with customer inquiries about styles that match any items the customer shows."], ["HIP", 1, "She showed how to handle product or service objections. She remained calm and try to have the perfect timing to answer customer questions without creating any unnecessary reactions from both sides."]], "goal": "81% achieved not bad but still can improve. 85%-90% is the goal until next MCC. She understands the goals and willing to learn new ideas.", "reality": "Confidence can be achieved by anyone, just need preparations, belief in yourself and skills that are mastered through experience. She has it just needs to believe in it.", "options": "To achieve the goals, she needs to learn the importance of product knowledge, trending and styling. Once she became confident then it will show the outcome that it is possible to each.", "willDo": "Agreed to learn more on trends, styling, product knowledge and to have the confidence to answer customer needs without looking for others opinion.", "attempts": 1}, {"id": "KUWAIT|MARINA MALL|REYNALYN SANTILLAN", "sid": "MCC-20260818-233730", "country": "Kuwait", "area": "Kuwait City", "store": "Marina Mall", "advisor": "REYNALYN SANTILLAN", "role": "SALES ASSOCIATE", "assessedBy": "VEHLJOHN LANUZA", "score": 85, "status": "COMPETENT", "submitted": "18 Aug 2026", "obs": "7 Aug, 11 Aug, 15 Aug", "q": [["Welcome & Approach", 3, "Customers always respond to greeting when they feel sincerity. Good effort every time customer enters the store."], ["Customer Engagement", 3, "Proper way of speaking to customers with tone that is clear but not loud. Communicates well and understand what customer's needs."], ["Product Interest", 3, "Confident on sharing tips and matching because of proper product knowledge, knows what is available and what is trending."], ["Customer Needs", 3, "Effort on making customers feel valued is seen, making customers more open on communicating."], ["Closing Sale", 3, "With proper way of objection handling, offers alternatives on what is available, and closing the sales. She creates a connection with her customers."], ["Last Impression", 3, "Great effort on sharing company standards and even after sales services creates customer loyalty and satisfaction."], ["360 Activation", 2, "the effort is there on product knowledge but there are still areas to be improved."], ["Trending Products", 2, "Aware of the trends and products in the store, just need more confidence on making the move to engage with the customers about styling tips."], ["HIP", 1, "She understands the way customers react and their profiles. Always ready to communicate if the opportunity was given."]], "goal": "Great effort on performance, deserves the score attained. The room for improvement is always there. target next MCC must reach 90%.", "reality": "Always refresh on basics, improving on small things may create bigger outcomes. Be consistent on learning new products, materials and ways on closing sales.", "options": "Every situation is different from the other, learning to identify customers and customer needs on the fastest way creates a better chance of closing sales.", "willDo": "On the next MCC, a better performance is agreed on. There will be constant learning of products and trends, and it will be shared within the group as well.", "attempts": 1}, {"id": "KUWAIT|MARINA MALL|SAMWAEIL HAKIM", "sid": "MCC-20260818-231314", "country": "Kuwait", "area": "Kuwait City", "store": "Marina Mall", "advisor": "SAMWAEIL HAKIM", "role": "SALES ASSOCIATE", "assessedBy": "VHELJOHN LANUZA", "score": 81, "status": "NEEDS COACHING", "submitted": "18 Aug 2026", "obs": "6 Aug, 12 Aug, 16 Aug", "q": [["Welcome & Approach", 2, "Can improve on his body language. Greeting customers must not only be on words but with the action the body shows. It is important to understand what and how body movements are perceived by customers."], ["Customer Engagement", 3, "Great way of taking advantage of the Arabic language, more engaged and confident on explaining to customers about trends and FAB's."], ["Product Interest", 3, "Can be commended on sound product knowledge, knows how to explain to customers the materials and even the styling to create a look."], ["Customer Needs", 3, "Good way of making customers feel valued in our store."], ["Closing Sale", 3, "Can improve on objection handling, but still able to upsell and close the transaction."], ["Last Impression", 3, "Informing customers about company policies and services creates customer loyalty. keep up the effort."], ["360 Activation", 2, "Being aware on current or seasonal products will have a huge impact on selling. Being able to identify and relay to customers is a must and needs to improve."], ["Trending Products", 2, "Well aware of best sellers but needs to understand to have also knowledge on styling these best sellers to get customers attention and loyalty."], ["HIP", 1, "Aware of the HIP's this season. If there is improvement needed in will be on the styling tips."]], "goal": "Got 81% this time, there is always room for improvement. within the next 30 days on the next MCC target score should be 28%-90% improvement.", "reality": "He is able to make good sales totals, but improvement on trends and styling needs to be done. Fair product knowledge and confidence on giving tips is necessary.", "options": "Every product received must be checked for better product knowledge, learning of trends, new collections, and materials are essential to better outcome on sales and performance.", "willDo": "Committed to improve on agreed target performance rating on the next MCC, the needed actions on learning new trends will be done.", "attempts": 1}]}}, {"key": "2026-09", "label": "Sep 2026", "asOf": "23 Sep 2026, 13:39", "data": {"countries": [{"country": "Kuwait", "note": ""}], "stores": [{"Country": "Kuwait", "Area": "Kuwait City", "Store": "360 Mall", "Eligible": 3, "Received": 0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Al Khiran Mall", "Eligible": 3, "Received": 2, "Competent": 2, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.87}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Alkout Mall", "Eligible": 3, "Received": 0, "Competent": 0, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Assima Mall", "Eligible": 3, "Received": 3, "Competent": 3, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.827}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Avenue Mall", "Eligible": 3, "Received": 5, "Competent": 5, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.889}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "CK2 Avenue Mall", "Eligible": 3, "Received": 1, "Competent": 1, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.926}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Gate Mall", "Eligible": 3, "Received": 4, "Competent": 4, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.907}, {"Country": "Kuwait", "Area": "Kuwait City", "Store": "Marina Mall", "Eligible": 3, "Received": 3, "Competent": 3, "NeedsCoaching": 0, "DevRequired": 0, "Note": "", "Manager": "", "AvgScore": 0.864}], "weakAreas": [{"area": "360 Activation", "count": 12}, {"area": "Trending Products", "count": 12}, {"area": "Closing Sale", "count": 10}, {"area": "HIP", "count": 10}, {"area": "Welcome & Approach", "count": 4}, {"area": "Customer Needs", "count": 3}, {"area": "Last Impression", "count": 3}, {"area": "Customer Engagement", "count": 2}, {"area": "Product Interest", "count": 1}], "staff": [], "grow": {}, "team": [{"id": "KUWAIT|AL KHIRAN MALL|REYNALDO JR ROVIRA - 172214", "sid": "MCC-20260916-153023-6258", "country": "Kuwait", "area": "Kuwait City", "store": "Al Khiran Mall", "advisor": "Reynaldo JR Rovira - 172214", "role": "Customer Service Associate", "assessedBy": "Bipin Kandel", "score": 85, "status": "COMPETENT", "submitted": "16 Sep 2026", "obs": "9 Sep, 11 Sep, 15 Sep", "q": [["Welcome & Approach", 3, "Good Job"], ["Customer Engagement", 3, "Grate Work"], ["Product Interest", 3, "Nice Job"], ["Customer Needs", 3, "Good Job"], ["Closing Sale", 2, "Need focus on multi sale, cross sale"], ["Last Impression", 3, "Good Job"], ["360 Activation", 1, "Need more practice"], ["Trending Products", 2, "Need to follow up with styling tips"], ["HIP", 3, "Good Job!"]], "goal": "Improvement !", "reality": "Need more focus on product knowledge", "options": "Introducing the Retail sales assistant ChatGPT, Its helpful and practice same.", "willDo": "Will do more better next time.", "attempts": 1}, {"id": "KUWAIT|AL KHIRAN MALL|TSHERING ZANGMO - 187721", "sid": "MCC-20260916-154151-8893", "country": "Kuwait", "area": "Kuwait City", "store": "Al Khiran Mall", "advisor": "Tshering Zangmo - 187721", "role": "Customer Service Associate", "assessedBy": "Bipin Kandel", "score": 89, "status": "COMPETENT", "submitted": "16 Sep 2026", "obs": "6 Sep, 10 Sep, 16 Sep", "q": [["Welcome & Approach", 3, "Nice Job!"], ["Customer Engagement", 2, "Need to pro-active leading with customer conversation"], ["Product Interest", 3, "Good Job!"], ["Customer Needs", 3, "Grate work!"], ["Closing Sale", 2, "Need more increases UPT with Cross sold"], ["Last Impression", 3, "Good Job!"], ["360 Activation", 2, "Need more practice"], ["Trending Products", 3, "Need more styling tips or engagement tips."], ["HIP", 3, "Good Job!"]], "goal": "Improvement", "reality": "Doing good.", "options": "Introducing the Retail Sales Assistant, It's helpful.", "willDo": "Will do more better then now", "attempts": 1}, {"id": "KUWAIT|ASSIMA MALL|CAMELLE GANON", "sid": "MCC-20260916-183717-6902", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "CAMELLE GANON", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 81, "status": "COMPETENT", "submitted": "16 Sep 2026", "obs": "7 Sep, 11 Sep, 13 Sep", "q": [["Welcome & Approach", 3, "ENERGETIC AND FRIENDLY VIBE TO ALL THE CUSTOMERS."], ["Customer Engagement", 2, "ACTIVE LISTENING TO CUSTOMERS NEEDS, HOWEVER NEEDS TO IMPROVE THE QUALITY AND CONVENIENCE OF THE PRODUCT."], ["Product Interest", 3, "ABLE TO MIX AND MATCH ITEMS TO HAVE MULTIPLE ITEMS IN ONE TRANSACTION."], ["Customer Needs", 3, "POLITE AND FRIENDLY, VERY ACCOMDATING."], ["Closing Sale", 2, "NEED TO INFORM THE CUSTOMER TO USE LOYALTY POINTS AND RARELY ASK TO DOWNLOAD THE AIVI CLUB."], ["Last Impression", 3, "INFORM THE CUSTOMERS EXCHANGE AND RETURN POLICY."], ["360 Activation", 2, "NEED TO REVIEW ON PRODUCT KNOWLEDGE AND TYPES OF MATERIALS OF THE PRODUCT."], ["Trending Products", 2, "AWARE OF THE TRENDS BUT NEED TO FOCUS ON STYLING TIPS AND ENGAGEMENTS."], ["HIP", 2, "SHE KNOWS ALL THE REGULAR CUSTOMERS, THEIR STYLE AND ABLE TO SUGGEST THE LATEST COLLECTION."]], "goal": "TO IMPROVED OBJECTION HANDLING, STYLING TIPS AND CLOSING TECHNIQUES.", "reality": "AWARE OF THE TRENDS BUT NEED TO FOCUS ON PRODUCT KNOWLEDGE, STYLING TIPS AND UPB.", "options": "A QUICK REVIEW ON THE LATEST COLLECTIONS, BEST SELLERS AND SLOW MOVERS' PRODUCT EVERYDAY.", "willDo": "TO KEEP TRACK OF GOALS BASED ON THE TIMELINE.", "attempts": 1}, {"id": "KUWAIT|ASSIMA MALL|CRISTINA MAY IGNACIO", "sid": "MCC-20260916-175524-9762", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "CRISTINA MAY IGNACIO", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 85, "status": "COMPETENT", "submitted": "16 Sep 2026", "obs": "3 Sep, 7 Sep, 10 Sep", "q": [["Welcome & Approach", 3, "FRIENDLY APPROACH TO ALL THE CUSTOMERS."], ["Customer Engagement", 3, "ALWAYS ACTIVE ON GIVING BENEFITS OF THE PRODUCT TO HELP THE CUSTOMER DECIDE WHAT THEY PREFER TO BUY."], ["Product Interest", 3, "ABLE TO DIFFERENTIATE THE MATERIALS AND ABLE TO SUGGEST MIX AND MATCH ITEMS THAT GOES WELL WITH THE OUTFIT"], ["Customer Needs", 3, "ALWAYS BEING POLITE AND FRIENDLY TO ALL THE CUSTOMERS."], ["Closing Sale", 2, "ASKING THE CUSTOMER TO DOWNLOAD AIVI CLUB AND EXPLAIN THE BENEFITS."], ["Last Impression", 3, "TELLING THE CUSTOMERS RETURN AND EXCHANGE POLICY,"], ["360 Activation", 2, "AWARE OF THE PRODUCT DETAILS HOWEVER NEEDS TO IMPROVE PRODUCT KNOWLEDGE"], ["Trending Products", 2, "AWARE OF THE TRENDS BUT NEED TO FOCUS ON STYLING TIPS AND ENGAGING TIPS"], ["HIP", 2, "ASKING THE MOBILE NUMBER TO INFORM THEM OF THE LATEST COLLECTION AND RESERVATIONS. NEED TO FOCUS ON HANDLING OBJECTION"]], "goal": "NEEDS TO ACHIEVE OBJECTION HANDLING,", "reality": "AWARE OF THE TRENDS BUT NEED TO FOCUS ON STYLING TIPS AND PRODUCT KNOWLEDGE", "options": "A QUICK REVIEW TO ALL THE COLLECTIONS, BEST SELLERS AND SLOW MOVERS EVERYDAY.", "willDo": "KEEP TRACK OF GOALS BASED ON THE TIMELINE.", "attempts": 1}, {"id": "KUWAIT|ASSIMA MALL|JONAH MARIE ALCOTIBO", "sid": "MCC-20260916-191654-7123", "country": "Kuwait", "area": "Kuwait City", "store": "Assima Mall", "advisor": "JONAH MARIE ALCOTIBO", "role": "SALES ASSOCIATE", "assessedBy": "AIRA JEANINE SAN JOSE", "score": 81, "status": "COMPETENT", "submitted": "16 Sep 2026", "obs": "1 Sep, 8 Sep, 12 Sep", "q": [["Welcome & Approach", 3, "FRIENDLY APPROACH TO ALL THE CUSTOMERS."], ["Customer Engagement", 3, "ABLE TO IDENTIFY MATERIALS AND CAN EXPLAIN THE BENEFITS AND CONVENIENCE OF THE PRODUCT"], ["Product Interest", 2, "NEED TO FOCUS ON STYLING TIPS."], ["Customer Needs", 3, "POLITELY GESTURES AND ACCOMODATING TO ALL THE CUSTOMERS"], ["Closing Sale", 2, "ABLE TO CROSS SELL AND UP SELL BUT NEEDS TO IMPROVE OBJECTION HANDLING TECHNIQUES"], ["Last Impression", 3, "ABLE TO TELL THE RETURN AND EXCHANGE POLICY."], ["360 Activation", 2, "ABLE TO TELL THE BASIC PRODUCT KNOWLEDGE BUT NEEDS TO REVIEW THE STYLING DIRECTION AND HOW TO APPLY IT TO DIFFERENT TYPES OF THE CUSTOMER PROFILE."], ["Trending Products", 2, "AWARE OF THE TRENDS BUT NEED TO FOCUS ON STYLING TIPS AND ENGAGEMENTS"], ["HIP", 2, "ABLE TO CONNECT TO THE CUSTOMERS BY INFORMING THE LATEST COLLECTION THROUGH WHATSAPP"]], "goal": "TO BE ABLE TO ACHIEVE HANDLING OBJECTION, AND IMPROVE STYLING TIPS.", "reality": "AWARE OF THE CURRENT TRENDS BUT NEED TO IMPROVE PRODUCT KNOWLEDGE.", "options": "A QUICK REVIEW TO LATEST COLLECTIONS, BEST SELLERS AND SLOW MOVERS EVERYDAY.", "willDo": "TO KEEP TRACK GOALS BASED ON THE TIME LINE.", "attempts": 1}, {"id": "KUWAIT|AVENUE MALL|HAIDY", "sid": "MCC-20260922-124335-7857", "country": "Kuwait", "area": "Kuwait City", "store": "Avenue Mall", "advisor": "HAIDY", "role": "SALES ASSOCIATE", "assessedBy": "Nawas", "score": 93, "status": "COMPETENT", "submitted": "22 Sep 2026", "obs": "4 Sep, 14 Sep, 22 Sep", "q": [["Welcome & Approach", 3, "well done"], ["Customer Engagement", 3, "yes"], ["Product Interest", 3, "yes"], ["Customer Needs", 3, "yes"], ["Closing Sale", 3, "yes"], ["Last Impression", 2, "yes"], ["360 Activation", 3, "YES"], ["Trending Products", 2, "missed to identify some trending product"], ["HIP", 3, "well done"]], "goal": "IDENTIFICATION OF ALL THE TRENDING PRODUCTS", "reality": "EXCELLENT IN GUESTS /PRODYCT KNOWLEDGE", "options": "WEEKLY 10 MINUTES SESSION FOR THE TRENDS AND LOOK", "willDo": "AGREED TO WORK ON SET PLAN .", "attempts": 1}, {"id": "KUWAIT|AVENUE MALL|IFTAKHAR", "sid": "MCC-20260920-183050-8095", "country": "Kuwait", "area": "Kuwait City", "store": "Avenue Mall", "advisor": "IFTAKHAR", "role": "SALES ASSOCIATE", "assessedBy": "NAWAS", "score": 89, "status": "COMPETENT", "submitted": "20 Sep 2026", "obs": "1 Sep, 11 Sep, 20 Sep", "q": [["Welcome & Approach", 3, "WELL DONE"], ["Customer Engagement", 3, "YES"], ["Product Interest", 3, "YES"], ["Customer Needs", 3, "YES"], ["Closing Sale", 3, "YES"], ["Last Impression", 3, "YES"], ["360 Activation", 2, "NEED IMPROVEMNET ON UNDERSTANDING OF CINNECTION THROUGH PRODUCT DETAILS."], ["Trending Products", 2, "STYLING TIPS HAS TO IMPROVE"], ["HIP", 2, "PINSIGHT CAN BE EXPLAIN BETTER"]], "goal": "WELL DONE IN GUESTS", "reality": "NEED IMPROVEMENT IN STYLING TIPS /PRODUCT INSIGHT AND PRODUCT DETAILS AND HOW ITS LINK", "options": "weekly 10 Minutes session ON TRENDS AND LOOK And daily practice on styling tips", "willDo": "agreed on set plan to get better result", "attempts": 1}, {"id": "KUWAIT|AVENUE MALL|LEA", "sid": "MCC-20260919-173013-1502", "country": "Kuwait", "area": "Kuwait City", "store": "Avenue Mall", "advisor": "LEA", "role": "SALES ASSOCIATE", "assessedBy": "NAWAS", "score": 89, "status": "COMPETENT", "submitted": "19 Sep 2026", "obs": "4 Sep, 11 Sep, 19 Sep", "q": [["Welcome & Approach", 3, "YES"], ["Customer Engagement", 3, "YES"], ["Product Interest", 3, "YES"], ["Customer Needs", 3, "YES"], ["Closing Sale", 3, "YES"], ["Last Impression", 3, "YES"], ["360 Activation", 2, "NEED EFFORTS ON UNDERSTANDING ON 360 ACTIVATION"], ["Trending Products", 2, "STYLING TIPS WERE NOT APPROPRIATE"], ["HIP", 2, "OBJECTION AHNDLING NEED TO BE CONFIDENTLY"]], "goal": "360 ACTIVATION /OBJECTION HANDLING /AND STYLING TIPS HAS TO IMPROVE", "reality": "DOING WELL IN GUESTS", "options": "5 MINUTES SESSION FOR PRODUCT KINK UNDERSTANDING AND WEEKLY 10 MNUTES ROLE Play for objection handling", "willDo": "agreed to work on set plan , to improve the result", "attempts": 1}, {"id": "KUWAIT|AVENUE MALL|MARIDEL", "sid": "MCC-20260919-195730-8848", "country": "Kuwait", "area": "Kuwait City", "store": "Avenue Mall", "advisor": "Maridel", "role": "sales associate", "assessedBy": "Nawas", "score": 89, "status": "COMPETENT", "submitted": "19 Sep 2026", "obs": "7 Sep, 14 Sep, 19 Sep", "q": [["Welcome & Approach", 3, "well done"], ["Customer Engagement", 3, "yes"], ["Product Interest", 3, "yes"], ["Customer Needs", 3, "yes"], ["Closing Sale", 3, "yes"], ["Last Impression", 3, "yes"], ["360 Activation", 2, "need clarity in explanation on connection through product details"], ["Trending Products", 2, "need efforts on engagement tips"], ["HIP", 2, "product insight has to be more accurate"]], "goal": "need efforts on product insight/360a ctivation of product details/engagement tips has to improve", "reality": "well done in GUESTS", "options": "WE WILL CONDUCT 10 MINUTES WEEKLY ROLE PLAY AND DAILY 5 MMIUTES SESSION FOR ENGAGEMET TIPS AND PRODUCT INSIGHT", "willDo": "AGREED TO WORK ON SET PLAN", "attempts": 1}, {"id": "KUWAIT|AVENUE MALL|OSAMA", "sid": "MCC-20260919-224212-1021", "country": "Kuwait", "area": "Kuwait City", "store": "Avenue Mall", "advisor": "OSAMA", "role": "SALES ASSOCIATE", "assessedBy": "NAWAS", "score": 85, "status": "COMPETENT", "submitted": "19 Sep 2026", "obs": "19 Sep", "q": [["Welcome & Approach", 3, "WELL DONE"], ["Customer Engagement", 3, "YES"], ["Product Interest", 3, "YES"], ["Customer Needs", 3, "YES"], ["Closing Sale", 2, "CLOSING TECHNIQUE WAS NOT APPROPRIATE"], ["Last Impression", 3, "OK"], ["360 Activation", 1, "NEED IMPROVMENT ON IDENTIFYING PRODUCTS"], ["Trending Products", 2, "NEED IMPROVEMENT IN THE KNOWLEDGE OF TRENDS AND STYLING TIPS WERE NOT PROPER"], ["HIP", 3, "OK"]], "goal": "PRODUCT KNOWLEDGE /TRENDS AND SYLING TIPS NEED TO IMPROVE", "reality": "WELL DONE IN GUESTS", "options": "ROLE PLAY AND SHORT SESSION OF TREND SAND LOOKS", "willDo": "AGREED ON PLAN", "attempts": 1}, {"id": "KUWAIT|CK2 AVENUE MALL|FARHANA", "sid": "MCC-20260919-165021-2690", "country": "Kuwait", "area": "Kuwait City", "store": "CK2 Avenue Mall", "advisor": "FARHANA", "role": "SALES ASSOCIATE", "assessedBy": "IFTAKHAR", "score": 93, "status": "COMPETENT", "submitted": "19 Sep 2026", "obs": "1 Sep, 8 Sep, 19 Sep", "q": [["Welcome & Approach", 3, "WELL DONE"], ["Customer Engagement", 3, "YES"], ["Product Interest", 3, "YES"], ["Customer Needs", 3, "YES"], ["Closing Sale", 3, "YES"], ["Last Impression", 2, "SERVICE AFTER SALE HAS TO BE LOUD AND CLEAR"], ["360 Activation", 3, "YESS"], ["Trending Products", 3, "YES"], ["HIP", 2, "OBJECTION HANDLING HA STO BE WITH POSITIVE BODY LANGUAGE ."]], "goal": "SERVICE AFTER SALE /COMPANY POLICY AND OBJECTION HANDLING HAS TO IMPROVE", "reality": "OVER GOOD IN GUESTS AND PRODUCT KNOWLEDGE", "options": "WEEKLY 10 MINJTES ROLE PLAY SESSION FOR OBJECTION HANDLING AND DAILY PRACTICE OF EXPLAINING SERVICE AFTER SALE", "willDo": "AGREED TO WORK AS SET PLAN", "attempts": 1}, {"id": "KUWAIT|GATE MALL|AYAT", "sid": "MCC-20260917-202337-5531", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "AYAT", "role": "sales", "assessedBy": "MOHIT", "score": 89, "status": "COMPETENT", "submitted": "17 Sep 2026", "obs": "17 Sep", "q": [["Welcome & Approach", 2, "She approached the customer with a friendly smile and positive energy"], ["Customer Engagement", 3, "she engaged with customer friendly conversation show genuine interest"], ["Product Interest", 3, "she created customer interest by highlights the product key features and benifits"], ["Customer Needs", 2, "she understood the customer needs and ket them in mind"], ["Closing Sale", 2, "she used effective selling techniques while attempting to close the sale"], ["Last Impression", 3, "she created a postive last impression"], ["360 Activation", 3, "she intoduced and promoted current season peoducts"], ["Trending Products", 3, "she shared trending and highlighting their features and design"], ["HIP", 3, "she demonstrated good hip by enging the customer naturally"]], "goal": "Need to more focus on cross selling", "reality": "so far is going well", "options": "use open handed question", "willDo": "Connecting suitable product in theirneed", "attempts": 1}, {"id": "KUWAIT|GATE MALL|CATHERINE", "sid": "MCC-20260917-203952-8864", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "catherine", "role": "sales", "assessedBy": "MOHIT", "score": 93, "status": "COMPETENT", "submitted": "17 Sep 2026", "obs": "16 Sep", "q": [["Welcome & Approach", 2, "She creating a comfortable and welcoming first impression"], ["Customer Engagement", 3, "she conversation was natural and interest in the product"], ["Product Interest", 3, "she encouraged the customer to explore"], ["Customer Needs", 2, "she focused on the customer preference and provided relevant option"], ["Closing Sale", 3, "she used effective selling techniques while attempting to close the sale she confidently addressing the customer needs"], ["Last Impression", 3, "she offering helpful assitance until the end and left feelling welcomed and valued"], ["360 Activation", 3, "she highlighting their key features and relevance to the customer need"], ["Trending Products", 3, "she shared trending and highlighting their features and design and creating customer interest"], ["HIP", 3, "she engaging the customer naturally understanding they need"]], "goal": "Need to more focus on headling technique", "reality": "current she doing as per policy and follow daily wise", "options": "use open handed question", "willDo": "Connecting suitable product in their need", "attempts": 3}, {"id": "KUWAIT|GATE MALL|HASHINI", "sid": "MCC-20260917-203338-8616", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "HASHINI", "role": "sales", "assessedBy": "MOHIT", "score": 93, "status": "COMPETENT", "submitted": "17 Sep 2026", "obs": "16 Sep", "q": [["Welcome & Approach", 3, "She Adjust the approach based on the customer type"], ["Customer Engagement", 3, "she converstion was natural and helped build customer interest"], ["Product Interest", 3, "she connected the product benefit to the customer needs"], ["Customer Needs", 3, "she focused on the customer preference"], ["Closing Sale", 2, "she used effective selling techniques while attempting to close the sale she confidently addressing the customer needs"], ["Last Impression", 3, "she customer warmly and offering helpful assistance untill the end"], ["360 Activation", 3, "she highlighting their key features and relevance to the customer need"], ["Trending Products", 3, "she shared trending and highlighting their features and design and creating customer interest"], ["HIP", 2, "she engaging the customer naturally understanding they need"]], "goal": "Need to more focus on headling technique", "reality": "current she doing as per policy and follow daily wise", "options": "use open handed question", "willDo": "Connecting suitable product in their need", "attempts": 1}, {"id": "KUWAIT|GATE MALL|MARIA", "sid": "MCC-20260917-202301-5152", "country": "Kuwait", "area": "Kuwait City", "store": "Gate Mall", "advisor": "maria", "role": "sales", "assessedBy": "MOHIT", "score": 89, "status": "COMPETENT", "submitted": "17 Sep 2026", "obs": "17 Sep", "q": [["Welcome & Approach", 2, "She approached the customer with a friendly smile and positive energy"], ["Customer Engagement", 3, "she engaged with customer friendly conversation show genuine interest"], ["Product Interest", 3, "she created customer interest by highlights the product key features and benifits"], ["Customer Needs", 2, "she understood the customer needs and ket them in mind"], ["Closing Sale", 2, "she used effective selling techniques while attempting to close the sale"], ["Last Impression", 3, "she created a postive last impression"], ["360 Activation", 3, "she intoduced and promoted current season peoducts"], ["Trending Products", 3, "she shared trending and highlighting their features and design"], ["HIP", 3, "she demonstrated good hip by enging the customer naturally"]], "goal": "Need to more focus on cross selling", "reality": "so far is going well", "options": "use open handed question", "willDo": "Connecting suitable product in theirneed", "attempts": 1}, {"id": "KUWAIT|MARINA MALL|GERANEL OGSOC", "sid": "MCC-20260923-125050-4798", "country": "Kuwait", "area": "Kuwait City", "store": "Marina Mall", "advisor": "GERANEL OGSOC", "role": "SALES ASSOCIATE", "assessedBy": "VHELJOHN LANUZA", "score": 85, "status": "COMPETENT", "submitted": "23 Sep 2026", "obs": "5 Sep, 15 Sep, 21 Sep", "q": [["Welcome & Approach", 3, "She has shown welcoming energy and warm approach to all her customers. She interacts according to customer type."], ["Customer Engagement", 3, "She has shown proper way to engage with her customers and create a good conversation."], ["Product Interest", 3, "The advisor shared a sound product knowledge to her customers and even offered styling and matching tips, which leads to closing the sales."], ["Customer Needs", 3, "She made her customer felt welcomed and accommodated her needs properly. ."], ["Closing Sale", 2, "She needed a bit more experience on her objection handling to close the sales. It became the difference on closing the sales with multiple products."], ["Last Impression", 3, "Properly executed and informed the company policies to her customer and clearly addresses what she needs to relay to them."], ["360 Activation", 2, "Just needed more of information to fully explain to her customers about products that are trending and on current season."], ["Trending Products", 2, "She was well aware on the trending products in the store however needed more effort and understanding on styling and matching tips to maximize the sales."], ["HIP", 2, "HIP was clear to her and well informed on how to offer it to different customers but needed more effort and experience on objection handling which was given on trainings."]], "goal": "Goal was to achieve 90% plus within the coming 30days. The needed development was already shown so its a matter of effort and time to show improvement.", "reality": "She improved from the last assessment, clearly there are lots of room to improve. Efforts and added experience will cover the needed points until the next month.", "options": "Given the time, there are plenty of chances to gain knowledge and techniques. Reading and following trends will help to overcome the needed problems or situations she will encounter in the future.", "willDo": "Agreed on the next 30days she will have a better result. She compromised on learning how to handle objections or comments from customers to properly attend their needs more efficiently.", "attempts": 1}, {"id": "KUWAIT|MARINA MALL|REYNALYN SANTILLAN", "sid": "MCC-20260922-230220-1100", "country": "Kuwait", "area": "Kuwait City", "store": "Marina Mall", "advisor": "REYNALYN SANTILLAN", "role": "SALES ASSOCIATE", "assessedBy": "VHELJOHN LANUZA", "score": 89, "status": "COMPETENT", "submitted": "22 Sep 2026", "obs": "6 Sep, 16 Sep, 22 Sep", "q": [["Welcome & Approach", 3, "Customers appreciate her friendly and welcoming approach."], ["Customer Engagement", 3, "She demonstrated good communication skills and showed genuine interest in understanding customers' needs."], ["Product Interest", 3, "She was able to effectively increase customers' interest by highlighting key features and benefits of the products."], ["Customer Needs", 3, "She kept the customers' needs in mind throughout the interaction and ensured what she presented are relevant."], ["Closing Sale", 3, "She effectively closes sales by focusing on customers' needs and preferences."], ["Last Impression", 3, "The advisor provided positive impression and delivered service that reflects the company's standards."], ["360 Activation", 2, "She was able to identify products from the current season; the product knowledge was there but there are areas to improve like styling and profiling every customer."], ["Trending Products", 2, "Advisor was aware on current trending products in store, just needed styling tips to use in engaging with customers."], ["HIP", 2, "She was able to identify and discuss details about the HIP in store and able to identify the customer that fits the product but needs improvement on objection handling without hesitation to close the sales easier."]], "goal": "Goal is to reach 90% and above score. Within the next month it must be achieved. Needs to widen the scope on trends and styling to cover the needed points.", "reality": "She is on track to achieve her desired goal and score. Just needed effort on learning trends and improvement styling tips to fully cover the goals assigned for her.", "options": "The solution discussed was for her to check outside trends that effects the products we are receiving and how to blend and style with it.", "willDo": "Within next 30 days she committed to achieved 90% and above score. She will widen her perspective and see trends that are out recently.", "attempts": 1}, {"id": "KUWAIT|MARINA MALL|SAMWAEIL HAKIM", "sid": "MCC-20260923-133913-1264", "country": "Kuwait", "area": "Kuwait City", "store": "Marina Mall", "advisor": "SAMWAEIL HAKIM", "role": "SALES ASSOCIATE", "assessedBy": "VHELJOHN LANUZA", "score": 85, "status": "COMPETENT", "submitted": "23 Sep 2026", "obs": "7 Sep, 13 Sep, 20 Sep", "q": [["Welcome & Approach", 2, "He needs consistency on his body language; it will help in interacting with all customers easier."], ["Customer Engagement", 3, "Well engaged on his conversation with customers. Knowledgeable on products available in the store."], ["Product Interest", 3, "Well equipped with product knowledge and it shows when he is with customers, he is very comfortable on giving styling tips and mix and matching products."], ["Customer Needs", 3, "The advisor was well aware of his customers, directing the seats, mirrors and even items with discounts and new arrivals."], ["Closing Sale", 3, "With his experience, he was able to handle objections, closing techniques are done and cross selling and add Ons."], ["Last Impression", 2, "Observed on the need on consistency on informing policies and services, it can be done easily and improved on the next assessments."], ["360 Activation", 2, "He was able to identify products on season and gives feedback and information but needed more objectives to improve the way to relay on his customers."], ["Trending Products", 2, "Needed more on styling tips and trends to match the knowledge on HIPs."], ["HIP", 3, "Clearly able to review and check on HIPs. He was able to show Fabs and UPBs of HIPs and also handle objections of his customer to close the sales."]], "goal": "Gal is to reach 90% on the next MCC. Simple things to improve but have big impacts on performance.", "reality": "Simple things needed to improve, and it will give him better results. Needed only to remind him the basics which most of the times were neglected.", "options": "Proper body language, approach on different customers and policies must be done to improve the outcome.", "willDo": "Agreed on the nest assessment that the mentioned goals will be achieved and done. within the next month all improvements will show.", "attempts": 1}]}}];
+const SNAP_AT = "30 Sep 2026, 14:24";
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const title = s => String(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+const SKILLS = ["Welcome & Approach","Customer Engagement","Product Interest","Customer Needs","Closing Sale","Last Impression","360 Activation","Trending Products","HIP"];
+const SKILL_TIPS = {
+  "360 Activation":"Walk the current campaign story in every morning briefing; each advisor pitches one campaign piece before the floor opens.",
+  "Trending Products":"Weekly 10-minute trend walk: top sellers, new arrivals, and one styling look per advisor.",
+  "HIP":"Practise customer profiling in pairs: who is the HIP product for, and what question uncovers that customer?",
+  "Product Interest":"Role-play FAB / UPB on two hero products per week.",
+  "Customer Engagement":"Coach open-ended questions; aim for at least two per customer interaction.",
+  "Closing Sale":"Role-play objection handling on price, fit and style, then add one cross-sell before payment.",
+  "Last Impression":"Run the full closing ceremony every time: thank you, after-sales care, return invitation, Google Review.",
+  "Welcome & Approach":"Refresh social, merchandise and service approaches with short floor observations.",
+  "Customer Needs":"Practise needs discovery before showing product; listen first, then recommend."
+};
+
+const state = { month: MONTHS.length-1, compare: MONTHS.length-2, market: LOCK_MARKET || "All", tab:"overview",
+  mom:true, detail:false, q:"", area:"All", sort:"action", actionOnly:false, cStatus:"All", cStore:"All", cq:"" };
+
+function storesOf(mi, market){
+  if(mi<0||!MONTHS[mi]) return [];
+  return MONTHS[mi].data.stores.filter(s=>market==="All"||s.Country===market).map(s=>{
+    const pending=Math.max(0,s.Eligible-s.Received);
+    const done=s.Eligible-pending;
+    const score = (s.Received>0 && s.AvgScore>0) ? s.AvgScore*100 : null;
+    return {...s, pending, done, extra:Math.max(0,s.Received-s.Eligible),
+      cov: s.Eligible>0 ? done/s.Eligible*100 : null, score, key:s.Country+"|"+s.Store};
+  });
 }
-function statusClass(status){
-  const s = status.toUpperCase();
-  if(s==='COMPETENT') return {bg:'var(--green-bg)',c:'var(--green)'};
-  if(s==='NEEDS COACHING') return {bg:'var(--amber-bg)',c:'var(--amber)'};
-  return {bg:'var(--red-bg)',c:'var(--red)'};
+/* Coverage is reconciled per market (ops-confirmed totals): an extra assessment at one
+   store can offset a store-level gap in the same market. */
+function totals(stores){
+  const t={eligible:0,done:0,pending:0,received:0,c:0,n:0,d:0,sw:0,sr:0,stores:stores.length,zero:0};
+  const byC={};
+  stores.forEach(s=>{t.eligible+=s.Eligible;t.received+=s.Received;
+    t.c+=s.Competent;t.n+=s.NeedsCoaching;t.d+=s.DevRequired;
+    const c=byC[s.Country]||(byC[s.Country]={e:0,r:0}); c.e+=s.Eligible; c.r+=s.Received;
+    if(s.score!=null){t.sw+=s.score*s.Received;t.sr+=s.Received}
+    if(s.Eligible>0&&s.Received===0)t.zero++;});
+  Object.values(byC).forEach(c=>{t.done+=Math.min(c.e,c.r); t.pending+=Math.max(0,c.e-c.r)});
+  t.cov=t.eligible?t.done/t.eligible*100:null; t.score=t.sr?t.sw/t.sr:null; return t;
+}
+function dotsTotal(t){return dotsFor({Competent:t.c,NeedsCoaching:t.n,DevRequired:t.d,pending:t.pending})}
+function staffOf(mi, market){
+  if(mi<0||!MONTHS[mi]) return [];
+  return MONTHS[mi].data.staff.filter(r=>market==="All"||r.country===market);
+}
+const covClass = v => v==null?"t-p":v>=90?"t-g":v>=50?"t-a":"t-r";
+const scoreClass = v => v==null?"t-p":v>=85?"t-g":v>=70?"t-a":"t-r";
+const covColor = v => v>=90?"var(--g)":v>=50?"var(--a)":"var(--r)";
+function fmt(v,d=0){return v==null?"–":(Math.round(v*Math.pow(10,d))/Math.pow(10,d)).toFixed(d)}
+function delta(cur, prev, unit="", goodUp=true, d=0){
+  if(state.compare<0) return `<span class="delta">Baseline</span>`;
+  if(cur==null||prev==null) return `<span class="delta">New</span>`;
+  const diff=cur-prev; const r=Math.round(diff*Math.pow(10,d))/Math.pow(10,d);
+  if(r===0) return `<span class="delta">No change</span>`;
+  const good = goodUp ? r>0 : r<0;
+  return `<span class="delta ${good?"up":"down"}">${r>0?"▲":"▼"} ${Math.abs(r).toFixed(d)}${unit}</span>`;
+}
+function dotsFor(s){
+  let h=""; const cap=(n,c)=>{for(let i=0;i<n;i++)h+=`<i class="dot ${c}"></i>`};
+  cap(s.Competent||s.c||0,"d-c"); cap(s.NeedsCoaching||s.n||0,"d-n"); cap(s.DevRequired||s.d||0,"d-d"); cap(s.pending,"d-p");
+  return h;
+}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.style.display="block";clearTimeout(toast._t);toast._t=setTimeout(()=>t.style.display="none",1400)}
+
+/* ---------- storage for follow-ups (per device) ---------- */
+const store = { get(k){try{return JSON.parse(localStorage.getItem("ckmcc:"+k)||"null")}catch(e){return null}},
+                set(k,v){try{localStorage.setItem("ckmcc:"+k,JSON.stringify(v));return true}catch(e){return false}} };
+
+/* ---------- header / controls ---------- */
+function buildPickers(){
+  $("#selMonth").innerHTML = MONTHS.map((m,i)=>`<option value="${i}">${m.label}</option>`).join("");
+  $("#selMonth").value=state.month;
+  const opts = MONTHS.map((m,i)=>i<state.month?`<option value="${i}">${m.label}</option>`:"").join("");
+  $("#selCompare").innerHTML = opts ? opts : `<option value="-1">No earlier month yet</option>`;
+  $("#selCompare").disabled = !opts;
+  if(state.compare>=state.month) state.compare=state.month-1;
+  $("#selCompare").value = state.compare;
+  if(LOCK_MARKET){ $("#marketRow").style.display="none"; }
+  else {
+    const ms=["All",...MONTHS[state.month].data.countries.map(c=>c.country)];
+    $("#marketChips").innerHTML = ms.map(m=>`<button class="mk" data-mk="${m}" aria-pressed="${m===state.market}">${m==="All"?"All GCC":m}</button>`).join("");
+  }
+}
+function subline(){
+  const m=MONTHS[state.month]; const mk=state.market;
+  const where = mk==="All" ? "All GCC markets" : mk;
+  const lead = mk!=="All" && AREA_LEADS[mk] ? ` &nbsp;|&nbsp; Area lead: <b>${esc(AREA_LEADS[mk])}</b>` : "";
+  const cmp = state.compare>=0 ? ` &nbsp;|&nbsp; compared with ${MONTHS[state.compare].label}` : "";
+  $("#subline").innerHTML = `<b>${esc(where)}</b> &nbsp;|&nbsp; ${m.label}${cmp}${lead}`;
+  $("#asof").textContent = m.asOf;
+  document.title = `MCC Coaching Dashboard | ${mk==="All"?"GCC":mk} | ${m.label}`;
 }
 
-function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  document.querySelector(`.nav-btn[data-page="${name}"]`).classList.add('active');
-  window.scrollTo({top:0,behavior:'instant'});
+/* ---------- staff records ---------- */
+function teamOf(mi){ return (MONTHS[mi] && MONTHS[mi].data.team) || null; }
+function statusTag(st){ const s=String(st||"").toUpperCase(); return s==="COMPETENT"?["t-g","Competent"]:s==="DEVELOPMENT REQUIRED"?["t-r","Development required"]:["t-a","Needs coaching"]; }
+function recordFor(id, mi){
+  const T=teamOf(mi); if(T){const r=T.find(x=>x.id===id); if(r) return r;}
+  const m=MONTHS[mi]; const r=m.data.staff.find(x=>x.id===id); if(!r) return null;
+  const g=m.data.grow[id]||{};
+  return {...r, q:(g.breakdown||[]).map(b=>[b.area,b.score,""]), goal:g.goal, reality:g.reality, options:g.options, willDo:g.willDo, obs:"", submitted:"", sid:""};
 }
-document.getElementById('navBar').addEventListener('click', e=>{
-  if(e.target.classList.contains('nav-btn')) showPage(e.target.dataset.page);
-});
-document.getElementById('navReassessCount').textContent = DATA.reassessment.length;
+function storeTeam(s){
+  const T=teamOf(state.month); if(!T) return null;
+  return T.filter(r=>r.country===s.Country && r.store.toLowerCase()===s.Store.toLowerCase());
+}
+function teamTable(s, flagged){
+  const T=storeTeam(s);
+  const mgr = s.Manager ? `<span class="muted">Store manager: <b style="color:var(--char)">${esc(s.Manager)}</b></span>` : "";
+  if(!T){
+    return `<div class="dhead">${mgr}<span class="muted">Full staff records and remarks appear once the page is linked to the MCC sheet.</span></div>`+
+      (flagged.length?`<div class="mini">${flagged.map(r=>`<button class="p" data-staff="${esc(r.id)}"><span><b style="text-transform:capitalize">${esc(title(r.advisor))}</b> <span class="muted">${esc(title(r.role))}</span></span><span class="tag ${r.score<50?"t-r":"t-a"}">${fmt(r.score)}%</span></button>`).join("")}</div>`:"");
+  }
+  const head=`<div class="dhead"><span>${mgr||'<span class="muted">Tap a name to see every remark and the GROW plan.</span>'}</span>
+    <button class="btn gold" type="button" data-pdfstore="${esc(s.key)}" ${T.length?"":"disabled"}>Download store records (PDF)</button></div>`;
+  if(!T.length) return head+`<p class="muted" style="margin:0">No MCC submitted for this store yet.</p>`;
+  const rows=T.slice().sort((a,b)=>(a.score??999)-(b.score??999)).map(r=>{const [c,l]=statusTag(r.status);
+    return `<tr class="clk" data-staff="${esc(r.id)}"><td><span class="nm2">${esc(title(r.advisor))}</span><br><span class="muted">${esc(title(r.role))}</span></td>
+    <td>${esc(title(r.assessedBy))}</td><td class="hide-m">${esc(r.obs||r.submitted||"")}</td>
+    <td><span class="pill ${scoreClass(r.score)}">${r.score==null?"–":r.score+"%"}</span></td><td class="hide-m"><span class="tag ${c}">${l}</span></td></tr>`}).join("");
+  const more = s.pending? `<p class="muted" style="margin:8px 0 0">${s.pending} more eligible staff not assessed yet.</p>`:"";
+  return head+`<table class="team"><thead><tr><th>Staff</th><th>Assessed by</th><th class="hide-m">Observed</th><th>Score</th><th class="hide-m">Status</th></tr></thead><tbody>${rows}</tbody></table>`+more;
+}
 
-/* ---------------- KPI STRIP + CONFIRM BANNER ---------------- */
-const m = DATA.meta;
-document.getElementById('confirmBanner').innerHTML = m.confirmed
-  ? `<div class="confirm-banner">✓ <div><b>Confirmed:</b> ${m.note}</div></div>` : '';
-
-const kpis = [
-  {label:'Eligible Staff', num:m.eligible, sub:'Confirmed active pool'},
-  {label:'Completed', num:m.received, sub:m.rate+'% of eligible', done: m.rate===100},
-  {label:'Pending', num:m.pending, sub:m.pending>0 ? 'Still to be assessed':'None outstanding', alert: m.pending>0 && m.rate===0},
-  {label:'Completion Rate', num:m.rate+'%', sub:m.received+' of '+m.eligible+' advisors', done: m.rate===100},
+/* ---------- PDF export (jsPDF + AutoTable, loaded on first use) ---------- */
+const PDF_LIBS=[
+  ["https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js","https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"],
+  ["https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js","https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"]
 ];
-document.getElementById('kpiRow').innerHTML = kpis.map(k=>`
-  <div class="kpi ${k.done?'done':''} ${k.alert?'alert':''}">
-    <div class="label">${k.label}</div><div class="num">${k.num}</div><div class="sub">${k.sub}</div>
-  </div>`).join('');
-
-/* ---------------- STORE TABLE ---------------- */
-document.getElementById('storeNote').textContent = DATA.stores.length+' store'+(DATA.stores.length!==1?'s':'')+' in '+COUNTRY;
-function storeRowHtml(s){
-  const pct = Math.round(s.AvgScore*100);
-  const scoreCell = s.Received===0
-    ? `<span style="color:var(--muted);font-size:12px">—</span>`
-    : `<span class="score-pill ${scoreClass(pct)}">${pct}%</span>`;
-  return `<tr>
-    <td>${s.Area}</td>
-    <td><b>${s.Store}</b>${s.OverAssessed?' <span title="More advisors assessed than listed as eligible." style="color:var(--brass);cursor:help;">⚠</span>':''}</td>
-    <td class="num-cell" style="text-align:right">${s.Eligible}</td>
-    <td class="num-cell" style="text-align:right">${s.Received}</td>
-    <td class="num-cell" style="text-align:right">${s.Pending}</td>
-    <td style="text-align:right"><span class="score-pill ${coverageClass(s.Rate,s.Received)}">${Math.min(s.Rate,100).toFixed(0)}%${s.OverAssessed?'+':''}</span></td>
-    <td style="text-align:right">${scoreCell}</td>
-    <td class="num-cell" style="text-align:right">${s.Competent}</td>
-    <td class="num-cell" style="text-align:right">${s.NeedsCoaching}</td>
-    <td class="num-cell" style="text-align:right">${s.DevRequired}</td>
-  </tr>`;
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+let pdfReady=null;
+function ensurePdf(){
+  if(!pdfReady) pdfReady=(async()=>{for(const alts of PDF_LIBS){let done=false;for(const u of alts){try{await loadScript(u);done=true;break}catch(e){}} if(!done) throw new Error("PDF library could not load")}})();
+  pdfReady.catch(()=>{pdfReady=null}); return pdfReady;
 }
-document.getElementById('storeBody').innerHTML = DATA.stores.length
-  ? DATA.stores.map(storeRowHtml).join('')
-  : `<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:24px;">No store data available.</td></tr>`;
+const pdfTxt = s => String(s??"").replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/[\u2013\u2014]/g,"-").replace(/\u2026/g,"...").replace(/[\u2022\u25CF]/g,"-").replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g,"").trim();
+const C={char:[43,43,43],gold:[168,134,63],paper:[245,242,236],g:[63,125,92],a:[201,138,27],r:[181,71,58],muted:[111,106,98],line:[227,221,210],gbg:[228,240,232],abg:[251,240,218],rbg:[247,227,224]};
+function stCol(st){const s=String(st||"").toUpperCase();return s==="COMPETENT"?C.g:s==="DEVELOPMENT REQUIRED"?C.r:C.a}
 
-/* ---------------- REASSESSMENT (editable) ---------------- */
-document.getElementById('reassessNote').textContent = DATA.reassessment.length+' advisor'+(DATA.reassessment.length!==1?'s':'')+' flagged · sorted lowest score first.';
+async function makePdf(opts){
+  try{ toast("Preparing PDF…"); await ensurePdf(); }catch(e){ toast("Couldn't load the PDF tool. Check the internet connection."); return; }
+  const { jsPDF } = window.jspdf; const doc=new jsPDF({unit:"mm",format:"a4"}); const W=210, M=14;
+  const month=MONTHS[state.month].label, where=opts.where;
+  let y=22;
+  // title block
+  doc.setFont("helvetica","bold"); doc.setFontSize(20); doc.setTextColor(...C.char); doc.text(pdfTxt(opts.title),M,y); y+=7;
+  doc.setFont("helvetica","normal"); doc.setFontSize(10.5); doc.setTextColor(...C.muted);
+  doc.text(pdfTxt(`${where} | ${month} | ${opts.records.length} staff record${opts.records.length===1?"":"s"}`),M,y); y+=5;
+  doc.text(pdfTxt(`Generated ${new Date().toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}`),M,y); y+=4;
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.8); doc.line(M,y,W-M,y); y+=6;
 
-function renderReassess(){
-  const rows = DATA.reassessment;
-  if(!rows.length){
-    document.getElementById('reassessGrid').innerHTML = '';
-    document.getElementById('page-reassess').insertAdjacentHTML('beforeend',
-      DATA.reassessment.length ? '' : '');
-    document.querySelector('#page-reassess .reassess-grid').outerHTML = `<div class="empty-note">🎉 No advisors flagged for reassessment in ${COUNTRY}.</div>`;
-    return;
+  const base={theme:"grid",margin:{left:M,right:M,top:18,bottom:16},styles:{font:"helvetica",fontSize:8.8,cellPadding:2,lineColor:C.line,lineWidth:0.2,textColor:C.char,overflow:"linebreak"},
+    headStyles:{fillColor:C.char,textColor:[245,242,236],fontStyle:"bold"},alternateRowStyles:{fillColor:[252,251,248]}};
+
+  if(opts.stores && opts.stores.length>1){
+    doc.setFont("helvetica","bold"); doc.setFontSize(12.5); doc.setTextColor(...C.char); doc.text("Store summary",M,y); y+=2;
+    doc.autoTable({...base,startY:y,head:[["Store","City","Eligible","Assessed","Avg score","Competent","Coaching","Dev. req."]],
+      body:opts.stores.map(s=>[pdfTxt(s.Store)+(state.market==="All"?" ("+s.Country+")":""),pdfTxt(s.Area),s.Eligible,s.Received,s.score==null?"-":fmt(s.score)+"%",s.Competent,s.NeedsCoaching,s.DevRequired]),
+      columnStyles:{2:{halign:"center"},3:{halign:"center"},4:{halign:"center"},5:{halign:"center"},6:{halign:"center"},7:{halign:"center"}}});
+    y=doc.lastAutoTable.finalY+8;
   }
-  document.getElementById('reassessGrid').innerHTML = rows.map(r=>{
-    const mid = r.score>=60;
-    const sc = statusClass(r.status);
-    const dateInputVal = r.reassessDate || '';
-    const scoreInputVal = r.newScore!=null ? r.newScore : '';
-    let scoreValClass = '';
-    if(r.newScore!=null){ scoreValClass = r.newScore > r.score ? 'improved' : 'still-low'; }
-    return `<div class="r-card ${mid?'mid':''}" data-id="${r.id}">
-      <div class="r-top" data-open="1">
-        <div><div class="r-name">${r.advisor}</div><div class="r-role">${r.role}</div></div>
-        <div class="r-score ${mid?'mid':''}">${r.score}%</div>
-      </div>
-      <div class="r-loc" data-open="1"><b>${r.store}</b>, ${r.area}</div>
-      <div class="r-foot" data-open="1">
-        <span class="status-pill" style="background:${sc.bg};color:${sc.c}">${r.status}</span>
-        <span>Assessed by ${r.assessedBy}</span>
-      </div>
-      <div class="r-track-row">
-        <div class="r-track-item"><div class="tk-label">Reassessment Date</div><input type="date" class="tk-date-input" data-id="${r.id}" value="${dateInputVal}"></div>
-        <div class="r-track-item" style="text-align:right"><div class="tk-label">New Score</div><input type="number" min="0" max="100" placeholder="—" class="tk-score-input ${scoreValClass}" data-id="${r.id}" value="${scoreInputVal}">%</div>
-      </div>
-      <div class="r-hint" data-open="1">View breakdown & GROW plan →</div>
-    </div>`;
-  }).join('');
-}
-renderReassess();
-
-/* ---------------- MODAL ---------------- */
-const overlay = document.getElementById('modalOverlay');
-function openModal(id){
-  const r = DATA.reassessment.find(x=>x.id===id);
-  const d = DATA.reassessDetail[id];
-  if(!r) return;
-  const sc = statusClass(r.status);
-  document.getElementById('modalName').textContent = r.advisor;
-  document.getElementById('modalSub').textContent = `${r.role} · ${r.store}, ${r.area} · Assessed by ${r.assessedBy}`;
-  document.getElementById('modalScore').textContent = r.score+'%';
-  document.getElementById('modalScore').style.color = r.score<60 ? '#E8A0A0' : '#F0CB8E';
-  document.getElementById('modalStatus').textContent = r.status;
-  document.getElementById('modalStatus').style.background = sc.bg;
-  document.getElementById('modalStatus').style.color = sc.c;
-  document.getElementById('modalReassessDate').textContent = r.reassessDate ? r.reassessDate : 'Not scheduled';
-  document.getElementById('modalNewScore').textContent = r.newScore!=null ? r.newScore+'%' : 'Pending';
-
-  if(d && d.breakdown && d.breakdown.length){
-    document.getElementById('modalQbars').innerHTML = d.breakdown.map(b=>{
-      const weak = b.score<=1;
-      let segs='';
-      for(let i=0;i<b.max;i++){ segs += `<div class="qbar-seg ${i<b.score?'filled':''} ${i<b.score&&weak?'weak':''}"></div>`; }
-      return `<div class="qbar-row"><div class="qbar-label">${b.area}</div><div class="qbar-track">${segs}</div><div class="qbar-val">${b.score}/${b.max}</div></div>`;
-    }).join('');
-    const weakest = d.weakest && d.weakest.length ? d.weakest : d.breakdown.slice(0,2).map(b=>b.area);
-    document.getElementById('modalWeakTags').innerHTML = weakest.map(w=>`<span class="weak-tag">⚠ ${w}</span>`).join('');
-  } else {
-    document.getElementById('modalQbars').innerHTML = `<div style="color:var(--muted);font-size:12.5px;padding:10px 0;">No question-level breakdown available.</div>`;
-    document.getElementById('modalWeakTags').innerHTML = '';
+  if(opts.records.length>1){
+    if(y>250){doc.addPage();y=22}
+    doc.setFont("helvetica","bold"); doc.setFontSize(12.5); doc.text("Staff summary",M,y); y+=2;
+    doc.autoTable({...base,startY:y,head:[["Staff","Role","Store","Assessed by","Score","Status"]],
+      body:opts.records.map(r=>[pdfTxt(title(r.advisor)),pdfTxt(title(r.role)),pdfTxt(r.store),pdfTxt(title(r.assessedBy)),r.score==null?"-":r.score+"%",statusTag(r.status)[1]]),
+      columnStyles:{4:{halign:"center",fontStyle:"bold"}},
+      didParseCell:d=>{if(d.section==="body"&&d.column.index===5){d.cell.styles.textColor=stCol(opts.records[d.row.index].status);d.cell.styles.fontStyle="bold"}}});
+    doc.addPage(); y=22;
   }
-  const growFields = [
-    {label:'G — Goal', text: d && d.goal}, {label:'R — Reality', text: d && d.reality},
-    {label:'O — Options', text: d && d.options}, {label:'W — Will Do', text: d && d.willDo},
-  ];
-  document.getElementById('modalGrow').innerHTML = growFields.map(g=>`
-    <div class="grow-card ${!g.text?'empty':''}"><div class="g-label">${g.label}</div><div class="g-text">${g.text ? g.text : 'Not recorded.'}</div></div>`).join('');
-  overlay.classList.add('open');
-}
-document.getElementById('modalClose').addEventListener('click', ()=> overlay.classList.remove('open'));
-overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.classList.remove('open'); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') overlay.classList.remove('open'); });
 
-document.getElementById('reassessGrid')?.addEventListener('click', e=>{
-  if(e.target.tagName==='INPUT') return;
-  const openTarget = e.target.closest('[data-open="1"]');
-  if(!openTarget) return;
-  const card = e.target.closest('.r-card');
-  if(card) openModal(card.dataset.id);
-});
-
-/* ---------------- EDITABLE FIELDS: persist via artifact storage ---------------- */
-function showToast(msg){
-  const toast = document.getElementById('saveToast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(()=> toast.classList.remove('show'), 1600);
-}
-async function loadSavedEdits(){
-  if(!window.storage) return;
-  try{
-    for(const r of DATA.reassessment){
-      try{
-        const res = await window.storage.get('reassess:'+r.id, false);
-        if(res && res.value){
-          const parsed = JSON.parse(res.value);
-          r.reassessDate = parsed.date || r.reassessDate;
-          r.newScore = (parsed.score!=null && parsed.score!=='') ? Number(parsed.score) : r.newScore;
-        }
-      }catch(e){}
+  opts.records.forEach((r,i)=>{
+    if(i>0){ if(y>225){doc.addPage();y=22} else {doc.setDrawColor(...C.line);doc.setLineWidth(0.3);doc.line(M,y-3,W-M,y-3);y+=3} }
+    // name + score
+    doc.setFont("helvetica","bold"); doc.setFontSize(14); doc.setTextColor(...C.char); doc.text(pdfTxt(title(r.advisor)),M,y);
+    const col=stCol(r.status); doc.setTextColor(...col); doc.setFontSize(14);
+    doc.text(`${r.score==null?"-":r.score+"%"}  ${statusTag(r.status)[1]}`,W-M,y,{align:"right"}); y+=6;
+    doc.setFont("helvetica","normal"); doc.setFontSize(9.3); doc.setTextColor(...C.muted);
+    const facts=[`Role: ${title(r.role)}`,`Store: ${r.store}, ${r.area}, ${r.country}`,`Assessed by: ${title(r.assessedBy)}`,
+      r.obs?`Observed: ${r.obs}`:"", r.submitted?`Submitted: ${r.submitted}`:"", r.sid?`Ref: ${r.sid}`:"", r.attempts>1?`Assessed ${r.attempts} times this month (latest shown)`:""].filter(Boolean);
+    const lines=doc.splitTextToSize(pdfTxt(facts.join("   |   ")),W-2*M); doc.text(lines,M,y); y+=lines.length*4.2+1;
+    doc.autoTable({...base,startY:y,head:[["Competency","Score","Remarks"]],
+      body:(r.q||[]).map(q=>[pdfTxt(q[0]),q[1]+" / 3",pdfTxt(q[2])||"-"]),
+      columnStyles:{0:{cellWidth:42,fontStyle:"bold"},1:{cellWidth:16,halign:"center",fontStyle:"bold"},2:{cellWidth:"auto"}},
+      didParseCell:d=>{if(d.section==="body"&&d.column.index===1){const v=(r.q[d.row.index]||[])[1];d.cell.styles.fillColor=v>=3?C.gbg:v===2?C.abg:C.rbg;d.cell.styles.textColor=v>=3?C.g:v===2?[142,95,15]:C.r}}});
+    y=doc.lastAutoTable.finalY+3;
+    const grow=[["Goal",r.goal],["Reality",r.reality],["Options",r.options],["Will do",r.willDo]].filter(g=>pdfTxt(g[1]));
+    if(grow.length){
+      doc.autoTable({...base,startY:y,head:[[{content:"GROW coaching plan",colSpan:2}]],body:grow.map(g=>[g[0],pdfTxt(g[1])]),
+        headStyles:{fillColor:C.gold,textColor:[255,255,255],fontStyle:"bold"},columnStyles:{0:{cellWidth:22,fontStyle:"bold"}}});
+      y=doc.lastAutoTable.finalY+3;
     }
-  }catch(e){}
-  renderReassess();
-}
-async function saveEdit(id, date, score){
-  const r = DATA.reassessment.find(x=>x.id===id);
-  if(r){ r.reassessDate = date || null; r.newScore = (score!=='' && score!=null) ? Number(score) : null; }
-  if(!window.storage){ showToast('Saved for this session (reopen in Claude to persist)'); return; }
-  try{
-    await window.storage.set('reassess:'+id, JSON.stringify({date, score}), false);
-    showToast('✓ Saved');
-  }catch(e){ showToast('Could not save — try again'); }
-}
-loadSavedEdits();
-document.getElementById('reassessGrid')?.addEventListener('change', e=>{
-  if(!e.target.classList.contains('tk-date-input') && !e.target.classList.contains('tk-score-input')) return;
-  const id = e.target.dataset.id;
-  const card = e.target.closest('.r-card');
-  const dateInput = card.querySelector('.tk-date-input');
-  const scoreInput = card.querySelector('.tk-score-input');
-  saveEdit(id, dateInput.value, scoreInput.value);
-  const r = DATA.reassessment.find(x=>x.id===id);
-  if(scoreInput.value!==''){
-    scoreInput.classList.remove('improved','still-low');
-    scoreInput.classList.add(Number(scoreInput.value) > r.score ? 'improved' : 'still-low');
+    if(r.score!=null && r.score<80){
+      const f=store.get("f:"+r.id)||{};
+      if(f.date||f.score!=null){doc.setFontSize(9.3);doc.setTextColor(...C.char);doc.text(pdfTxt(`Reassessment: ${f.date||"date not set"}${f.score!=null&&f.score!==""?", new score "+f.score+"%":""}`),M,y+2);y+=5}
+    }
+    y+=8;
+  });
+
+  // header + footer on every page
+  const n=doc.getNumberOfPages();
+  for(let p=1;p<=n;p++){
+    doc.setPage(p);
+    doc.setFillColor(...C.char); doc.rect(0,0,W,10,"F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(233,223,201); doc.text("CHARLES & KEITH  |  MCC Coaching Record",M,6.5);
+    doc.setFont("helvetica","normal"); doc.text(pdfTxt(`${where}  |  ${month}`),W-M,6.5,{align:"right"});
+    doc.setDrawColor(...C.gold); doc.setLineWidth(0.4); doc.line(M,287,W-M,287);
+    doc.setFontSize(8.3); doc.setTextColor(...C.muted);
+    doc.text("Created by Nainsi Srivasatava  |  Charles & Keith GCC  |  Confidential: internal use only",M,291.5);
+    doc.text(`Page ${p} of ${n}`,W-M,291.5,{align:"right"});
   }
-});
-
-/* ---------------- WEAK AREAS ---------------- */
-if(DATA.weakAreas.length){
-  const maxWeak = Math.max(...DATA.weakAreas.map(w=>w.count));
-  const brassGradient = ['#8C5A2B','#A16A34','#B8874F','#C79862','#D9AE73','#E2BD8C','#EACBA0','#F0D8B7','#F5E4CC'];
-  document.getElementById('weakWrap').innerHTML = `<div class="weak-wrap">` + DATA.weakAreas.map((w,i)=>`
-    <div class="weak-row">
-      <div class="weak-label">${w.area}</div>
-      <div class="weak-track"><div class="weak-fill" style="width:${w.count/maxWeak*100}%; background:${brassGradient[i]||'#B8874F'}"></div></div>
-      <div class="weak-count">${w.count}</div>
-    </div>`).join('') + `</div>`;
-} else {
-  document.getElementById('weakWrap').innerHTML = `<div class="empty-note">No weak-area data available for ${COUNTRY} yet.</div>`;
+  doc.save(opts.file.replace(/[^\w\-.]+/g,"_"));
+  toast("PDF downloaded");
+}
+function pdfWhere(){return state.market==="All"?"All GCC":state.market}
+function pdfStore(key){
+  const s=storesOf(state.month,state.market).find(x=>x.key===key); if(!s) return;
+  const T=storeTeam(s)||[];
+  makePdf({title:`${s.Store} - staff MCC records`,where:`${s.Store}, ${s.Area}, ${s.Country}`+(s.Manager?` | SM: ${s.Manager}`:""),records:T.slice().sort((a,b)=>(a.score??999)-(b.score??999)),stores:[s],file:`MCC_${s.Store}_${MONTHS[state.month].key}.pdf`});
+}
+function pdfAll(){
+  const T=teamOf(state.month); if(!T){toast("Link the page to the MCC sheet to export full records");return}
+  const S=storesOf(state.month,state.market).filter(s=>state.area==="All"||s.Area===state.area);
+  const keys=new Set(S.map(s=>s.key.toLowerCase()));
+  const rec=T.filter(r=>keys.has((r.country+"|"+r.store).toLowerCase()));
+  const where=pdfWhere()+(state.area!=="All"?", "+state.area:"");
+  makePdf({title:"MCC staff records",where,records:rec,stores:S.filter(s=>s.Eligible>0||s.Received>0),file:`MCC_${where}_${MONTHS[state.month].key}.pdf`});
+}
+function pdfCoach(){
+  const R=staffOf(state.month,state.market).filter(r=>state.cStore==="All"||r.store===state.cStore);
+  const rec=R.map(r=>recordFor(r.id,state.month)).filter(Boolean).sort((a,b)=>a.score-b.score);
+  makePdf({title:"Coaching list: staff below 80%",where:pdfWhere()+(state.cStore!=="All"?", "+state.cStore:""),records:rec,file:`MCC_Coaching_${pdfWhere()}_${MONTHS[state.month].key}.pdf`});
 }
 
-/* ---------------- FOOTER ---------------- */
-document.getElementById('footerNote').innerHTML =
-  `<b>Data notes:</b> This view shows ${COUNTRY} only. Eligible-staff and completion figures reflect confirmed
-  store-ops corrections where applicable. Completed counts merge the digital MCC Submissions tab, a manually pulled
-  roster, and the Villagio Mall list where relevant, deduplicated by advisor.<br>Charles &amp; Keith · Gulf Retail L&amp;D`;
+/* ---------- OVERVIEW ---------- */
+function renderOverview(){
+  const S=storesOf(state.month,state.market), P=storesOf(state.compare,state.market);
+  const t=totals(S), p=state.compare>=0?totals(P):null;
+  const m=MONTHS[state.month];
+  $("#heroText").innerHTML = `<span class="big">${t.done} of ${t.eligible}</span> eligible staff have their MCC for ${m.label}.`;
+  let note = t.pending ? `${t.pending} still to be assessed.` : "Every eligible staff member has been assessed.";
+  if(t.received>t.done) note += ` ${t.received-t.done} extra assessment${t.received-t.done>1?"s":""} logged above the eligible count.`;
+  if(t.zero) note += ` ${t.zero} store${t.zero>1?"s have":" has"} not started.`;
+  if(state.market!=="All"){const c=m.data.countries.find(x=>x.country===state.market); if(c&&c.note) note+=`<br><span style="font-size:14px">Note: ${esc(c.note)}</span>`;}
+  $("#heroNote").innerHTML=note;
+  $("#heroDots").innerHTML = dotsTotal(t);
+
+  const pp = x=>p?p[x]:null;
+  const k=[
+    ["Coverage", fmt(t.cov)+"%", delta(t.cov,pp("cov")," pts"), t.cov>=90?"k-g":t.cov>=50?"k-a":"k-r"],
+    ["Average score", t.score==null?"–":fmt(t.score,1)+"%", delta(t.score,pp("score")," pts",true,1), "k-gold"],
+    ["Competent", t.c, delta(t.c,pp("c")), "k-g"],
+    ["Needs coaching", t.n, delta(t.n,pp("n"),"",false), "k-a"],
+    ["Development required", t.d, delta(t.d,pp("d"),"",false), "k-r"],
+    ["Not assessed yet", t.pending, delta(t.pending,pp("pending"),"",false), "k-p"],
+  ];
+  $("#kpis").innerHTML = k.map(([l,v,d,c])=>`<div class="kpi ${c}"><div class="lb">${l}</div><div class="v">${v}</div>${d}</div>`).join("");
+
+  // markets
+  if(state.market==="All"){
+    $("#marketsWrap").style.display="";
+    $("#markets").innerHTML = m.data.countries.map(c=>{
+      const s=storesOf(state.month,c.country), tt=totals(s), pt=state.compare>=0?totals(storesOf(state.compare,c.country)):null;
+      return `<button class="mcard" data-goto="${esc(c.country)}">
+        <h3>${esc(c.country)}</h3><div class="lead">Area lead: ${esc(AREA_LEADS[c.country]||"–")} | ${s.length} stores</div>
+        <div class="row"><span><span class="pct">${fmt(tt.cov)}%</span> ${delta(tt.cov,pt?pt.cov:null," pts")}</span><span class="muted">${tt.done}/${tt.eligible} done</span></div>
+        <div class="meter"><i style="width:${Math.min(100,tt.cov||0)}%;background:${covColor(tt.cov||0)}"></i></div>
+        <div class="row" style="margin:8px 0 0"><span class="muted">Avg score <b style="color:var(--char)">${tt.score==null?"–":fmt(tt.score,1)+"%"}</b></span>${delta(tt.score,pt?pt.score:null," pts",true,1)}</div>
+        <div class="dots">${dotsTotal(tt)}</div></button>`;}).join("");
+  } else $("#marketsWrap").style.display="none";
+
+  renderTrend();
+  // attention
+  const att=S.filter(s=>s.Eligible>0).map(s=>{
+    const reasons=[];
+    if(s.Received===0) reasons.push(["Not started","t-r",3]);
+    else if(s.pending>0) reasons.push([`${s.pending} pending`,"t-a",2]);
+    if(s.score!=null&&s.score<70) reasons.push([`Avg ${fmt(s.score)}%`,"t-r",2.5]);
+    if(s.DevRequired>0) reasons.push([`${s.DevRequired} dev. required`,"t-r",2]);
+    return {s,reasons,w:reasons.reduce((a,b)=>a+b[2],0)};
+  }).filter(x=>x.w>0).sort((a,b)=>b.w-a.w).slice(0,8);
+  $("#attention").innerHTML = att.length ? `<ul>${att.map(x=>`<li><span><b>${esc(x.s.Store)}</b><br><span class="sarea">${esc(x.s.Area)}${state.market==="All"?", "+esc(x.s.Country):""}</span></span><span style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;align-items:flex-start;align-content:flex-start">${x.reasons.map(r=>`<span class="tag ${r[1]}">${r[0]}</span>`).join("")}</span></li>`).join("")}</ul>` : `<div class="empty">Nothing urgent. Every store is assessed and scoring well.</div>`;
+}
+
+function renderTrend(){
+  const pts = MONTHS.map((m,i)=>{const t=totals(storesOf(i,state.market));return {l:m.label,cov:t.cov,sc:t.score,i}});
+  $("#trendLede").textContent = pts.length>1 ? "Coverage and average score for every month on record." :
+    `${MONTHS[0].label} is the first MCC month, so it's the baseline. The lines build up automatically as each new month is added.`;
+  const W=560,H=240,L=40,R=16,T=18,B=40, iw=W-L-R, ih=H-T-B;
+  const pad=40; const x=i=> pts.length===1 ? L+iw/2 : L+pad + i*((iw-2*pad)/(pts.length-1));
+  const y=v=> T + ih - (Math.max(40,Math.min(100,v))-40)/60*ih;
+  let g="";
+  [40,60,80,100].forEach(v=>{g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="#E3DDD2"/><text x="${L-8}" y="${y(v)+4}" font-size="12" text-anchor="end" fill="#6F6A62">${v}%</text>`});
+  g+=`<line x1="${L}" x2="${W-R}" y1="${y(80)}" y2="${y(80)}" stroke="#A8863F" stroke-dasharray="4 4"/><text x="${L+6}" y="${y(80)+15}" font-size="11.5" fill="#A8863F">80% competency line</text>`;
+  const line=(key,col)=>{const ok=pts.filter(p=>p[key]!=null);
+    let s= ok.length>1?`<polyline fill="none" stroke="${col}" stroke-width="3" points="${ok.map(p=>x(p.i)+","+y(p[key])).join(" ")}"/>`:"";
+    ok.forEach(p=>{const other=key==="cov"?p.sc:p.cov; const above = other==null || p[key]>=other;
+      s+=`<circle cx="${x(p.i)}" cy="${y(p[key])}" r="6" fill="${col}" stroke="#fff" stroke-width="2"/><text x="${x(p.i)}" y="${above?y(p[key])-12:y(p[key])+22}" font-size="13" font-weight="700" text-anchor="middle" fill="${col}">${fmt(p[key],1)}%</text>`});return s;};
+  g+=line("cov","#3E6A8A")+line("sc","#A8863F");
+  pts.forEach(p=>{g+=`<text x="${x(p.i)}" y="${H-14}" font-size="13" text-anchor="middle" fill="#2B2B2B" font-weight="${p.i===state.month?700:400}">${p.l}</text>`});
+  $("#trend").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Coverage and average score by month">${g}</svg>
+  <div class="legend"><span><i class="dot" style="background:#3E6A8A"></i>Coverage</span><span><i class="dot" style="background:#A8863F"></i>Average score</span></div>`;
+}
+
+/* ---------- STORES ---------- */
+const openRows=new Set();
+function renderStores(){
+  const S=storesOf(state.month,state.market);
+  const Pm=Object.fromEntries(storesOf(state.compare,state.market).map(s=>[s.key,s]));
+  const areas=["All",...new Set(S.map(s=>s.Area))].sort((a,b)=>a==="All"?-1:b==="All"?1:a.localeCompare(b));
+  const fa=$("#fArea"); if(fa.dataset.k!==areas.join()){fa.innerHTML=areas.map(a=>`<option value="${esc(a)}">${a==="All"?"All cities":esc(a)}</option>`).join("");fa.dataset.k=areas.join();if(!areas.includes(state.area))state.area="All";}
+  fa.value=state.area;
+  const staff=staffOf(state.month,state.market);
+  let rows=S.filter(s=>{
+    if(state.area!=="All"&&s.Area!==state.area) return false;
+    if(state.q && !(s.Store+" "+s.Area+" "+s.Country).toLowerCase().includes(state.q.toLowerCase())) return false;
+    if(state.actionOnly && !(s.pending>0 || (s.score!=null&&s.score<80) || s.DevRequired>0)) return false;
+    return true;});
+  const act=s=>(s.Eligible===0?-1:0)+(s.Received===0&&s.Eligible>0?100:0)+s.pending*10+(s.score==null?(s.Received>0?30:0):(100-s.score))+s.DevRequired*20;
+  const sorts={action:(a,b)=>act(b)-act(a),score:(a,b)=>(a.score??999)-(b.score??999),scoreHi:(a,b)=>(b.score??-1)-(a.score??-1),cov:(a,b)=>(a.cov??999)-(b.cov??999),name:(a,b)=>a.Store.localeCompare(b.Store)};
+  rows.sort(sorts[state.sort]);
+  const head=`<div class="shead"><span>Store</span><span>Staff (one dot each)</span><span>Assessed</span><span>Avg score</span><span class="mom-col">Coverage vs last</span><span class="mom-col">Score vs last</span><span class="detail-col">Competent</span><span class="detail-col">Coaching</span><span class="detail-col">Dev. req.</span><span></span></div>`;
+  if(!rows.length){$("#slist").innerHTML=head+`<div class="empty">No stores match. Clear the search or switch off "Action needed only".</div>`;return;}
+  $("#slist").innerHTML=head+rows.map((s,i)=>{
+    const p=Pm[s.key];
+    const excluded=s.Eligible===0;
+    const covTxt= excluded?`<span class="tag t-p">Excluded</span>`:`<span class="tag ${covClass(s.cov)}">${s.done}/${s.Eligible}</span>`;
+    const scTxt= s.score==null?`<span class="pill t-p">${s.Received?"No score":"–"}</span>`:`<span class="pill ${scoreClass(s.score)}">${fmt(s.score)}%</span>`;
+    const flagged=staff.filter(r=>r.country===s.Country&&r.store.toLowerCase()===s.Store.toLowerCase());
+    const note = excluded ? "Excluded this month (not trading or no eligible staff)." : "";
+    return `<button class="srow" aria-expanded="${openRows.has(s.key)}" data-i="${i}" data-key="${esc(s.key)}">
+      <span class="c-name"><span class="sname">${esc(s.Store)}</span><br><span class="sarea">${esc(s.Area)}${state.market==="All"?", "+esc(s.Country):""}</span></span>
+      <span class="c-dots dots">${dotsFor(s)}</span>
+      <span class="c-cov">${covTxt}</span>
+      <span class="c-score">${scTxt}</span>
+      <span class="c-mom mom-col">${delta(s.cov,p?p.cov:null," pts")}</span>
+      <span class="c-mom2 mom-col">${delta(s.score,p?p.score:null," pts")}</span>
+      <span class="detail-col num" style="color:var(--g)">${s.Competent}</span>
+      <span class="detail-col num" style="color:#8E5F0F">${s.NeedsCoaching}</span>
+      <span class="detail-col num" style="color:var(--r)">${s.DevRequired}</span>
+      <span class="chev">›</span></button>
+      <div class="sdetail ${openRows.has(s.key)?"on":""}" id="sd${i}">
+        ${note||s.Note?`<p class="muted">${esc(note||s.Note)}</p>`:""}
+        <div class="mix"><span><b>${s.Eligible}</b> eligible</span><span><b>${s.Received}</b> assessed${s.extra?` <span class="tag t-p">${s.extra} extra, please check eligibility</span>`:""}</span><span><b>${s.pending}</b> pending</span>
+        <span style="color:var(--g)"><b>${s.Competent}</b> competent</span><span style="color:#8E5F0F"><b>${s.NeedsCoaching}</b> needs coaching</span><span style="color:var(--r)"><b>${s.DevRequired}</b> dev. required</span>
+        ${p&&state.compare>=0?`<span class="muted">Last month: ${p.done}/${p.Eligible} assessed, avg ${p.score==null?"–":fmt(p.score)+"%"}</span>`:""}</div>
+        ${teamTable(s, flagged)}
+      </div>`;}).join("");
+}
+
+/* ---------- COACHING ---------- */
+function renderCoaching(){
+  const R=staffOf(state.month,state.market);
+  const prev=Object.fromEntries(staffOf(state.compare,state.market).map(r=>[r.id,r]));
+  $("#nCoach").textContent=R.length;
+  const st=[["All","All ("+R.length+")"],["DEVELOPMENT REQUIRED","Development required ("+R.filter(r=>r.status==="DEVELOPMENT REQUIRED").length+")"],["NEEDS COACHING","Needs coaching ("+R.filter(r=>r.status==="NEEDS COACHING").length+")"],["OPEN","Reassessment not logged"]];
+  $("#cStatus").innerHTML=st.map(([k,l])=>`<button class="chip" data-cs="${k}" aria-pressed="${state.cStatus===k}">${l}</button>`).join("");
+  const stores=["All",...new Set(R.map(r=>r.store))].sort();
+  $("#cStore").innerHTML=stores.map(s=>`<option value="${esc(s)}">${s==="All"?"All stores":esc(s)}</option>`).join("");
+  if(!stores.includes(state.cStore)) state.cStore="All"; $("#cStore").value=state.cStore;
+  const list=R.filter(r=>{
+    if(state.cStatus==="OPEN"){const f=store.get("f:"+r.id);if(f&&f.score!=null&&f.score!=="")return false}
+    else if(state.cStatus!=="All"&&r.status!==state.cStatus) return false;
+    if(state.cStore!=="All"&&r.store!==state.cStore) return false;
+    if(state.cq&&!r.advisor.toLowerCase().includes(state.cq.toLowerCase())) return false; return true;
+  }).sort((a,b)=>a.score-b.score);
+  if(!list.length){$("#cgrid").innerHTML=`<div class="empty box">No one on the list for this filter.</div>`;return;}
+  $("#cgrid").innerHTML=list.map(r=>{
+    const g=MONTHS[state.month].data.grow[r.id]; const f=store.get("f:"+r.id)||{};
+    const bd = g? SKILLS.map(sk=>{const b=g.breakdown.find(x=>x.area===sk);return `<i class="s${b?b.score:3}" title="${esc(sk)}: ${b?b.score:"–"}/3"></i>`}).join(""):"";
+    const weak = g? g.breakdown.filter(b=>b.score<=1).map(b=>b.area):[];
+    const weak2 = weak.length?weak:(g?g.breakdown.filter(b=>b.score<3).slice(0,2).map(b=>b.area):[]);
+    const pv=prev[r.id];
+    const dev=r.status==="DEVELOPMENT REQUIRED";
+    const ns=f.score!=null&&f.score!==""?Number(f.score):null;
+    return `<div class="ccard ${dev?"dev":""}">
+      <div class="who"><div><div class="nm">${esc(title(r.advisor))}</div><div class="meta">${esc(title(r.role))} | ${esc(r.store)}${state.market==="All"?", "+esc(r.country):""}</div><div class="meta">Assessed by ${esc(title(r.assessedBy))}</div></div>
+      <div style="text-align:right"><div class="score" style="color:${dev?"var(--r)":"#8E5F0F"}">${fmt(r.score)}%</div><span class="tag ${dev?"t-r":"t-a"}">${dev?"Development required":"Needs coaching"}</span>
+      ${state.compare>=0?`<div style="margin-top:4px">${pv?delta(r.score,pv.score," pts"):`<span class="delta">New to list</span>`}</div>`:""}</div></div>
+      ${g?`<div class="skillstrip" aria-label="Skill scores">${bd}</div>`:""}
+      ${weak2.length?`<div class="focus"><b>Focus:</b> ${weak2.map(esc).join(", ")}</div>`:""}
+      <div class="follow">Reassessed <input type="date" data-fd="${esc(r.id)}" value="${esc(f.date||"")}" aria-label="Reassessment date"> New score <input type="number" min="0" max="100" data-fs="${esc(r.id)}" value="${ns??""}" aria-label="New score">%
+        ${ns!=null?`<span class="prog" style="color:${ns>=80?"var(--g)":"var(--r)"}">${ns>=80?"✓ Cleared":"Still below 80%"} (${ns-r.score>=0?"+":""}${fmt(ns-r.score)} pts)</span>`:""}</div>
+      <button class="btn ghost" data-staff="${esc(r.id)}">Open full record</button>
+    </div>`;}).join("");
+}
+
+function openStaff(id){
+  const r=recordFor(id,state.month); if(!r) return;
+  const [tc,tl]=statusTag(r.status); const col=tc==="t-g"?"var(--g)":tc==="t-r"?"var(--r)":"#8E5F0F";
+  const f=store.get("f:"+id)||{};
+  const qrows=(r.q||[]).map(q=>{const c=q[1]>=3?"t-g":q[1]===2?"t-a":"t-r";return `<tr><td><b>${esc(q[0])}</b></td><td class="sc"><span class="tag ${c}">${q[1]}/3</span></td><td>${q[2]?esc(q[2]):'<span class="muted">No remark</span>'}</td></tr>`}).join("");
+  const gf=[["Goal",r.goal],["Reality",r.reality],["Options",r.options],["Will do",r.willDo]];
+  const hasGrow=gf.some(g=>g[1]);
+  $("#modal").innerHTML=`<button class="x" aria-label="Close" data-close>×</button>
+    <h3>${esc(title(r.advisor))}</h3>
+    <div class="muted">${esc(title(r.role))} | ${esc(r.store)}, ${esc(r.area)}, ${esc(r.country)}</div>
+    <p style="margin:12px 0 4px"><span class="score" style="color:${col}">${r.score==null?"–":r.score+"%"}</span> &nbsp;<span class="tag ${tc}">${tl}</span></p>
+    <div class="facts">
+      <div><span>Assessed by</span><b>${esc(title(r.assessedBy))}</b></div>
+      ${r.obs?`<div><span>Observed on</span>${esc(r.obs)}</div>`:""}
+      ${r.submitted?`<div><span>Submitted</span>${esc(r.submitted)}</div>`:""}
+      ${r.sid?`<div><span>Reference</span>${esc(r.sid)}</div>`:""}
+      ${r.attempts>1?`<div><span>Note</span>Assessed ${r.attempts} times this month, latest shown</div>`:""}
+      ${f.date||f.score!=null?`<div><span>Reassessment</span>${esc(f.date||"")} ${f.score!=null&&f.score!==""?esc(f.score)+"%":""}</div>`:""}
+    </div>
+    <button class="btn gold" type="button" data-pdfstaff="${esc(id)}">Download this record (PDF)</button>
+    ${qrows?`<h4 style="font-family:var(--serif);margin:18px 0 0">Scores and remarks</h4><table class="rec"><thead><tr><th>Competency</th><th>Score</th><th>Remarks</th></tr></thead><tbody>${qrows}</tbody></table>`:""}
+    <h4 style="font-family:var(--serif);margin:18px 0 0">GROW coaching plan</h4>
+    ${hasGrow?`<div class="grow">${gf.map(([k,v])=>`<div><b>${k}</b><p>${v?esc(v):'<span class="muted">Not filled in.</span>'}</p></div>`).join("")}</div>`:`<p class="muted">No GROW plan recorded.</p>`}`;
+  $("#ov").classList.add("on"); $("#modal .x").focus();
+}
+
+/* ---------- SKILLS ---------- */
+function renderSkills(){
+  const calc=(mi)=>{
+    if(mi<0) return null;
+    if(state.market==="All") return Object.fromEntries(MONTHS[mi].data.weakAreas.map(w=>[w.area,w.count]));
+    const o={}; SKILLS.forEach(s=>o[s]=0);
+    staffOf(mi,state.market).forEach(r=>{const g=MONTHS[mi].data.grow[r.id]; if(g) g.breakdown.forEach(b=>{if(b.score<b.max)o[b.area]=(o[b.area]||0)+1})});
+    return o;};
+  const cur=calc(state.month), prev=calc(state.compare);
+  $("#skLede").textContent = state.market==="All"
+    ? "How many times each skill was scored below full marks, across every MCC submitted in the GCC."
+    : `How many staff on the ${state.market} coaching list lost marks on each skill.`;
+  const arr=SKILLS.map(s=>({s,v:cur[s]||0,p:prev?prev[s]||0:null})).sort((a,b)=>b.v-a.v);
+  const max=Math.max(1,...arr.map(a=>Math.max(a.v,a.p||0)));
+  $("#skills").innerHTML=arr.map(a=>`<div class="skrow"><span><b>${esc(a.s)}</b></span>
+    <span class="skbar"><i style="width:${a.v/max*100}%;${a.v/max>.66?"background:var(--r)":a.v/max>.33?"background:var(--a)":""}"></i>${a.p!=null&&state.mom?`<b style="width:${a.p/max*100}%" title="Last month"></b>`:""}</span>
+    <span class="num">${a.v}</span><span class="mom-col">${delta(a.v,a.p,"",false)}</span></div>`).join("")
+    + (prev&&state.mom?`<p class="sktip" style="margin:10px 0 0">The dark marker on each bar shows the previous month.</p>`:"");
+  $("#skTips").innerHTML=arr.slice(0,3).map(a=>`<p style="margin:6px 0"><b>${esc(a.s)}:</b> ${esc(SKILL_TIPS[a.s])}</p>`).join("");
+}
+
+/* ---------- render all + events ---------- */
+function render(){
+  document.body.classList.toggle("mom-off",!state.mom);
+  $("#root").classList.toggle("detailed",state.detail);
+  $("#guide").classList.toggle("on",$("#tgGuide").checked);
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===state.tab));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="p-"+state.tab));
+  buildPickers(); subline(); renderOverview(); renderStores(); renderCoaching(); renderSkills();
+  const h=`tab=${state.tab}${!LOCK_MARKET&&state.market!=="All"?"&m="+encodeURIComponent(state.market):""}`;
+  history.replaceState(null,"","#"+h);
+}
+function readHash(){const p=new URLSearchParams(location.hash.slice(1));
+  if(p.get("tab")) state.tab=p.get("tab"); if(!LOCK_MARKET&&p.get("m")) state.market=p.get("m");}
+
+document.addEventListener("click",e=>{
+  const t=e.target;
+  const tab=t.closest(".tab"); if(tab){state.tab=tab.dataset.tab;render();scrollTo({top:0});return}
+  const mk=t.closest("[data-mk]"); if(mk){state.market=mk.dataset.mk;state.area="All";state.cStore="All";render();return}
+  const go=t.closest("[data-goto]"); if(go){state.market=go.dataset.goto;state.tab="stores";state.area="All";render();scrollTo({top:0});return}
+  const ps=t.closest("[data-pdfstaff]"); if(ps){const r=recordFor(ps.dataset.pdfstaff,state.month); if(r) makePdf({title:"MCC staff record",where:`${r.store}, ${r.country}`,records:[r],file:`MCC_${r.advisor}_${r.store}_${MONTHS[state.month].key}.pdf`}); return}
+  const pst=t.closest("[data-pdfstore]"); if(pst){pdfStore(pst.dataset.pdfstore);return}
+  const st=t.closest("[data-staff]"); if(st){openStaff(st.dataset.staff);return}
+  const row=t.closest(".srow"); if(row){const d=$("#sd"+row.dataset.i);const on=!d.classList.contains("on");d.classList.toggle("on",on);row.setAttribute("aria-expanded",on);
+    if(on) openRows.add(row.dataset.key); else openRows.delete(row.dataset.key); return}
+  const cs=t.closest("[data-cs]"); if(cs){state.cStatus=cs.dataset.cs;renderCoaching();return}
+  if(t.closest("[data-close]")||t.id==="ov"){$("#ov").classList.remove("on")}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#ov").classList.remove("on")});
+$("#selMonth").onchange=e=>{state.month=+e.target.value;state.compare=state.month-1;render()};
+$("#selCompare").onchange=e=>{state.compare=+e.target.value;render()};
+$("#tgMom").onchange=e=>{state.mom=e.target.checked;render()};
+$("#tgDetail").onchange=e=>{state.detail=e.target.checked;render()};
+$("#tgGuide").onchange=()=>render();
+$("#tgAction").onchange=e=>{state.actionOnly=e.target.checked;renderStores()};
+$("#q").oninput=e=>{state.q=e.target.value;renderStores()};
+$("#fArea").onchange=e=>{state.area=e.target.value;renderStores()};
+$("#fSort").onchange=e=>{state.sort=e.target.value;renderStores()};
+$("#cStore").onchange=e=>{state.cStore=e.target.value;renderCoaching()};
+$("#cq").oninput=e=>{state.cq=e.target.value;renderCoaching()};
+document.addEventListener("change",e=>{
+  const id=e.target.dataset.fd||e.target.dataset.fs; if(!id) return;
+  const f=store.get("f:"+id)||{}; if(e.target.dataset.fd)f.date=e.target.value; else f.score=e.target.value===""?null:Math.max(0,Math.min(100,+e.target.value));
+  toast(store.set("f:"+id,f)?"Saved on this device":"Could not save on this browser"); renderCoaching();
+});
+/* ---------- live loading ---------- */
+function setLive(cls,txt){const l=$("#live");l.className="live "+cls;$("#liveTxt").textContent=txt}
+async function loadLive(manual){
+  if(!DATA_URL||DATA_URL.indexOf("http")!==0){setLive("on","MCC sheet data as of "+SNAP_AT);$("#btnRefresh").style.display="none";return}
+  $("#btnRefresh").disabled=true; if(manual) setLive("","Refreshing…");
+  try{
+    const url=DATA_URL+(DATA_URL.includes("?")?"&":"?")+"market="+encodeURIComponent(LOCK_MARKET||"All")+"&t="+Date.now();
+    const res=await fetch(url); if(!res.ok) throw new Error("HTTP "+res.status);
+    const j=await res.json(); if(!j.months||!j.months.length) throw new Error("No months in feed");
+    const wasLatest = state.month===MONTHS.length-1, prevCount=MONTHS.length;
+    MONTHS=j.months;
+    if(wasLatest||state.month>=MONTHS.length||prevCount!==MONTHS.length){state.month=MONTHS.length-1;state.compare=state.month-1}
+    if(state.market!=="All"&&!MONTHS[state.month].data.countries.some(c=>c.country===state.market)&&!LOCK_MARKET) state.market="All";
+    setLive("on","Live from MCC sheet | updated "+j.generatedAt);
+    render();
+  }catch(err){
+    console.error(err); setLive("err","Live link unavailable, showing MCC sheet data as of "+SNAP_AT);
+  }finally{$("#btnRefresh").disabled=false}
+}
+$("#btnRefresh").onclick=()=>loadLive(true);
+$("#pdfAll").onclick=pdfAll; $("#pdfCoach").onclick=pdfCoach;
+readHash(); render(); loadLive(false);
+setInterval(()=>{ if(!document.hidden) loadLive(false) }, REFRESH_MINUTES*60*1000);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) loadLive(false) });
 </script>
 </body>
 </html>
