@@ -631,6 +631,27 @@ function pdfCoach(){
   makePdf({title:"Coaching list: staff below 80%",where:pdfWhere()+(state.cStore!=="All"?", "+state.cStore:""),records:rec,file:`MCC_Coaching_${pdfWhere()}_${MONTHS[state.month].key}.pdf`});
 }
 
+/* ---------- STAFF MASTER STATUS ---------- */
+function rosterOf(mi, market){
+  const r=(MONTHS[mi]&&MONTHS[mi].data&&MONTHS[mi].data.roster)||[];
+  return r.filter(x=>market==="All"||x.country===market);
+}
+function rosterSummary(mi, market){
+  const r=rosterOf(mi,market), o={total:r.length,active:0,leave:0,left:0,manager:0,other:0};
+  r.forEach(x=>{const s=(x.status||"").toUpperCase(); if(s==="ACTIVE")o.active++; else if(s==="ON LEAVE")o.leave++; else if(s==="LEFT")o.left++; else if(s==="MANAGER")o.manager++; else o.other++;});
+  return o;
+}
+function storeRoster(mi,country,store){
+  return rosterOf(mi,country).filter(x=>(x.store||"").toLowerCase()===(store||"").toLowerCase());
+}
+function staffStatusBlock(list){
+  if(!list.length) return "";
+  const order={"ACTIVE":0,"ON LEAVE":1,"LEFT":2,"MANAGER":3,"NOT ELIGIBLE":4,"NOT JOINED":5};
+  const rows=list.slice().sort((a,b)=>(order[a.status]??9)-(order[b.status]??9)||(a.name||"").localeCompare(b.name||""));
+  const badge=s=>s==="ACTIVE"?"t-g":s==="ON LEAVE"?"t-a":s==="LEFT"?"t-r":"t-p";
+  return `<div style="margin-top:14px"><b>Staff Master status</b><div class="mini" style="margin-top:7px">${rows.map(r=>`<div class="p"><span><b>${esc(title(r.name||""))}</b>${r.role?` <span class="muted">${esc(title(r.role))}</span>`:""}${r.status==="ON LEAVE"&&(r.leaveFrom||r.leaveTo)?`<br><span class="muted">${esc(r.leaveFrom||"")} ${r.leaveTo?"– "+esc(r.leaveTo):""}</span>`:""}</span><span class="tag ${badge(r.status)}">${esc(r.status||"ACTIVE")}</span></div>`).join("")}</div></div>`;
+}
+
 /* ---------- OVERVIEW ---------- */
 function renderOverview(){
   const S=storesOf(state.month,state.market), P=storesOf(state.compare,state.market);
@@ -640,6 +661,8 @@ function renderOverview(){
   let note = t.pending ? `${t.pending} still to be assessed.` : "Every eligible staff member has been assessed.";
   if(t.received>t.done) note += ` ${t.received-t.done} extra assessment${t.received-t.done>1?"s":""} logged above the eligible count.`;
   if(t.zero) note += ` ${t.zero} store${t.zero>1?"s have":" has"} not started.`;
+  const rs=rosterSummary(state.month,state.market);
+  if(rs.total) note += `<br><span style="font-size:14px"><b>Staff Master:</b> ${rs.active} active · ${rs.leave} on leave · ${rs.left} left · ${rs.manager} manager${rs.other?` · ${rs.other} other excluded`:""}</span>`;
   if(state.market!=="All"){const c=m.data.countries.find(x=>x.country===state.market); if(c&&c.note) note+=`<br><span style="font-size:14px">Note: ${esc(c.note)}</span>`;}
   $("#heroNote").innerHTML=note;
   $("#heroDots").innerHTML = dotsTotal(t);
@@ -744,6 +767,7 @@ function renderStores(){
         <span style="color:var(--g)"><b>${s.Competent}</b> competent</span><span style="color:#8E5F0F"><b>${s.NeedsCoaching}</b> needs coaching</span><span style="color:var(--r)"><b>${s.DevRequired}</b> dev. required</span>
         ${p&&state.compare>=0?`<span class="muted">Last month: ${p.done}/${p.Eligible} assessed, avg ${p.score==null?"–":fmt(p.score)+"%"}</span>`:""}</div>
         ${teamTable(s, flagged)}
+        ${staffStatusBlock(storeRoster(state.month,s.Country,s.Store))}
       </div>`;}).join("");
 }
 
