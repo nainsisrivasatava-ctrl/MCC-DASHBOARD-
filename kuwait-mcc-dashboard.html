@@ -675,6 +675,10 @@ function renderOverview(){
     ["Needs coaching", t.n, delta(t.n,pp("n"),"",false), "k-a"],
     ["Development required", t.d, delta(t.d,pp("d"),"",false), "k-r"],
     ["Not assessed yet", t.pending, delta(t.pending,pp("pending"),"",false), "k-p"],
+    ["Total staff", rs.total, "", "k-gold"],
+    ["On leave", rs.leave, "", "k-a"],
+    ["Left", rs.left, "", "k-p"],
+    ["Manager / excluded", rs.manager + rs.other, "", "k-p"],
   ];
   $("#kpis").innerHTML = k.map(([l,v,d,c])=>`<div class="kpi ${c}"><div class="lb">${l}</div><div class="v">${v}</div>${d}</div>`).join("");
 
