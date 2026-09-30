@@ -881,9 +881,17 @@ async function loadLive(manual){
   if(!DATA_URL||DATA_URL.indexOf("http")!==0){setLive("on","MCC sheet data as of "+SNAP_AT);$("#btnRefresh").style.display="none";return}
   $("#btnRefresh").disabled=true; if(manual) setLive("","Refreshing…");
   try{
-    const url=DATA_URL+(DATA_URL.includes("?")?"&":"?")+"market="+encodeURIComponent(LOCK_MARKET||"All")+"&t="+Date.now();
-    const res=await fetch(url,{cache:"no-store"}); if(!res.ok) throw new Error("HTTP "+res.status);
-    const j=await res.json(); if(!j.months||!j.months.length) throw new Error("No months in feed");
+    const j=await new Promise((resolve,reject)=>{
+      const cb="mccLive_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+      const s=document.createElement("script");
+      const timer=setTimeout(()=>finish(new Error("Live feed timed out")),15000);
+      function finish(err,data){clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}if(s.parentNode)s.parentNode.removeChild(s);err?reject(err):resolve(data)}
+      window[cb]=data=>finish(null,data);
+      s.onerror=()=>finish(new Error("Live feed could not load"));
+      s.src=DATA_URL+(DATA_URL.includes("?")?"&":"?")+"market="+encodeURIComponent(LOCK_MARKET||"All")+"&callback="+encodeURIComponent(cb)+"&t="+Date.now();
+      document.head.appendChild(s);
+    });
+    if(!j.months||!j.months.length) throw new Error("No months in feed");
     const wasLatest = state.month===MONTHS.length-1, prevCount=MONTHS.length;
     MONTHS=j.months;
     if(wasLatest||state.month>=MONTHS.length||prevCount!==MONTHS.length){state.month=MONTHS.length-1;state.compare=state.month-1}
